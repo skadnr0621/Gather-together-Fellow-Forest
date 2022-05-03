@@ -1,16 +1,16 @@
 <template>
   <div id="login">
-    <div class="absolute left-5 top-0 w-96">
-      <button><img src="../assets/logo.png" /></button>
+    <div class="absolute left-5 top-0 w-96 logo-home">
+      <router-link to="/"><img src="@/assets/logo.png" /></router-link>
     </div>
     <div
-      class="form rounded-md border bg-slate-200 absolute top-48 right-16 pt-5 pb-8"
+      class="form rounded-xl border bg-slate-200 justify-self-end pt-5 pb-8 m-28"
     >
       <div class="logo mb-5">
-        <img src="../assets/logo.png" />
+        <img src="@/assets/logo.png" />
       </div>
       <div class="kakao-login">
-        <button><img src="../assets/kakaoLogin.png" /></button>
+        <button><img src="@/assets/kakaoLogin.png" /></button>
       </div>
     </div>
   </div>
@@ -25,23 +25,26 @@ export default {};
   height: 100vh;
   overflow: hidden;
   margin: 0;
-  background-image: url("../assets/sample3.png");
+  background-image: url("@/assets/sample3.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  display: grid;
+  align-items: center;
+}
+.logo-home {
+  width: 15%;
 }
 .form {
   width: 40%;
 }
 .kakao-login button {
-  width: 50%;
-}
-.kakao-login button img {
+  width: 60%;
 }
 .logo {
   text-align: -webkit-center;
 }
 .logo img {
-  width: 70%;
+  width: 50%;
 }
 </style>
