@@ -1,14 +1,10 @@
 spring:
   ### Datasource
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3606/modongmun?serverTimezone=Asia/Seoul
-#    username: ssafy
-#    password: 1234
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3606/modongmun?serverTimezone=Asia/Seoul
+    username: ssafy
+    password: 1234
 
   ### JPA
   jpa:
@@ -18,9 +14,4 @@ spring:
         format_sql: true
 
   hibernate:
-    ddl_auto: create
-
-  ### H2
-  h2:
-    console:
-      enabled: true
+    ddl_auto: update

@@ -15,5 +15,5 @@ public class GalleryPostDto {
 
     private Long userId;
 
-    private
+//    private
 }

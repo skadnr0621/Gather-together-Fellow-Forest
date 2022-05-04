@@ -1,26 +1,26 @@
 package com.ssafy.modongmun.user.dto;
 
 import com.ssafy.modongmun.school.dto.SchoolDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@NoArgsConstructor @AllArgsConstructor
 public class SignupDto {
 
     private Long userNumber;
     private String username;
 
+    // private Long elementarySchoolId;
     private SchoolDto elementarySchoolDto;
     private int egYear;
 
-//    private String middleSchoolName;
-//    private String middleSchoolLocation;
     private SchoolDto middleSchoolDto;
     private int mgYear;
 
-//    private String highSchoolName;
-//    private String highSchoolLocation;
     private SchoolDto highSchoolDto;
     private int hgYear;
 

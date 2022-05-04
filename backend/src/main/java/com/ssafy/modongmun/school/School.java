@@ -1,10 +1,7 @@
 package com.ssafy.modongmun.school;
 
 import com.ssafy.modongmun.school.dto.SchoolDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
+@ToString
 public class School {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,19 +17,19 @@ public class School {
     private Long schoolId;
 
     @Column(name = "SD_SCHUL_CODE")
-    private Long SD_SCHUL_CODE;
+    private Long code;
 
     @Column(name = "SCHUL_NM")
-    private String SCHUL_NM;
+    private String name;
 
     @Column(name = "LCTN_SC_NM")
-    private String LCTN_SC_NM;
+    private String location;
 
     public static School toEntity(SchoolDto schoolDto) {
         return School.builder()
-                .SD_SCHUL_CODE(schoolDto.getCode())
-                .SCHUL_NM(schoolDto.getName())
-                .LCTN_SC_NM(schoolDto.getLocation())
+                .code(schoolDto.getCode())
+                .name(schoolDto.getName())
+                .location(schoolDto.getLocation())
                 .build();
     }
 

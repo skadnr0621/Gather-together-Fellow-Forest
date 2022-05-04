@@ -20,8 +20,8 @@ public class Gallery {
     @Column(name = "photo_id")
     private Long photoId;
 
-    @
-    private School school;
+//    @
+//    private School school;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;

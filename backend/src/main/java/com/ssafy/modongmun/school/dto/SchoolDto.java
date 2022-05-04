@@ -11,10 +11,6 @@ public class SchoolDto {
 
     private Long schoolId;
 
-//    private Long SD_SCHUL_CODE;
-//    private String SCHUL_NM;
-//    private String LCTN_SC_NM;
-
     private Long code;
     private String name;
     private String location;
@@ -32,12 +28,9 @@ public class SchoolDto {
     public static SchoolDto toDto(School school) {
         return SchoolDto.builder()
                 .schoolId(school.getSchoolId())
-//                .SD_SCHUL_CODE(school.getSD_SCHUL_CODE())
-//                .SCHUL_NM(school.getSCHUL_NM())
-//                .LCTN_SC_NM(school.getLCTN_SC_NM())
-                .code(school.getSD_SCHUL_CODE())
-                .name(school.getSCHUL_NM())
-                .location(school.getLCTN_SC_NM())
+                .code(school.getCode())
+                .name(school.getName())
+                .location(school.getLocation())
                 .build();
     }
 

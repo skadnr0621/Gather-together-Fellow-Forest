@@ -16,8 +16,8 @@ public class GalleryController {
     private final GalleryService galleryService;
 
 
-    @PostMapping("/gallery/photos")
-    public ResponseEntity<?> postPhoto(@RequestBody GalleryPostDto galleryPostDto) {
-
-    }
+//    @PostMapping("/gallery/photos")
+//    public ResponseEntity<?> postPhoto(@RequestBody GalleryPostDto galleryPostDto) {
+//
+//    }
 }

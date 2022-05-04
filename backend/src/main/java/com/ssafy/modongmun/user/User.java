@@ -1,5 +1,6 @@
 package com.ssafy.modongmun.user;
 
+import com.ssafy.modongmun.school.schedule.Schedule;
 import com.ssafy.modongmun.user.dto.SignupDto;
 import com.ssafy.modongmun.school.School;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,19 +28,19 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "elementary_school_id")
     private School elementarySchool;
     @Column(name = "eg_year")
     private int egYear;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_school_id")
     private School middleSchool;
     @Column(name = "mg_year")
     private int mgYear;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "high_school_id")
     private School highSchool;
     @Column(name = "hg_year")
@@ -47,19 +49,21 @@ public class User {
     @Column(name = "register_date")
     private LocalDateTime registerDate;
 
-    public static User toEntity(SignupDto signupDto) {
-        return User.builder()
-                .userNumber(signupDto.getUserNumber())
-                .username(signupDto.getUsername())
-                .elementarySchool(School.toEntity(signupDto.getElementarySchoolDto()))
-                .egYear(signupDto.getEgYear())
-                .middleSchool(School.toEntity(signupDto.getMiddleSchoolDto()))
-                .mgYear(signupDto.getMgYear())
-                .highSchool(School.toEntity(signupDto.getHighSchoolDto()))
-                .hgYear(signupDto.getHgYear())
-                .registerDate(LocalDateTime.now())
-                .build();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Schedule> scheduleList;
 
-    }
+//    public static User toEntity(SignupDto signupDto) {
+//        return User.builder()
+//                .userNumber(signupDto.getUserNumber())
+//                .username(signupDto.getUsername())
+//                .elementarySchool(School.toEntity(signupDto.getElementarySchoolDto()))
+//                .egYear(signupDto.getEgYear())
+//                .middleSchool(School.toEntity(signupDto.getMiddleSchoolDto()))
+//                .mgYear(signupDto.getMgYear())
+//                .highSchool(School.toEntity(signupDto.getHighSchoolDto()))
+//                .hgYear(signupDto.getHgYear())
+//                .registerDate(LocalDateTime.now())
+//                .build();
+//    }
 
 }
