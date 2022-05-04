@@ -6,6 +6,12 @@ import HomeView from "../views/HomeView.vue";
 import Login from "../views/Login.vue";
 import LoginView from "../components/login/LoginView.vue";
 import EnterInfo from "../components/login/EnterInfo.vue";
+
+import BoardView from "../views/BoardView.vue";
+import CreateBoard from "../components/board/CreateBoard.vue";
+import ListBoard from "../components/board/ListBoard.vue";
+import DetailBoard from "../components/board/DetailBoard.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -28,6 +34,28 @@ const routes = [
         path: "enterInfo",
         name: "enterInfo",
         component: EnterInfo,
+      },
+    ],
+  },
+  {
+    path: "/board",
+    name: "board",
+    component: BoardView,
+    children: [
+      {
+        path: "/",
+        name: "listBoard",
+        component: ListBoard,
+      },
+      {
+        path: "create",
+        name: "createBoard",
+        component: CreateBoard,
+      },
+      {
+        path: "detail",
+        name: "detailBoard",
+        component: DetailBoard,
       },
     ],
   },
