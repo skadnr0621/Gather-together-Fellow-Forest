@@ -5,7 +5,11 @@
     </div>
     <div>
       <div class="login">
-        <button class="rounded-full pl-8 pr-8 p-4 text-3xl">시작하기</button>
+        <router-link to="/login"
+          ><button class="rounded-full pl-8 pr-8 p-4 text-3xl">
+            시작하기
+          </button></router-link
+        >
       </div>
     </div>
   </div>

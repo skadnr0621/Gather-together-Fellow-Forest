@@ -16,5 +16,11 @@ module.exports = {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
     quotes: "off",
     "no-extra-semi": "off",
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: ["Login"],
+      },
+    ],
   },
 };
