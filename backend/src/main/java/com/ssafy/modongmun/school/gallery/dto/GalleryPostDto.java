@@ -1,19 +1,20 @@
 package com.ssafy.modongmun.school.gallery.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class GalleryPostDto {
 
-    private MultipartFile photo;
-
+    private Long schoolId;
     private Long userId;
+    private MultipartFile photo;
+    private String imgPath;
+    private String description;
 
-//    private
+    // private byte[] detailPhoto;
+    // base64로 전송할 때 필요
 }

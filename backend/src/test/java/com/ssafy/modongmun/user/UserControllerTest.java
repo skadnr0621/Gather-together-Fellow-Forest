@@ -86,11 +86,11 @@ public class UserControllerTest {
         SignupDto signupDto = SignupDto.builder()
                 .userNumber(userNumber)
                 .username(username)
-                .elementarySchoolDto(SchoolDto.toDto(elementarySchool))
+                .elementarySchoolId(elementarySchool.getSchoolId())
                 .egYear(2001)
-                .middleSchoolDto(SchoolDto.toDto(middleSchool))
+                .middleSchoolId(middleSchool.getSchoolId())
                 .mgYear(2002)
-                .highSchoolDto(SchoolDto.toDto(highSchool))
+                .highSchoolId(highSchool.getSchoolId())
                 .hgYear(2003)
                 .build();
 
