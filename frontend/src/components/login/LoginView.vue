@@ -10,14 +10,41 @@
         <img src="@/assets/logo.png" />
       </div>
       <div class="kakao-login">
-        <button><img src="@/assets/kakaoLogin.png" /></button>
+        <button @click="loginWithKakao">
+          <img src="@/assets/kakaoLogin.png" />
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    loginWithKakao() {
+      window.Kakao.Auth.login({
+        scope: " account_email",
+        success: this.getProfile,
+      });
+    },
+    getProfile(authObj) {
+      console.log(authObj);
+      window.Kakao.API.request({
+        url: "/v2/user/me",
+        success: (res) => {
+          const kakao_account = res.kakao_account;
+          console.log(kakao_account);
+          this.login(kakao_account);
+          alert("로그인 성공!");
+        },
+      });
+    },
+    //https://www.youtube.com/watch?v=S0WYao-e3Ok
+    async login(kakao_account) {
+      // Restpai post
+    },
+  },
+};
 </script>
 
 <style scoped>

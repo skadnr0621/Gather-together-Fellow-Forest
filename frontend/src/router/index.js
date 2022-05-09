@@ -12,6 +12,9 @@ import CreateBoard from "../components/board/CreateBoard.vue";
 import ListBoard from "../components/board/ListBoard.vue";
 import DetailBoard from "../components/board/DetailBoard.vue";
 
+import ScheduleView from "../views/ScheduleView.vue";
+import ScheduleBoard from "../components/schedule/ScheduleBoard.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -56,6 +59,18 @@ const routes = [
         path: "detail",
         name: "detailBoard",
         component: DetailBoard,
+      },
+    ],
+  },
+  {
+    path: "/schedule",
+    name: "schedule",
+    component: ScheduleView,
+    children: [
+      {
+        path: "/",
+        name: "scheduleBoard",
+        component: ScheduleBoard,
       },
     ],
   },

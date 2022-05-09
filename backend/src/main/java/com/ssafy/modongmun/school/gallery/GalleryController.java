@@ -17,7 +17,7 @@ public class GalleryController {
     private final GalleryService galleryService;
 
     @PostMapping("/gallery/photos")
-    public ResponseEntity<?> postPhoto(@RequestBody GalleryPostDto galleryPostDto) throws IOException {
+    public ResponseEntity<?> postPhoto(@ModelAttribute GalleryPostDto galleryPostDto) throws IOException {
         galleryService.postPhoto(galleryPostDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
