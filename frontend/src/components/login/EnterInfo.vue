@@ -13,11 +13,11 @@
         <div class="grid grid-cols-3 gap-4 text-left mb-4">
           <div class="col-auto font-bold">출생년도</div>
           <datepicker
-            :value="this.defaultDate"
+            id="input-id"
+            :value="defaultDate"
             :format="DatePickerFormat"
             minimum-view="year"
             name="datepicker"
-            id="input-id"
             input-class="input-class"
             placeholder="출생년도를 선택하세요"
           ></datepicker>
@@ -82,13 +82,13 @@
 <script>
 import Datepicker from "vuejs-datepicker";
 export default {
+  components: {
+    Datepicker,
+  },
   data() {
     return {
       DatePickerFormat: "yyyy",
     };
-  },
-  components: {
-    Datepicker,
   },
 };
 </script>
