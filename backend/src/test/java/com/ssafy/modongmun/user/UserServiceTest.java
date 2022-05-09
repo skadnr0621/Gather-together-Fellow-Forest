@@ -81,11 +81,11 @@ public class UserServiceTest {
         SignupDto signupDto = SignupDto.builder()
                 .userNumber(userNumber)
                 .username(username)
-                .elementarySchoolDto(elementaryDto)
+                .elementarySchoolId(elementary.getSchoolId())
                 .egYear(egYear)
-                .middleSchoolDto(middleDto)
+                .middleSchoolId(middle.getSchoolId())
                 .mgYear(mgYear)
-                .highSchoolDto(highDto)
+                .highSchoolId(high.getSchoolId())
                 .hgYear(hgYear)
                 .build();
 

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -18,9 +20,9 @@ public class UserService {
 //        User user = User.toEntity(signupDto);
 //        userRepository.save(user);
 
-        School elementarySchool = schoolRepository.findById(signupDto.getElementarySchoolDto().getSchoolId()).orElse(null);
-        School middleSchool = schoolRepository.findById(signupDto.getMiddleSchoolDto().getSchoolId()).orElse(null);
-        School highSchool = schoolRepository.findById(signupDto.getHighSchoolDto().getSchoolId()).orElse(null);
+        School elementarySchool = schoolRepository.findById(signupDto.getElementarySchoolId()).orElse(null);
+        School middleSchool = schoolRepository.findById(signupDto.getMiddleSchoolId()).orElse(null);
+        School highSchool = schoolRepository.findById(signupDto.getHighSchoolId()).orElse(null);
 
         userRepository.save(User.builder()
                 .userNumber(signupDto.getUserNumber())
@@ -31,6 +33,7 @@ public class UserService {
                 .mgYear(signupDto.getMgYear())
                 .highSchool(highSchool)
                 .hgYear(signupDto.getHgYear())
+                .registerDate(LocalDateTime.now())
                 .build());
     }
 }
