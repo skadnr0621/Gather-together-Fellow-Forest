@@ -1,5 +1,6 @@
 package com.ssafy.modongmun.school.gallery;
 
+import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +21,12 @@ public class Gallery {
     @Column(name = "photo_id")
     private Long photoId;
 
-//    @
-//    private School school;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id")
+    private School school;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "image_path")

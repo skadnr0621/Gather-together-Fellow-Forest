@@ -14,14 +14,13 @@ public class SignupDto {
     private Long userNumber;
     private String username;
 
-    // private Long elementarySchoolId;
-    private SchoolDto elementarySchoolDto;
+    private Long elementarySchoolId;
     private int egYear;
 
-    private SchoolDto middleSchoolDto;
+    private Long middleSchoolId;
     private int mgYear;
 
-    private SchoolDto highSchoolDto;
+    private Long highSchoolId;
     private int hgYear;
 
 }
