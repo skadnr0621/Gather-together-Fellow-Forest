@@ -6,6 +6,7 @@ import com.ssafy.modongmun.school.gallery.dto.GalleryPostDto;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,49 +18,46 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GalleryService {
 
+    /*** Service ***/
+    private final AwsS3Service awsS3Service;
+    /*** Repository ***/
     private final GalleryRepository galleryRepository;
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
 
-    public void postPhoto(GalleryPostDto galleryPostDto) throws IOException {
 
-        MultipartFile photo = galleryPostDto.getPhoto();
-        if(photo != null && !photo.isEmpty()){
-            System.out.println("file 확인");
-            String originName, saveFolder, imgPath;
-
-            saveFolder = "C:" + File.separator + "PJT" + File.separator + "testS3" + File.separator;
-            System.out.println("저장 경로 확인" + saveFolder);
-
-            File folder = new File(saveFolder);
-            if(!folder.exists()){
-                System.out.println("폴더 생성");
-                folder.mkdir();
-            }
-
-            originName = photo.getOriginalFilename();
-            if(originName != null) {
-                imgPath = saveFolder + originName;
-                photo.transferTo(new File(saveFolder, originName));
-                galleryPostDto.setImgPath(imgPath);
-            }
+    public void postPhoto(GalleryPostDto galleryPostDto) {
+        // MultiparFile을 저장하고 저장 경로를 받아옵니다.
+        String url = null;
+        try {
+            url = awsS3Service.uploadFile(galleryPostDto.getPhoto());
+            if (url == null)
+                return;
+            log.info("Successfully saved resource :: " + url);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
 
-        School school = schoolRepository.findById(galleryPostDto.getSchoolId()).orElse(null);
-        User user = userRepository.findById(galleryPostDto.getUserId()).orElse(null);
 
-        Gallery gallery = Gallery.builder()
-                .school(school)
-                .user(user)
-                .imgPath(galleryPostDto.getImgPath())
-                .description(galleryPostDto.getDescription())
-                .createDate(LocalDateTime.now())
-                .build();
+        // Gallery entity 저장
+        School school = schoolRepository.findById(galleryPostDto.getSchoolId())
+                .orElseThrow(() -> new IllegalArgumentException("Illegal school ID !"));
+        User user = userRepository.findById(galleryPostDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("Illgegal user ID !"));
 
-        galleryRepository.save(gallery);
-
+        galleryRepository.save(
+                Gallery.builder()
+                        .school(school)
+                        .user(user)
+                        .imgPath(url)
+                        .description(galleryPostDto.getDescription())
+                        .createDate(LocalDateTime.now())
+                        .build()
+        );
     }
 
     public GalleryPostDto getPhoto(Long photoId) throws IOException {

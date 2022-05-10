@@ -26,14 +26,14 @@ public class AwsS3Service {
     private final AmazonS3Client amazonS3Client;
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
-
+        // 저장할 파일 이름을 생성합니다.
         String fileName = createFileName(multipartFile.getOriginalFilename());
+        // AWS S3에 저장할 수 있는 객체를 생성합니다.
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
         objectMetadata.setContentType(multipartFile.getContentType());
-        System.out.println("여기");
-        System.out.println(multipartFile.getName());
-        System.out.println(multipartFile.getInputStream().available());
+
+        // S3 bucket에 MultipartFile을 저장합니다.
         try(InputStream inputStream = multipartFile.getInputStream()) {
             amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
