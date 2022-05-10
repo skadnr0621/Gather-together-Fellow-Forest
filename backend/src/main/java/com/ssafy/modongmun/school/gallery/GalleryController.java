@@ -1,7 +1,9 @@
 package com.ssafy.modongmun.school.gallery;
 
+import com.ssafy.modongmun.school.gallery.dto.GalleryDto;
 import com.ssafy.modongmun.school.gallery.dto.GalleryPostDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,10 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@Slf4j
 public class GalleryController {
 
     private final GalleryService galleryService;
-
 
     @PostMapping("/gallery/photos")
     public ResponseEntity<?> postPhoto(@ModelAttribute GalleryPostDto galleryPostDto) throws IOException {
@@ -25,15 +27,15 @@ public class GalleryController {
     }
 
     @GetMapping("/gallery/photos/{photo_id}")
-    public ResponseEntity<GalleryPostDto> getPhoto(@PathVariable("photo_id") Long photoId) throws Exception{
-        GalleryPostDto galleryPostDto = galleryService.getPhoto(photoId);
-        return new ResponseEntity<>(galleryPostDto, HttpStatus.OK);
+    public ResponseEntity<GalleryDto> getPhoto(@PathVariable("photo_id") Long photoId) throws Exception{
+        GalleryDto galleryDto = galleryService.getPhoto(photoId);
+        return new ResponseEntity<>(galleryDto, HttpStatus.OK);
     }
 
     @GetMapping("/gallery/photos")
-    public ResponseEntity<List<GalleryPostDto>> getPhotoList() throws Exception{
-        List<GalleryPostDto> galleryPostDtoList = galleryService.getPhotoList();
-        return new ResponseEntity<>(galleryPostDtoList, HttpStatus.OK);
+    public ResponseEntity<List<GalleryDto>> getPhotoList() throws Exception{
+        List<GalleryDto> galleryDtoList = galleryService.getPhotoList();
+        return new ResponseEntity<>(galleryDtoList, HttpStatus.OK);
     }
 
     @DeleteMapping("/gallery/photos/{photo_id}")
