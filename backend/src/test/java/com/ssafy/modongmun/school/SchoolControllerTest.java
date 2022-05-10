@@ -43,7 +43,7 @@ public class SchoolControllerTest {
                 .location(location)
                 .build();
 
-        String url = "http://localhost:" + 8080 + "/api/school/schools";
+        String url = "http://localhost:" + port + "/api/school/schools";
 
         System.out.println("Before request :: " + schoolDto);
         ResponseEntity<String> response = restTemplate.postForEntity(url, schoolDto, String.class);
