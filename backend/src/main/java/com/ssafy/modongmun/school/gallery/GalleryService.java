@@ -30,7 +30,7 @@ public class GalleryService {
             System.out.println("file 확인");
             String originName, saveFolder, imgPath;
 
-            saveFolder = "C:" + File.separator + "PJT" + File.separator + "test0506" + File.separator;
+            saveFolder = "C:" + File.separator + "PJT" + File.separator + "testS3" + File.separator;
             System.out.println("저장 경로 확인" + saveFolder);
 
             File folder = new File(saveFolder);
