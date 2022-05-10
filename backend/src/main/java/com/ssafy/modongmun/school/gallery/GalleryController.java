@@ -16,25 +16,11 @@ import java.util.List;
 public class GalleryController {
 
     private final GalleryService galleryService;
-    private final AwsS3Service awsS3Service;
 
-    @PostMapping("/gallery/photos/s3")
-    public String postPhotoS3(@RequestPart(value = "s3photo")MultipartFile multipartFile) throws Exception {
-        return awsS3Service.uploadFile(multipartFile);
-
-    }
 
     @PostMapping("/gallery/photos")
-    public ResponseEntity<?> postPhoto(@ModelAttribute GalleryPostDto galleryPostDto, @RequestPart(value = "s3photo")MultipartFile multipartFile) throws IOException {
-        // 1. galleryPostDto.getPhoto
-        // 2. s3photo 받고 setPhoto 해주기
-
-        galleryPostDto.setPhoto(multipartFile);
+    public ResponseEntity<?> postPhoto(@ModelAttribute GalleryPostDto galleryPostDto) throws IOException {
         galleryService.postPhoto(galleryPostDto);
-        awsS3Service.uploadFile(multipartFile);
-
-        //String url = awsS3Service.uploadFile(multipartFile);
-        //System.out.println(url);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
