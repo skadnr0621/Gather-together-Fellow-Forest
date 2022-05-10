@@ -7,11 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class GalleryPostDto {
+public class GalleryDto {
 
     private Long schoolId;
     private Long userId;
-    private MultipartFile photo;
+    private String imgPath;
     private String description;
 
 }
