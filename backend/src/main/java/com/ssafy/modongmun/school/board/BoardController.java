@@ -1,6 +1,6 @@
-package com.ssafy.modongmun.school.schedule;
+package com.ssafy.modongmun.school.board;
 
-import com.ssafy.modongmun.school.schedule.dto.ScheduleRegisterDto;
+import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class ScheduleController {
+public class BoardController {
+    private final BoardService boardService;
 
-    private final ScheduleService scheduleService;
-
-    @PostMapping("/schedule/schedules")
-    public ResponseEntity<?> registerSchedule(@RequestBody ScheduleRegisterDto scheduleRegisterDto) {
-        scheduleService.registerSchedule(scheduleRegisterDto);
+    @PostMapping("/board/posts")
+    public ResponseEntity<?> registerBoard(@RequestBody BoardRegisterDto boardRegisterDto){
+        boardService.registerBoard(boardRegisterDto);
         return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 }
