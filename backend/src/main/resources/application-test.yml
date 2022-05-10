@@ -1,5 +1,5 @@
 server:
-  port: 8079
+  port: 8082
 
 spring:
   ### Datasource
@@ -7,3 +7,7 @@ spring:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb
     username: sa
+
+#  ### profiles
+#  profiles:
+#    include: oauth

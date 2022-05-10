@@ -1,12 +1,11 @@
-package com.ssafy.modongmun.school.schedule;
+package com.ssafy.modongmun.school.board;
 
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
+import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import com.ssafy.modongmun.school.dto.SchoolDto;
-import com.ssafy.modongmun.school.schedule.dto.ScheduleRegisterDto;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
-import com.ssafy.modongmun.user.dto.SignupDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +17,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ScheduleControllerTest {
+public class BoardControllerTest {
 
     @LocalServerPort
     private int port;
@@ -38,12 +35,11 @@ public class ScheduleControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
-    @Autowired
-    private SchoolRepository schoolRepository;
+    private BoardRepository boardRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private SchoolRepository schoolRepository;
 
     @Before
     public void School_등록() throws Exception {
@@ -100,51 +96,37 @@ public class ScheduleControllerTest {
 
     @After
     public void after() throws Exception {
+        boardRepository.deleteAll();
         userRepository.deleteAll();
-        scheduleRepository.deleteAll();
         schoolRepository.deleteAll();
     }
 
     @Test
-    public void Schedule_등록() throws Exception {
+    public void Board_등록() throws Exception {
         // given
         String title = "title";
-        String location = "location";
         String content = "content";
 
-        LocalDate startDate = LocalDate.now().plusDays(1);
-        LocalDate endDate = startDate.plusDays(7);
-
-        ScheduleRegisterDto scheduleRegisterDto = ScheduleRegisterDto.builder()
+        BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
                 .schoolId(1L)
                 .userId(1L)
                 .title(title)
-                .location(location)
                 .content(content)
-                .startDate(startDate)
-                .endDate(endDate)
                 .build();
 
-        String url = "http://localhost:"+ port + "/api/schedule/schedules";
+        String url = "http://localhost:"+ port + "/api/board/posts";
 
         // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, scheduleRegisterDto, Void.class);
+        ResponseEntity<Void> response = restTemplate.postForEntity(url, boardRegisterDto, Void.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        Schedule savedSchedule = scheduleRepository.findById(1L).orElse(null);
-        assert savedSchedule != null;
+        Board savedBoard = boardRepository.findById(1L).orElse(null);
+        assert savedBoard != null;
 
-//        assertThat(savedSchedule.getSchool()).isEqualTo();
-//        asserThat(savedSchedule.getUser()).isEqualTo();
-
-        assertThat(savedSchedule.getTitle()).isEqualTo(title);
-        assertThat(savedSchedule.getLocation()).isEqualTo(location);
-        assertThat(savedSchedule.getContent()).isEqualTo(content);
-
-        assertThat(savedSchedule.getStartDate()).isEqualTo(startDate);
-        assertThat(savedSchedule.getEndDate()).isEqualTo(endDate);
+        assertThat(savedBoard.getTitle()).isEqualTo(title);
+        assertThat(savedBoard.getContent()).isEqualTo(content);
     }
 
 }
