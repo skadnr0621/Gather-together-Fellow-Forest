@@ -18,7 +18,7 @@ spring:
   ### Datasource
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/modongmun?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3606/modongmun?serverTimezone=Asia/Seoul
     username: ssafy
     password: 1234
 
@@ -30,8 +30,3 @@ spring:
         format_sql: true
     hibernate:
       ddl_auto: update
-
-  ### profiles
-  profiles:
-    include: oauth
-

@@ -25,7 +25,7 @@ public class Gallery {
     @JoinColumn(name = "school_id")
     private School school;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

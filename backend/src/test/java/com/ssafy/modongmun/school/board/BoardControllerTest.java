@@ -3,6 +3,7 @@ package com.ssafy.modongmun.school.board;
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
+import com.ssafy.modongmun.school.board.dto.PostDto;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
@@ -68,13 +69,13 @@ public class BoardControllerTest {
     @Before
     public void User_등록() throws Exception {
         // User 등록
-        School elementarySchool = schoolRepository.findById(1L).orElse(null);
+        School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
         System.out.println("elementarySchool = " + elementarySchool);
         assert elementarySchool != null;
-        School middleSchool = schoolRepository.findById(2L).orElse(null);
+        School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
         System.out.println("middleSchool = " + middleSchool);
         assert middleSchool != null;
-        School highSchool = schoolRepository.findById(3L).orElse(null);
+        School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
         System.out.println("highSchool = " + highSchool);
         assert highSchool != null;
 
@@ -117,12 +118,13 @@ public class BoardControllerTest {
         String url = "http://localhost:"+ port + "/api/board/posts";
 
         // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, boardRegisterDto, Void.class);
+        ResponseEntity<PostDto> response = restTemplate.postForEntity(url, boardRegisterDto, PostDto.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        Board savedBoard = boardRepository.findById(1L).orElse(null);
+        PostDto savedPostDto = response.getBody();
+        Board savedBoard = boardRepository.findById(savedPostDto.getPostId()).orElse(null);
         assert savedBoard != null;
 
         assertThat(savedBoard.getTitle()).isEqualTo(title);

@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
@@ -17,18 +18,9 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SpringBootTest
 @RequiredArgsConstructor
 public class UserServiceTest {
-
-//    @LocalServerPort
-//    private int port;
-
-//    private final UserService userService;
-//    private final UserRepository userRepository;
-//
-//    private final SchoolRepository schoolRepository;
 
     @Autowired
     private UserService userService;

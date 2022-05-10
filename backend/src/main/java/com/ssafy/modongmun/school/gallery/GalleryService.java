@@ -64,10 +64,10 @@ public class GalleryService {
 
         Gallery gallery = galleryRepository.findById(photoId).orElse(null);
         GalleryPostDto galleryPostDto = new GalleryPostDto();
-        galleryPostDto.setSchoolId(gallery.getSchool().getSchoolId());
-        galleryPostDto.setUserId(gallery.getUser().getUserId());
-        galleryPostDto.setImgPath(gallery.getImgPath());
-        galleryPostDto.setDescription(gallery.getDescription());
+//        galleryPostDto.setSchoolId(gallery.getSchool().getSchoolId());
+//        galleryPostDto.setUserId(gallery.getUser().getUserId());
+//        galleryPostDto.setImgPath(gallery.getImgPath());
+//        galleryPostDto.setDescription(gallery.getDescription());
         // InputStream photoStream = new FileInputStream(gallery.getImgPath());
         // galleryPostDto.setDetailPhoto(IOUtils.toByteArray(photoStream));
 
@@ -83,10 +83,10 @@ public class GalleryService {
 
         for(Gallery gallery : galleryList){
             GalleryPostDto galleryPostDto = new GalleryPostDto();
-            galleryPostDto.setSchoolId(gallery.getSchool().getSchoolId());
-            galleryPostDto.setUserId(gallery.getUser().getUserId());
-            galleryPostDto.setImgPath(gallery.getImgPath());
-            galleryPostDto.setDescription(gallery.getDescription());
+//            galleryPostDto.setSchoolId(gallery.getSchool().getSchoolId());
+//            galleryPostDto.setUserId(gallery.getUser().getUserId());
+//            galleryPostDto.setImgPath(gallery.getImgPath());
+//            galleryPostDto.setDescription(gallery.getDescription());
             // photoStream = new FileInputStream(galleryPostDto.getImgPath());
             // galleryPostDto.setDetailPhoto(IOUtils.toByteArray(photoStream));
             galleryPostDtoList.add(galleryPostDto);
