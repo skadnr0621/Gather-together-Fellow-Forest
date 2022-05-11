@@ -70,13 +70,10 @@ public class BoardControllerTest {
     public void User_등록() throws Exception {
         // User 등록
         School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
-        System.out.println("elementarySchool = " + elementarySchool);
         assert elementarySchool != null;
         School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
-        System.out.println("middleSchool = " + middleSchool);
         assert middleSchool != null;
         School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
-        System.out.println("highSchool = " + highSchool);
         assert highSchool != null;
 
         Long userNumber = 123456789L;
@@ -105,12 +102,17 @@ public class BoardControllerTest {
     @Test
     public void Board_등록() throws Exception {
         // given
+        User user = userRepository.findByUserNumber(123456789L).orElse(null);
+        assert user != null;
+        School enteredSchool = schoolRepository.findById(user.getElementarySchool().getSchoolId()).orElse(null);
+        assert enteredSchool != null;
+
         String title = "title";
         String content = "content";
 
         BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
-                .schoolId(1L)
-                .userId(1L)
+                .schoolId(enteredSchool.getSchoolId())
+                .userId(user.getUserId())
                 .title(title)
                 .content(content)
                 .build();

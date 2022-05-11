@@ -23,6 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -74,13 +75,10 @@ public class CommentControllerTest {
     public void User_등록() throws Exception {
         // User 등록
         School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
-        System.out.println("elementarySchool = " + elementarySchool);
         assert elementarySchool != null;
         School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
-        System.out.println("middleSchool = " + middleSchool);
         assert middleSchool != null;
         School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
-        System.out.println("highSchool = " + highSchool);
         assert highSchool != null;
 
         Long userNumber = 123456789L;
@@ -103,32 +101,20 @@ public class CommentControllerTest {
 
     public void Board_등록() throws Exception{
         // given
-        assert userRepository.count() > 0;
-        User savedUser = userRepository.findAll().get(0);
+        User user = userRepository.findByUserNumber(123456789L).orElse(null);
+        assert user != null;
+        School enteredSchool = schoolRepository.findById(user.getElementarySchool().getSchoolId()).orElse(null);
+        assert enteredSchool != null;
 
         String title = "title";
         String content = "content";
 
-        BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
-                .schoolId(1L)
-                .userId(savedUser.getUserId())
+        boardRepository.save(Board.builder()
+                .school(enteredSchool)
+                .user(user)
                 .title(title)
                 .content(content)
-                .build();
-
-        String url = "http://localhost:"+ port + "/api/board/posts";
-
-        // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, boardRegisterDto, Void.class);
-
-        // then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        Board savedBoard = boardRepository.findById(1L).orElse(null);
-        assert savedBoard != null;
-
-        assertThat(savedBoard.getTitle()).isEqualTo(title);
-        assertThat(savedBoard.getContent()).isEqualTo(content);
+                .build());
     }
 
     @After
@@ -141,21 +127,31 @@ public class CommentControllerTest {
 
     @Test
     public void Comment_등록() throws Exception{
-        //given
+        // given
+        User user = userRepository.findByUserNumber(123456789L).orElse(null);
+        assert user != null;
+        School enteredSchool = schoolRepository.findById(user.getElementarySchool().getSchoolId()).orElse(null);
+        assert enteredSchool != null;
+
+        List<Board> postList = boardRepository.findByUser(user);
+        assert postList.size() > 0;
+        Board post = postList.get(0);
+
         String content = "content";
-        Long postId = 1L;
 
         CommentRegisterDto commentRegisterDto = CommentRegisterDto.builder()
-                .postId(postId)
-                .userId(1L)
+                .postId(post.getPostId())
+                .userId(user.getUserId())
                 .content(content)
                 .build();
 
-        String url = "http://localhost:"+ port + "/api/board/posts/" + postId + "/comments";
-        //when
+//        String url = "http://localhost:"+ port + "/api/board/posts/" + post.getPostId() + "/comments";
+        String url = String.format("http://localhost:%d/api/board/posts/%d/comments", port, post.getPostId());
+
+        // when
         ResponseEntity<Void> response = restTemplate.postForEntity(url, commentRegisterDto, Void.class);
 
-        //then
+        // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Comment savedComment = commentRepository.findById(1L).orElse(null);
         assert savedComment != null;

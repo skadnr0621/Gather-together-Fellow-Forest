@@ -5,6 +5,7 @@ import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import com.ssafy.modongmun.school.schedule.dto.ScheduleRegisterDto;
 import com.ssafy.modongmun.user.User;
+import com.ssafy.modongmun.user.UserControllerTest;
 import com.ssafy.modongmun.user.UserRepository;
 import com.ssafy.modongmun.user.dto.SignupDto;
 import org.junit.After;
@@ -73,13 +74,10 @@ public class ScheduleControllerTest {
     public void User_등록() throws Exception {
         // User 등록
         School elementarySchool = schoolRepository.findById(1L).orElse(null);
-        System.out.println("elementarySchool = " + elementarySchool);
         assert elementarySchool != null;
         School middleSchool = schoolRepository.findById(2L).orElse(null);
-        System.out.println("middleSchool = " + middleSchool);
         assert middleSchool != null;
         School highSchool = schoolRepository.findById(3L).orElse(null);
-        System.out.println("highSchool = " + highSchool);
         assert highSchool != null;
 
         Long userNumber = 123456789L;
@@ -100,14 +98,17 @@ public class ScheduleControllerTest {
 
     @After
     public void after() throws Exception {
-        userRepository.deleteAll();
         scheduleRepository.deleteAll();
+        userRepository.deleteAll();
         schoolRepository.deleteAll();
     }
 
     @Test
     public void Schedule_등록() throws Exception {
         // given
+        School school = schoolRepository.findById(1L).orElse(null);
+        User user = userRepository.findById(1L).orElse(null);
+
         String title = "title";
         String location = "location";
         String content = "content";
@@ -116,8 +117,8 @@ public class ScheduleControllerTest {
         LocalDate endDate = startDate.plusDays(7);
 
         ScheduleRegisterDto scheduleRegisterDto = ScheduleRegisterDto.builder()
-                .schoolId(1L)
-                .userId(1L)
+                .schoolId(school.getSchoolId())
+                .userId(user.getUserId())
                 .title(title)
                 .location(location)
                 .content(content)
@@ -135,9 +136,6 @@ public class ScheduleControllerTest {
 
         Schedule savedSchedule = scheduleRepository.findById(1L).orElse(null);
         assert savedSchedule != null;
-
-//        assertThat(savedSchedule.getSchool()).isEqualTo();
-//        asserThat(savedSchedule.getUser()).isEqualTo();
 
         assertThat(savedSchedule.getTitle()).isEqualTo(title);
         assertThat(savedSchedule.getLocation()).isEqualTo(location);
