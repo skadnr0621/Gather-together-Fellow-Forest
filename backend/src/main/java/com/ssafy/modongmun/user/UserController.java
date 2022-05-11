@@ -18,7 +18,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(@RequestBody SignupDto signupDto) {
         UserDto savedUserDto = userService.signup(signupDto);
