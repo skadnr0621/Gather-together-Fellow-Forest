@@ -3,11 +3,9 @@ package com.ssafy.modongmun.school.schedule;
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.dto.SchoolDto;
-import com.ssafy.modongmun.school.schedule.dto.ScheduleRegisterDto;
+import com.ssafy.modongmun.school.schedule.dto.ScheduleDto;
 import com.ssafy.modongmun.user.User;
-import com.ssafy.modongmun.user.UserControllerTest;
 import com.ssafy.modongmun.user.UserRepository;
-import com.ssafy.modongmun.user.dto.SignupDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +17,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
@@ -116,7 +113,7 @@ public class ScheduleControllerTest {
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = startDate.plusDays(7);
 
-        ScheduleRegisterDto scheduleRegisterDto = ScheduleRegisterDto.builder()
+        ScheduleDto scheduleRegisterDto = ScheduleDto.builder()
                 .schoolId(school.getSchoolId())
                 .userId(user.getUserId())
                 .title(title)

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -29,7 +30,7 @@ public class GalleryService {
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
 
-
+    @Transactional(rollbackFor = Exception.class)
     public void postPhoto(GalleryPostDto galleryPostDto) {
         // MultiparFile을 저장하고 저장 경로를 받아옵니다.
         String url = null;
@@ -94,6 +95,7 @@ public class GalleryService {
         return galleryDtoList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void deletePhoto(Long photoId) {
         Gallery gallery = galleryRepository.findById(photoId).orElse(null);
         galleryRepository.delete(gallery);
