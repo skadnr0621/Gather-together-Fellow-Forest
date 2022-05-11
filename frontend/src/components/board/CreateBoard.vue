@@ -10,7 +10,7 @@
           </div>
           <div class="contants-title">
             <input
-              class="w-full h-10 border pl-2 pt-2 pb-2"
+              class="w-full h-10 border pl-2 pt-2 pb-2 mb-2"
               style="text"
               placeholder="제목을 입력해주세요."
             />
@@ -39,6 +39,10 @@ export default {};
 <style scoped>
 #create-board {
   width: 75%;
+}
+input {
+  border-radius: 10px;
+  background: #e2e2e2;
 }
 .mainWrap {
   height: 100vh;
