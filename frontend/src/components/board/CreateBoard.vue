@@ -20,7 +20,7 @@
 
         <div class="flex btnLeftRightWrap w-5/6">
           <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">목록</button>
-          <div class="flex">
+          <div class="flex justify-end">
             <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">등록</button>
             <button class="btn-cancel border ml-2 pl-3 pr-3 pt-1 pb-1 mt-4">
               취소

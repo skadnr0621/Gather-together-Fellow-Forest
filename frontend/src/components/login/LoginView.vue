@@ -19,11 +19,16 @@
 </template>
 
 <script>
+import { signup } from "@/api/user.js";
 export default {
   methods: {
+    // back url 요청
     loginWithKakao() {
+      signup();
+    },
+    /* loginWithKakao() {
       window.Kakao.Auth.login({
-        scope: " account_email",
+        scope: "profile_nickname, account_email,  gender",
         success: this.getProfile,
       });
     },
@@ -42,7 +47,7 @@ export default {
     //https://www.youtube.com/watch?v=S0WYao-e3Ok
     async login(kakao_account) {
       // Restpai post
-    },
+   },  */
   },
 };
 </script>
