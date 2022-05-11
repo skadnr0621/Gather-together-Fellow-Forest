@@ -19,12 +19,13 @@
 </template>
 
 <script>
-import { signup } from "@/api/user.js";
+import { KAKAO_AUTH_URL } from "@/api/user.js";
 export default {
   methods: {
     // back url 요청
     loginWithKakao() {
-      signup();
+      window.open(KAKAO_AUTH_URL);
+      //login();
     },
     /* loginWithKakao() {
       window.Kakao.Auth.login({

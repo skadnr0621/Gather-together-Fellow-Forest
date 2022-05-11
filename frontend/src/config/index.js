@@ -3,5 +3,6 @@
  */
 
 const API_BASE_URL = "http://localhost:8080";
+const REDIRECT_URL = "http://localhost:8081";
 
-export { API_BASE_URL };
+export { API_BASE_URL, REDIRECT_URL };
