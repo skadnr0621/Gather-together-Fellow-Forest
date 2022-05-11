@@ -6,6 +6,7 @@ import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import lombok.RequiredArgsConstructor;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@RequiredArgsConstructor
+@ActiveProfiles("test")
 public class UserServiceTest {
 
     @Autowired
@@ -30,36 +31,45 @@ public class UserServiceTest {
     private SchoolRepository schoolRepository;
 
 
+    @Before
+    public void School_등록() throws Exception {
+        // School 등록
+        SchoolDto school1 = SchoolDto.builder()
+                .code(9296064L)
+                .name("월랑초등학교")
+                .location("제주특별자치도")
+                .build();
+        SchoolDto school2 = SchoolDto.builder()
+                .code(9296024L)
+                .name("저청중학교")
+                .location("제주특별자치도")
+                .build();
+        SchoolDto school3 = SchoolDto.builder()
+                .code(9290066L)
+                .name("제주과학고등학교")
+                .location("제주특별자치도")
+                .build();
+
+        schoolRepository.save(School.toEntity(school1));
+        schoolRepository.save(School.toEntity(school2));
+        schoolRepository.save(School.toEntity(school3));
+    }
+
     @After
     public void after() {
         userRepository.deleteAll();
+        schoolRepository.deleteAll();
     }
 
     @Test
     public void User_회원가입() throws Exception {
         // given
-        Long code = 7010057L;
-        String name = "가락고등학교";
-        String location = "서울특별시";
-
-        SchoolDto schoolDto = SchoolDto.builder()
-//                .SD_SCHUL_CODE(code)
-//                .SCHUL_NM(name)
-//                .LCTN_SC_NM(location)
-                .code(code)
-                .name(name)
-                .location(location)
-                .build();
-        schoolRepository.save(School.toEntity(schoolDto));
-
-        School elementary = schoolRepository.findById(1L).orElse(null);
-        assertThat(elementary).isNotEqualTo(null);
-
-        SchoolDto elementaryDto = SchoolDto.toDto(elementary);
-        School middle = schoolRepository.findById(1L).orElse(null);
-        SchoolDto middleDto = SchoolDto.toDto(middle);
-        School high = schoolRepository.findById(1L).orElse(null);
-        SchoolDto highDto = SchoolDto.toDto(high);
+        School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
+        assert elementarySchool != null;
+        School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
+        assert middleSchool != null;
+        School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
+        assert highSchool != null;
 
         int egYear = 2001;
         int mgYear = 2002;
@@ -73,11 +83,11 @@ public class UserServiceTest {
         SignupDto signupDto = SignupDto.builder()
                 .userNumber(userNumber)
                 .username(username)
-                .elementarySchoolId(elementary.getSchoolId())
+                .elementarySchoolId(elementarySchool.getSchoolId())
                 .egYear(egYear)
-                .middleSchoolId(middle.getSchoolId())
+                .middleSchoolId(middleSchool.getSchoolId())
                 .mgYear(mgYear)
-                .highSchoolId(high.getSchoolId())
+                .highSchoolId(highSchool.getSchoolId())
                 .hgYear(hgYear)
                 .build();
 

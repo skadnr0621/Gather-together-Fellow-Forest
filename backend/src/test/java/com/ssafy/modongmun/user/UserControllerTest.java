@@ -41,6 +41,7 @@ public class UserControllerTest {
 
     @Before
     public void School_등록() throws Exception {
+        // School 등록
         SchoolDto school1 = SchoolDto.builder()
                 .code(9296064L)
                 .name("월랑초등학교")
@@ -70,17 +71,15 @@ public class UserControllerTest {
 
     @Test
     public void User_회원가입() throws Exception {
-        for (School school : schoolRepository.findAll())
-            System.out.println("Found school : " + school);
         // given
         School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
-        System.out.println("elementarySchool = " + elementarySchool);
+//        School elementarySchool = schoolRepository.findById(1L).orElse(null);
         assert elementarySchool != null;
         School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
-        System.out.println("middleSchool = " + middleSchool);
+//        School middleSchool = schoolRepository.findById(2L).orElse(null);
         assert middleSchool != null;
         School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
-        System.out.println("highSchool = " + highSchool);
+//        School highSchool = schoolRepository.findById(3L).orElse(null);
         assert highSchool != null;
 
         Long userNumber = 123456789L;
