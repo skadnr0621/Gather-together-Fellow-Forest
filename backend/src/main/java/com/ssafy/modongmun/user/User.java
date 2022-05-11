@@ -1,5 +1,8 @@
 package com.ssafy.modongmun.user;
 
+import com.ssafy.modongmun.school.board.Board;
+import com.ssafy.modongmun.school.board.comment.Comment;
+import com.ssafy.modongmun.school.gallery.Gallery;
 import com.ssafy.modongmun.school.schedule.Schedule;
 import com.ssafy.modongmun.user.dto.SignupDto;
 import com.ssafy.modongmun.school.School;
@@ -51,6 +54,15 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Schedule> scheduleList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Board> postList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Gallery> photoList;
 
 //    public static User toEntity(SignupDto signupDto) {
 //        return User.builder()

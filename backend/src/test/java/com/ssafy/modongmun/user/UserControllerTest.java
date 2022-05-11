@@ -4,6 +4,7 @@ import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import com.ssafy.modongmun.user.dto.SignupDto;
+import com.ssafy.modongmun.user.dto.UserDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,14 +70,16 @@ public class UserControllerTest {
 
     @Test
     public void User_회원가입() throws Exception {
+        for (School school : schoolRepository.findAll())
+            System.out.println("Found school : " + school);
         // given
-        School elementarySchool = schoolRepository.findById(1L).orElse(null);
+        School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
         System.out.println("elementarySchool = " + elementarySchool);
         assert elementarySchool != null;
-        School middleSchool = schoolRepository.findById(2L).orElse(null);
+        School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
         System.out.println("middleSchool = " + middleSchool);
         assert middleSchool != null;
-        School highSchool = schoolRepository.findById(3L).orElse(null);
+        School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
         System.out.println("highSchool = " + highSchool);
         assert highSchool != null;
 
@@ -97,24 +100,17 @@ public class UserControllerTest {
         String url = "http://localhost:"+port + "/api/signup";
 
         // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, signupDto, Void.class);
+        ResponseEntity<UserDto> response = restTemplate.postForEntity(url, signupDto, UserDto.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        User savedUser = userRepository.findById(1L).orElse(null);
+        UserDto savedUserDto = response.getBody();
+        User savedUser = userRepository.findById(savedUserDto.getUserId()).orElse(null);
         assert savedUser != null;
 
         assertThat(savedUser.getUserNumber()).isEqualTo(userNumber);
         assertThat(savedUser.getUsername()).isEqualTo(username);
-
-//        System.out.println("초등학교 : " + savedUser.getElementarySchool());
-//        System.out.println("중학교 : " + savedUser.getMiddleSchool());
-//        System.out.println("고등학교 : " + savedUser.getHighSchool());
-
-        assertThat(savedUser.getEgYear()).isEqualTo(2001);
-        assertThat(savedUser.getMgYear()).isEqualTo(2002);
-        assertThat(savedUser.getHgYear()).isEqualTo(2003);
     }
 
 }

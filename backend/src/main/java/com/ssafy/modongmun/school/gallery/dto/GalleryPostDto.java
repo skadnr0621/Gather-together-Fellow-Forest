@@ -3,8 +3,8 @@ package com.ssafy.modongmun.school.gallery.dto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter
-@Setter
+
+@Getter @Setter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class GalleryPostDto {

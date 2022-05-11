@@ -1,6 +1,7 @@
 package com.ssafy.modongmun.school.board;
 
 import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
+import com.ssafy.modongmun.school.board.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,9 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/board/posts")
-    public ResponseEntity<?> registerBoard(@RequestBody BoardRegisterDto boardRegisterDto){
-        boardService.registerBoard(boardRegisterDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PostDto> registerBoard(@RequestBody BoardRegisterDto boardRegisterDto){
+        PostDto savedPostDto = boardService.registerBoard(boardRegisterDto);
+        return new ResponseEntity<>(savedPostDto, HttpStatus.OK);
 
     }
 

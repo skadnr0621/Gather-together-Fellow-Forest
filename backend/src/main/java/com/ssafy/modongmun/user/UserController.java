@@ -1,6 +1,7 @@
 package com.ssafy.modongmun.user;
 
 import com.ssafy.modongmun.user.dto.SignupDto;
+import com.ssafy.modongmun.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,9 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupDto signupDto) {
-        userService.signup(signupDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<UserDto> signup(@RequestBody SignupDto signupDto) {
+        UserDto savedUserDto = userService.signup(signupDto);
+        return new ResponseEntity<>(savedUserDto, HttpStatus.OK);
     }
+
 }

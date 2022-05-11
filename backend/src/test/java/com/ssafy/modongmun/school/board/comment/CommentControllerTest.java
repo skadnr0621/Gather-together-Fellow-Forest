@@ -67,18 +67,19 @@ public class CommentControllerTest {
         schoolRepository.save(School.toEntity(school1));
         schoolRepository.save(School.toEntity(school2));
         schoolRepository.save(School.toEntity(school3));
+
+        User_등록();
     }
 
-    @Before
     public void User_등록() throws Exception {
         // User 등록
-        School elementarySchool = schoolRepository.findById(1L).orElse(null);
+        School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
         System.out.println("elementarySchool = " + elementarySchool);
         assert elementarySchool != null;
-        School middleSchool = schoolRepository.findById(2L).orElse(null);
+        School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
         System.out.println("middleSchool = " + middleSchool);
         assert middleSchool != null;
-        School highSchool = schoolRepository.findById(3L).orElse(null);
+        School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
         System.out.println("highSchool = " + highSchool);
         assert highSchool != null;
 
@@ -96,17 +97,21 @@ public class CommentControllerTest {
                 .hgYear(2003)
                 .registerDate(LocalDateTime.now())
                 .build());
+
+        Board_등록();
     }
 
-    @Before
     public void Board_등록() throws Exception{
         // given
+        assert userRepository.count() > 0;
+        User savedUser = userRepository.findAll().get(0);
+
         String title = "title";
         String content = "content";
 
         BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
                 .schoolId(1L)
-                .userId(1L)
+                .userId(savedUser.getUserId())
                 .title(title)
                 .content(content)
                 .build();
