@@ -11,6 +11,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final OAuthSuccessHandler oAuthSuccessHandler;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -32,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 소셜 로그인 성공 후 후속 조치 구현체 등록
                 .userService(customOAuth2UserService)
                 .and()
-                .successHandler(new OAuthSuccessHandler());
+                .successHandler(oAuthSuccessHandler);
 
     }
 }

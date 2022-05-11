@@ -27,7 +27,8 @@ public class User {
 
     @Column(name = "user_number")
     private Long userNumber;
-
+    @Column(name = "email")
+    private String email;
     @Column(name = "username")
     private String username;
 
@@ -58,6 +59,9 @@ public class User {
     private Role role;
 
     public String getRoleKey() { return this.role.getKey(); }
+
+    // OAuth2 provider identifier(distinguisher)
+    private OAuthProvider provider;
 
     // Mapped Entities
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
