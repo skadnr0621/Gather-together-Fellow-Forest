@@ -52,6 +52,14 @@ public class User {
     @Column(name = "register_date")
     private LocalDateTime registerDate;
 
+    // Spring Security Role
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public String getRoleKey() { return this.role.getKey(); }
+
+    // Mapped Entities
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Schedule> scheduleList;
 
@@ -63,6 +71,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Gallery> photoList;
+
 
 //    public static User toEntity(SignupDto signupDto) {
 //        return User.builder()

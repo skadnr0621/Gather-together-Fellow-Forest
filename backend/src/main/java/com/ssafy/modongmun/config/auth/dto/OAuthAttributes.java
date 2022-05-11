@@ -1,5 +1,6 @@
 package com.ssafy.modongmun.config.auth.dto;
 
+import com.ssafy.modongmun.user.Role;
 import com.ssafy.modongmun.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,7 +39,38 @@ public class OAuthAttributes {
             String userNameAttributeName,
             Map<String, Object> attributes) {
 
+        if ("naver".equals(registrationId))
+            return ofNaver("id", attributes);
+        else if ("kakao".equals(registrationId))
+            return ofKakao("email", attributes);
+
         return ofGoogle(userNameAttributeName, attributes);
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>)attributes.get("response");
+
+        return OAuthAttributes.builder()
+                .username((String)response.get("name"))
+//                .email((String)response.get("email"))
+//                .picture((String)response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>)attributes.get("kakao_account");
+        Map<String, String> profile = (Map<String, String>)response.get("profile");
+
+        return OAuthAttributes.builder()
+//                .userNumber(Long.valueOf((String)response.get("id")))
+                .username(profile.get("nickname"))
+//                .email((String)response.get("email"))
+//                .picture(profile.get("profile_image_url"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
@@ -58,7 +90,7 @@ public class OAuthAttributes {
                 .username(username)
 //                .email(email)
 //                .picture(picture)
-//                .role(Role.GUEST)
+                .role(Role.GUEST)
                 .build();
     }
 
