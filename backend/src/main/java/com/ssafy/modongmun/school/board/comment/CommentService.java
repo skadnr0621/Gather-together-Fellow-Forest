@@ -2,13 +2,15 @@ package com.ssafy.modongmun.school.board.comment;
 
 import com.ssafy.modongmun.school.board.Board;
 import com.ssafy.modongmun.school.board.BoardRepository;
-import com.ssafy.modongmun.school.board.comment.dto.CommentRegisterDto;
+import com.ssafy.modongmun.school.board.comment.dto.CommentDto;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,72 +21,56 @@ public class CommentService  {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
-    /** 댓글 작성 */
-    public void registerComment(CommentRegisterDto commentRegisterDto){
-        Board board = boardRepository.findById(commentRegisterDto.getPostId()).orElse(null);
-        //commentRegisterDto.getPostId()
-        User user = userRepository.findById(commentRegisterDto.getUserId()).orElse(null);
+    @Transactional(rollbackFor = Exception.class)
+    public CommentDto registerComment(CommentDto commentDto){
+        Board board = boardRepository.findById(commentDto.getPostId())
+                .orElseThrow(()->new IllegalArgumentException("Illegal board id!"));
+        User user = userRepository.findById(commentDto.getUserId())
+                .orElseThrow(()->new IllegalArgumentException("Illegal user id!"));
 
         Comment comment = Comment.builder()
-                .postId(board)
+                .board(board)
                 .user(user)
-                .content(commentRegisterDto.getContent())
+                .commentId(commentDto.getCommentId())
+                .content(commentDto.getContent())
+                .createDate(LocalDateTime.now())
                 .build();
         commentRepository.save(comment);
+
+        return CommentDto.toDto(comment);
     }
 
-    /** 댓글 전체 조회 */
-    public List<CommentRegisterDto> getCommentList() throws IOException {
-        //여기일단이상해 댓글 전체 조회가 게시물 번호 없이 모든 댓글이 다 조회가 되고있음.
+    public List<CommentDto> getCommentList(Long postId) throws IOException {
+        Board board = boardRepository.findById(postId)
+                .orElseThrow(()->new IllegalArgumentException("Illegal board id!"));
         List<Comment> commentList = commentRepository.findAll();
-        List<CommentRegisterDto> commentRegisterDtoList = new ArrayList<>();
-        //여기서 코멘트 넘버가 같은 경우만 더해줘야할것같은데
-        for(Comment comment : commentList){
-            CommentRegisterDto commentRegisterDto = CommentRegisterDto
-                    .builder()
-                    .postId(comment.getCommentId())
-                    .userId(comment.getUser().getUserId())
-                    .content(comment.getContent())
-                    .build();
-            commentRegisterDtoList.add(commentRegisterDto);
+        List<CommentDto> commentDtoList = new ArrayList<>();
+
+        for(Comment comment : commentList) {
+            if(postId == comment.getBoard().getPostId()) {
+                CommentDto commentDto = CommentDto.toDto(comment);
+                commentDtoList.add(commentDto);
+            }
         }
-        return commentRegisterDtoList;
 
+        return commentDtoList;
     }
 
-    /** 댓글 상세 조회 */
-    // 의미를 모르겠음.
+    @Transactional(rollbackFor = Exception.class)
+    public CommentDto modifyComment(Long commentId, CommentDto commentDto){
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(()->new IllegalArgumentException("Illegal comment id!"));
+        comment.update(commentDto);
 
-    /** 댓글 수정 */
-    public void modifyComment(Long postId, Long CommentId, CommentRegisterDto commentRegisterDto ){
-        User user = userRepository.findById(commentRegisterDto.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException(" wrong user! "));
-        Board post = boardRepository.findById(commentRegisterDto.getPostId()).orElseThrow(
-                () -> new IllegalArgumentException(" wrong postId! "));
-
-        //유저 체크가 이뤄줘야 함.
-        Comment comment = Comment.builder()
-                .user(user)
-                .postId(post)
-                .commentId(commentRegisterDto.getCommentId())
-                .content(commentRegisterDto.getContent())
-                .build();
-        commentRepository.save(comment);
+        return CommentDto.toDto(comment);
     }
 
-    /** 댓글 삭제 */
-    public void deleteComment(Long postId, Long commentId, CommentRegisterDto dto){
-
-//        //수정 : 게시물이 맞는지 검사 - 댓글 수정부터 하고 리팩토링 하는걸로.
-////        if (postId != commentRepository.getById(postId)){
-////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-////        }else{}
-//    }
-//      리팩토링 예정
-
-        //초기 코드
+    @Transactional(rollbackFor = Exception.class)
+    public CommentDto deleteComment(Long postId, Long commentId){
         Comment comment = commentRepository.findById(commentId).orElse(null);
         commentRepository.delete(comment);
+
+        return CommentDto.toDto(comment);
     }
 
 

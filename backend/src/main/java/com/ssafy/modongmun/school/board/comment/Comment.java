@@ -1,6 +1,7 @@
 package com.ssafy.modongmun.school.board.comment;
 
 import com.ssafy.modongmun.school.board.Board;
+import com.ssafy.modongmun.school.board.comment.dto.CommentDto;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    private Board postId;
+    private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -33,5 +34,10 @@ public class Comment {
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
+
+    public void update(CommentDto commentDto){
+        this.content = commentDto.getContent();
+        this.createDate = LocalDateTime.now();
+    }
 
 }
