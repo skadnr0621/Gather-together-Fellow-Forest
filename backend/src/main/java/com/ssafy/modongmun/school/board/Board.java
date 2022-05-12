@@ -2,12 +2,14 @@ package com.ssafy.modongmun.school.board;
 
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.board.comment.Comment;
+import com.ssafy.modongmun.school.board.dto.PostDto;
 import com.ssafy.modongmun.school.schedule.Schedule;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,5 +43,11 @@ public class Board {
 
     @OneToMany(mappedBy = "postId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Comment> boardList;
+
+    public void update(PostDto postDto) {
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+        this.createDate = LocalDateTime.now();
+    }
 
 }

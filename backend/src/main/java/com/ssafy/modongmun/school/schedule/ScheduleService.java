@@ -23,7 +23,7 @@ public class ScheduleService {
     private final UserRepository userRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void registerSchedule(ScheduleDto scheduleRegisterDto) {
+    public ScheduleDto registerSchedule(ScheduleDto scheduleRegisterDto) {
         School school = schoolRepository.findById(scheduleRegisterDto.getSchoolId()).orElse(null);
         User user = userRepository.findById(scheduleRegisterDto.getUserId()).orElse(null);
 
@@ -38,6 +38,8 @@ public class ScheduleService {
                 .createDate(LocalDateTime.now())
                 .build();
         scheduleRepository.save(schedule);
+
+        return ScheduleDto.toDto(schedule);
     }
 
     public ScheduleDto getSchedule(Long scheduleId) {
@@ -77,17 +79,21 @@ public class ScheduleService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void modifySchedule(Long scheduleId, ScheduleDto scheduleDto) {
+    public ScheduleDto modifySchedule(Long scheduleId, ScheduleDto scheduleDto) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("Illegal schedules id!"));
         schedule.update(scheduleDto);
+
+        return ScheduleDto.toDto(schedule);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void deleteSchedule(Long scheduleId) {
+    public ScheduleDto deleteSchedule(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("Illegal schedules id!"));
         scheduleRepository.delete(schedule);
+
+        return ScheduleDto.toDto(schedule);
     }
 
 }

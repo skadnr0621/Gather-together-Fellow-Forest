@@ -16,9 +16,9 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedule/schedules")
-    public ResponseEntity<?> registerSchedule(@RequestBody ScheduleDto scheduleRegisterDto) {
-        scheduleService.registerSchedule(scheduleRegisterDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ScheduleDto> registerSchedule(@RequestBody ScheduleDto scheduleRegisterDto) {
+        ScheduleDto savedSchedule = scheduleService.registerSchedule(scheduleRegisterDto);
+        return new ResponseEntity<ScheduleDto>(savedSchedule, HttpStatus.OK);
     }
 
     @GetMapping("/schedule/schedules/{schedule_id}")
@@ -34,16 +34,16 @@ public class ScheduleController {
     }
 
     @PatchMapping("/schedule/schedules/{schedule_id}")
-    public ResponseEntity<?> modifySchedule(@PathVariable("schedule_id") Long scheduleId,
+    public ResponseEntity<ScheduleDto> modifySchedule(@PathVariable("schedule_id") Long scheduleId,
                                             @RequestBody ScheduleDto scheduleDto){
-        scheduleService.modifySchedule(scheduleId, scheduleDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ScheduleDto modifiedSchedule = scheduleService.modifySchedule(scheduleId, scheduleDto);
+        return new ResponseEntity<ScheduleDto>(modifiedSchedule, HttpStatus.OK);
     }
 
     @DeleteMapping("/schedule/schedules/{schedule_id}")
-    public ResponseEntity<?> deleteSchedule(@PathVariable("schedule_id") Long scheduleId) {
-        scheduleService.deleteSchedule(scheduleId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ScheduleDto> deleteSchedule(@PathVariable("schedule_id") Long scheduleId) {
+        ScheduleDto deletedSchedule = scheduleService.deleteSchedule(scheduleId);
+        return new ResponseEntity<ScheduleDto>(deletedSchedule, HttpStatus.OK);
     }
 
 }

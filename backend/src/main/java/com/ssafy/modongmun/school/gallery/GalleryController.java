@@ -21,26 +21,26 @@ public class GalleryController {
     private final GalleryService galleryService;
 
     @PostMapping("/gallery/photos")
-    public ResponseEntity<?> postPhoto(@ModelAttribute GalleryPostDto galleryPostDto) throws IOException {
-        galleryService.postPhoto(galleryPostDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<GalleryPostDto> postPhoto(@ModelAttribute GalleryPostDto galleryPostDto) throws IOException {
+        GalleryPostDto savedGallery = galleryService.postPhoto(galleryPostDto);
+        return new ResponseEntity<GalleryPostDto>(savedGallery, HttpStatus.OK);
     }
 
     @GetMapping("/gallery/photos/{photo_id}")
     public ResponseEntity<GalleryDto> getPhoto(@PathVariable("photo_id") Long photoId) throws Exception{
         GalleryDto galleryDto = galleryService.getPhoto(photoId);
-        return new ResponseEntity<>(galleryDto, HttpStatus.OK);
+        return new ResponseEntity<GalleryDto>(galleryDto, HttpStatus.OK);
     }
 
     @GetMapping("/gallery/photos")
     public ResponseEntity<List<GalleryDto>> getPhotoList() throws Exception{
         List<GalleryDto> galleryDtoList = galleryService.getPhotoList();
-        return new ResponseEntity<>(galleryDtoList, HttpStatus.OK);
+        return new ResponseEntity<List<GalleryDto>>(galleryDtoList, HttpStatus.OK);
     }
 
     @DeleteMapping("/gallery/photos/{photo_id}")
-    public ResponseEntity<?> deletePhoto(@PathVariable("photo_id") Long photoId) throws Exception{
-        galleryService.deletePhoto(photoId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<GalleryDto> deletePhoto(@PathVariable("photo_id") Long photoId) throws Exception{
+        GalleryDto deletedGallery = galleryService.deletePhoto(photoId);
+        return new ResponseEntity<GalleryDto>(deletedGallery, HttpStatus.OK);
     }
 }

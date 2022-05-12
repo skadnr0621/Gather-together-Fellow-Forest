@@ -14,17 +14,18 @@ import java.time.LocalDateTime;
 public class PostDto {
 
     private Long postId;
-
+    private Long schoolId;
+    private Long userId;
     private String username;
 
     private String title;
     private String content;
     private LocalDateTime createDate;
 
-
-//    public static PostDto toDto(Post post) {
     public static PostDto toDto(Board board) {
             return PostDto.builder()
+                    .schoolId(board.getSchool().getSchoolId())
+                    .userId(board.getUser().getUserId())
                     .postId(board.getPostId())
                     .username(board.getUser().getUsername())
                     .title(board.getTitle())
@@ -32,5 +33,4 @@ public class PostDto {
                     .createDate(board.getCreateDate())
                     .build();
     }
-
 }

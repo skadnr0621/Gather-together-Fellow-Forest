@@ -4,9 +4,9 @@ import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.board.Board;
 import com.ssafy.modongmun.school.board.BoardRepository;
-import com.ssafy.modongmun.school.board.comment.dto.CommentRegisterDto;
-import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
+import com.ssafy.modongmun.school.board.comment.dto.CommentDto;
 import com.ssafy.modongmun.school.dto.SchoolDto;
+import com.ssafy.modongmun.user.Role;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import org.junit.After;
@@ -94,6 +94,7 @@ public class CommentControllerTest {
                 .highSchool(highSchool)
                 .hgYear(2003)
                 .registerDate(LocalDateTime.now())
+                .role(Role.USER)
                 .build());
 
         Board_등록();
@@ -139,7 +140,7 @@ public class CommentControllerTest {
 
         String content = "content";
 
-        CommentRegisterDto commentRegisterDto = CommentRegisterDto.builder()
+        CommentDto commentDto = CommentDto.builder()
                 .postId(post.getPostId())
                 .userId(user.getUserId())
                 .content(content)
@@ -149,7 +150,7 @@ public class CommentControllerTest {
         String url = String.format("http://localhost:%d/api/board/posts/%d/comments", port, post.getPostId());
 
         // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, commentRegisterDto, Void.class);
+        ResponseEntity<Void> response = restTemplate.postForEntity(url, commentDto, Void.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

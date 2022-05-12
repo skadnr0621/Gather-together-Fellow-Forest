@@ -1,6 +1,7 @@
 package com.ssafy.modongmun.user.dto;
 
 import com.ssafy.modongmun.school.dto.SchoolDto;
+import com.ssafy.modongmun.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,5 +23,7 @@ public class SignupDto {
 
     private Long highSchoolId;
     private int hgYear;
+
+    private Role role;
 
 }

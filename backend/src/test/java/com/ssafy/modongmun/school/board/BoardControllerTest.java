@@ -2,9 +2,9 @@ package com.ssafy.modongmun.school.board;
 
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
-import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import com.ssafy.modongmun.school.board.dto.PostDto;
 import com.ssafy.modongmun.school.dto.SchoolDto;
+import com.ssafy.modongmun.user.Role;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import org.junit.After;
@@ -89,6 +89,7 @@ public class BoardControllerTest {
                 .highSchool(highSchool)
                 .hgYear(2003)
                 .registerDate(LocalDateTime.now())
+                .role(Role.USER)
                 .build());
     }
 
@@ -110,7 +111,7 @@ public class BoardControllerTest {
         String title = "title";
         String content = "content";
 
-        BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
+        PostDto postDto = PostDto.builder()
                 .schoolId(enteredSchool.getSchoolId())
                 .userId(user.getUserId())
                 .title(title)
@@ -120,7 +121,7 @@ public class BoardControllerTest {
         String url = "http://localhost:"+ port + "/api/board/posts";
 
         // when
-        ResponseEntity<PostDto> response = restTemplate.postForEntity(url, boardRegisterDto, PostDto.class);
+        ResponseEntity<PostDto> response = restTemplate.postForEntity(url, postDto, PostDto.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

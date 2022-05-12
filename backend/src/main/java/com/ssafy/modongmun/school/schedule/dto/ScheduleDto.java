@@ -1,5 +1,6 @@
 package com.ssafy.modongmun.school.schedule.dto;
 
+import com.ssafy.modongmun.school.schedule.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +17,22 @@ public class ScheduleDto {
     private Long userId;
 
     private String title;
-    private String location;
     private String content;
+    private String location;
 
     private LocalDate startDate;
     private LocalDate endDate;
+
+    public static ScheduleDto toDto(Schedule schedule) {
+        return ScheduleDto.builder()
+                .schoolId(schedule.getSchool().getSchoolId())
+                .userId(schedule.getUser().getUserId())
+                .title(schedule.getTitle())
+                .content(schedule.getContent())
+                .location(schedule.getLocation())
+                .startDate(schedule.getStartDate())
+                .endDate(schedule.getEndDate())
+                .build();
+    }
 
 }
