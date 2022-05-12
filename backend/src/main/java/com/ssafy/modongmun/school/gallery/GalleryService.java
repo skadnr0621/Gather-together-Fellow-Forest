@@ -31,19 +31,17 @@ public class GalleryService {
     private final UserRepository userRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void postPhoto(GalleryPostDto galleryPostDto) {
+    public GalleryPostDto postPhoto(GalleryPostDto galleryPostDto) {
         // MultiparFile을 저장하고 저장 경로를 받아옵니다.
         String url = null;
         try {
             url = awsS3Service.uploadFile(galleryPostDto.getPhoto());
-            if (url == null)
-                return;
             log.info("Successfully saved resource :: " + url);
         }
         catch (IOException e) {
+            log.info("url was not found");
             e.printStackTrace();
         }
-
 
         // Gallery entity 저장
         School school = schoolRepository.findById(galleryPostDto.getSchoolId())
@@ -51,15 +49,17 @@ public class GalleryService {
         User user = userRepository.findById(galleryPostDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("Illegal user ID !"));
 
-        galleryRepository.save(
-                Gallery.builder()
-                        .school(school)
-                        .user(user)
-                        .imgPath(url)
-                        .description(galleryPostDto.getDescription())
-                        .createDate(LocalDateTime.now())
-                        .build()
+        Gallery savedGallery = galleryRepository.save(
+                                Gallery.builder()
+                                        .school(school)
+                                        .user(user)
+                                        .imgPath(url)
+                                        .description(galleryPostDto.getDescription())
+                                        .createDate(LocalDateTime.now())
+                                        .build()
         );
+
+        return GalleryPostDto.toDto(savedGallery);
     }
 
     public GalleryDto getPhoto(Long photoId) throws  IOException {
@@ -96,9 +96,11 @@ public class GalleryService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void deletePhoto(Long photoId) {
+    public GalleryDto deletePhoto(Long photoId) {
         Gallery gallery = galleryRepository.findById(photoId).orElse(null);
         galleryRepository.delete(gallery);
+
+        return GalleryDto.toDto(gallery);
     }
 
 }

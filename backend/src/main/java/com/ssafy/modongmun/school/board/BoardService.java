@@ -2,14 +2,15 @@ package com.ssafy.modongmun.school.board;
 
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
-import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import com.ssafy.modongmun.school.board.dto.PostDto;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,89 +21,73 @@ public class BoardService {
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
 
-    /** 게시글 등록 */
-    public PostDto registerBoard(BoardRegisterDto boardRegisterDto){
-        School school = schoolRepository.findById(boardRegisterDto.getSchoolId()).orElse(null);
-        User user = userRepository.findById(boardRegisterDto.getUserId()).orElse(null);
+    @Transactional(rollbackFor = Exception.class)
+    public PostDto registerBoard(PostDto postDto){
+        School school = schoolRepository.findById(postDto.getSchoolId()).orElse(null);
+        User user = userRepository.findById(postDto.getUserId()).orElse(null);
 
         Board board = Board.builder()
                 .school(school)
                 .user(user)
-                .postId(boardRegisterDto.getPostId())
-                .title(boardRegisterDto.getTitle())
-                .content(boardRegisterDto.getContent())
+                .postId(postDto.getPostId())
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .createDate(LocalDateTime.now())
                 .build();
-//        Post savedPost = boardRepository.save(board);
         Board savedBoard = boardRepository.save(board);
-        System.out.println(savedBoard.getUser());
 
-//        return PostDto.toDto(savedPost);
         return PostDto.toDto(savedBoard);
     }
 
-    /** 게시글 전체 조회 */
-    public List<BoardRegisterDto> getBoardList() throws IOException {
-
+    public List<PostDto> getBoardList() throws IOException {
         List<Board> postList = boardRepository.findAll();
-        List<BoardRegisterDto> boardRegisterDtoList = new ArrayList<>();
+        List<PostDto> postDtoList = new ArrayList<>();
         for(Board post : postList){
-            BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
+            PostDto postDto = PostDto.builder()
                     .postId(post.getPostId())
                     .schoolId(post.getSchool().getSchoolId())
                     .userId(post.getUser().getUserId())
+                    .username(post.getUser().getUsername())
                     .title(post.getTitle())
                     .content(post.getContent())
+                    .createDate(post.getCreateDate())
                     .build();
-            boardRegisterDtoList.add(boardRegisterDto);
+            postDtoList.add(postDto);
         }
-        return boardRegisterDtoList;
+        return postDtoList;
     }
-    /** 게시글 상세 조회 */
-    public BoardRegisterDto getBoard(Long postId) {
 
+    public PostDto getBoard(Long postId) {
         Board post = boardRepository.findById(postId).orElse(null);
-        return BoardRegisterDto.builder()
+        PostDto postDto = PostDto.builder()
                 .postId(post.getPostId())
                 .schoolId(post.getSchool().getSchoolId())
                 .userId(post.getUser().getUserId())
+                .username(post.getUser().getUsername())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .createDate(post.getCreateDate())
                 .build();
-//        BoardRegisterDto boardRegisterDto = BoardRegisterDto.builder()
-//                .postId(post.getPostId())
-//                .schoolId(post.getSchool().getSchoolId())
-//                .userId(post.getUser().getUserId())
-//                .title(post.getTitle())
-//                .content(post.getContent())
-//                .build();
-//        return boardRegisterDto;
+
+        return postDto;
     }
 
-    /** 게시글 수정 */
-    public void modifyBoard(Long postId, BoardRegisterDto boardRegisterDto){
-        School school = schoolRepository.findById(boardRegisterDto.getSchoolId()).orElse(null);
-        User user = userRepository.findById(boardRegisterDto.getUserId()).orElse(null);
+    @Transactional(rollbackFor = Exception.class)
+    public PostDto modifyBoard(Long postId, PostDto postDto){
+        Board board = boardRepository.findById(postId)
+                .orElseThrow(()->new IllegalArgumentException("Illegal post id!"));
+        board.update(postDto);
 
-        if(postId == boardRegisterDto.getPostId()){
-            Board board = Board.builder()
-                    .school(school)
-                    .user(user)
-                    .postId(boardRegisterDto.getPostId())
-                    .title(boardRegisterDto.getTitle())
-                    .content(boardRegisterDto.getContent())
-                    .build();
-            boardRepository.save(board);
-        }else{
-            System.out.println("wrong postId !!!");
-        }
-
-
+        return PostDto.toDto(board);
     }
 
-    /** 게시글 삭제 + 권한 관련 업데이트가 필요합니다. */
-    public void deleteBoard(Long postId) throws IOException{
-        Board delete_post = boardRepository.findById(postId).orElse(null);
-        boardRepository.delete(delete_post); //null?
+    @Transactional(rollbackFor = Exception.class)
+    public PostDto deleteBoard(Long postId) throws IOException{
+        Board board = boardRepository.findById(postId)
+                        .orElseThrow(()->new IllegalArgumentException("Illegal board id!"));
+        boardRepository.delete(board);
+
+        return PostDto.toDto(board);
     }
 
 }

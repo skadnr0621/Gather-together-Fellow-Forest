@@ -94,6 +94,7 @@ public class UserControllerTest {
                 .mgYear(2002)
                 .highSchoolId(highSchool.getSchoolId())
                 .hgYear(2003)
+                .role(Role.USER)
                 .build();
 
         String url = "http://localhost:"+port + "/api/signup";

@@ -89,6 +89,7 @@ public class UserServiceTest {
                 .mgYear(mgYear)
                 .highSchoolId(highSchool.getSchoolId())
                 .hgYear(hgYear)
+                .role(Role.USER)
                 .build();
 
         // when

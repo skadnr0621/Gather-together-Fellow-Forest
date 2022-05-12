@@ -4,6 +4,7 @@ import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import com.ssafy.modongmun.school.schedule.dto.ScheduleDto;
+import com.ssafy.modongmun.user.Role;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import org.junit.After;
@@ -90,6 +91,7 @@ public class ScheduleControllerTest {
                 .highSchool(highSchool)
                 .hgYear(2003)
                 .registerDate(LocalDateTime.now())
+                .role(Role.USER)
                 .build());
     }
 

@@ -1,13 +1,11 @@
 package com.ssafy.modongmun.school.board;
 
-import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import com.ssafy.modongmun.school.board.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,37 +16,37 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping("/board/posts")
-    public ResponseEntity<PostDto> registerBoard(@RequestBody BoardRegisterDto boardRegisterDto){
-        PostDto savedPostDto = boardService.registerBoard(boardRegisterDto);
-        return new ResponseEntity<>(savedPostDto, HttpStatus.OK);
+    public ResponseEntity<PostDto> registerBoard(@RequestBody PostDto postDto){
+        PostDto savedPostDto = boardService.registerBoard(postDto);
+        return new ResponseEntity<PostDto>(savedPostDto, HttpStatus.OK);
     }
 
     //게시글 전체 조회
     @GetMapping("/board/posts")
-    public ResponseEntity<List<BoardRegisterDto>> getBoardList() throws Exception {
-        List<BoardRegisterDto> boardRegisterDtoList = boardService.getBoardList();
-        return new ResponseEntity<>(boardRegisterDtoList, HttpStatus.OK);
+    public ResponseEntity<List<PostDto>> getBoardList() throws Exception {
+        List<PostDto> postDtoList = boardService.getBoardList();
+        return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
     }
 
     //게시글 상세 조회
     @GetMapping("board/posts/{post_id}")
-    public ResponseEntity<BoardRegisterDto> getBoard(@PathVariable("post_id") Long postId) throws Exception {
-        BoardRegisterDto boardDto = boardService.getBoard(postId);
-        return new ResponseEntity<>(boardDto, HttpStatus.OK);
+    public ResponseEntity<PostDto> getBoard(@PathVariable("post_id") Long postId) throws Exception {
+        PostDto postDto = boardService.getBoard(postId);
+        return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
     }
 
     //게시글 수정-?
     @PatchMapping("board/posts/{post_id}")
-    public ResponseEntity<?> modifyPost(@PathVariable("post_id") Long postId, @RequestBody BoardRegisterDto boardRegisterDto){
-        boardService.modifyBoard(postId, boardRegisterDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PostDto> modifyPost(@PathVariable("post_id") Long postId, @RequestBody PostDto postDto){
+        PostDto modifiedPost = boardService.modifyBoard(postId, postDto);
+        return new ResponseEntity<PostDto>(modifiedPost, HttpStatus.OK);
     }
 
     //게시글 삭제
     @DeleteMapping("/board/posts/{post_id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable("post_id") Long postId) throws Exception {
-        boardService.deleteBoard(postId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PostDto> deleteBoard(@PathVariable("post_id") Long postId) throws Exception {
+        PostDto deletedPost = boardService.deleteBoard(postId);
+        return new ResponseEntity<PostDto>(deletedPost, HttpStatus.OK);
     }
 
 
