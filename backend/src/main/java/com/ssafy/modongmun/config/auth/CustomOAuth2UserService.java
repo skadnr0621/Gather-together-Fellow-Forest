@@ -5,6 +5,7 @@ import com.ssafy.modongmun.config.auth.dto.SessionUser;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -19,6 +20,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
@@ -38,12 +40,19 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
+        log.info("OAuth2 User attributes are as follows ********************");
+        System.out.println("\t[ Key ]  :  [ Value ]");
+        System.out.println(":: -------------------------------------------------- ::");
+        for (String key : attributes.getAttributes().keySet())
+            System.out.println(String.format(">> [ %s ] :  [ %s ]", key, attributes.getAttributes().get(key)));
+        System.out.println(":: -------------------------------------------------- ::");
+
         User user = saveOrUpdate(attributes);
 
         httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("")),
+                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }

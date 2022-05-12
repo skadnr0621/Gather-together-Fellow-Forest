@@ -27,7 +27,8 @@ public class User {
 
     @Column(name = "user_number")
     private Long userNumber;
-
+    @Column(name = "email")
+    private String email;
     @Column(name = "username")
     private String username;
 
@@ -52,6 +53,17 @@ public class User {
     @Column(name = "register_date")
     private LocalDateTime registerDate;
 
+    // Spring Security Role
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public String getRoleKey() { return this.role.getKey(); }
+
+    // OAuth2 provider identifier(distinguisher)
+    private OAuthProvider provider;
+
+    // Mapped Entities
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Schedule> scheduleList;
 
@@ -63,6 +75,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Gallery> photoList;
+
 
 //    public static User toEntity(SignupDto signupDto) {
 //        return User.builder()
