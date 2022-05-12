@@ -1,7 +1,6 @@
 package com.ssafy.modongmun.school.board.comment;
 
 import com.ssafy.modongmun.school.board.comment.dto.CommentRegisterDto;
-import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
