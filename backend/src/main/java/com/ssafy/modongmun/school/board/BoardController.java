@@ -18,9 +18,9 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping("/board/posts")
-    public ResponseEntity<?> registerBoard(@RequestBody BoardRegisterDto boardRegisterDto) throws IOException {
-        boardService.registerBoard(boardRegisterDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PostDto> registerBoard(@RequestBody BoardRegisterDto boardRegisterDto){
+        PostDto savedPostDto = boardService.registerBoard(boardRegisterDto);
+        return new ResponseEntity<>(savedPostDto, HttpStatus.OK);
     }
 
     //게시글 전체 조회

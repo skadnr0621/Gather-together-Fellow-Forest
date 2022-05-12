@@ -21,7 +21,7 @@ public class BoardService {
     private final UserRepository userRepository;
 
     /** 게시글 등록 */
-    public void registerBoard(BoardRegisterDto boardRegisterDto){
+    public PostDto registerBoard(BoardRegisterDto boardRegisterDto){
         School school = schoolRepository.findById(boardRegisterDto.getSchoolId()).orElse(null);
         User user = userRepository.findById(boardRegisterDto.getUserId()).orElse(null);
 
