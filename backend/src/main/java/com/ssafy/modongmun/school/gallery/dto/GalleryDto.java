@@ -3,15 +3,15 @@ package com.ssafy.modongmun.school.gallery.dto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class GalleryPostDto {
+public class GalleryDto {
 
     private Long schoolId;
     private Long userId;
-    private MultipartFile photo;
+    private String imgPath;
     private String description;
 
 }

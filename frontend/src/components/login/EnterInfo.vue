@@ -12,20 +12,22 @@
         </div>
         <div class="grid grid-cols-3 gap-4 text-left mb-4">
           <div class="col-auto font-bold">출생년도</div>
-          <datepicker
-            id="input-id"
-            :value="defaultDate"
-            :format="DatePickerFormat"
-            minimum-view="year"
-            name="datepicker"
-            input-class="input-class"
-            placeholder="출생년도를 선택하세요"
-          ></datepicker>
+          <div class="col-start-2-end-3 col-span-2">
+            <datepicker
+              id="input-id"
+              :value="defaultDate"
+              :format="DatePickerFormat"
+              minimum-view="year"
+              name="datepicker"
+              input-class="input-class"
+              placeholder="출생년도를 선택하세요"
+            ></datepicker>
+          </div>
         </div>
 
         <div class="grid grid-cols-3 gap-4 text-left mb-4">
           <div class="col-auto font-bold">초등학교</div>
-          <div class="col-start-2 col-span-2">
+          <div class="col-start-2-end-3 col-span-2">
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="초등학교를 입력하세요"
@@ -105,6 +107,14 @@ export default {
   display: grid;
   align-items: center;
 }
+input {
+  border-radius: 10px;
+  background: #fff;
+}
+.vdp-datepicker {
+  border-radius: 10px;
+  background: #fff;
+}
 .logo-home {
   width: 15%;
 }
@@ -125,7 +135,10 @@ export default {
   padding-left: 0.5rem;
 }
 #input-id {
-  border-radius: 10%;
+  border-radius: 10px;
+}
+.grid {
+  align-items: center;
 }
 .btn-regist {
   width: 100%;

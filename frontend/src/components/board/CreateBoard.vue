@@ -10,7 +10,7 @@
           </div>
           <div class="contants-title">
             <input
-              class="w-full h-10 border pl-2 pt-2 pb-2"
+              class="w-full h-10 border pl-2 pt-2 pb-2 mb-2"
               style="text"
               placeholder="제목을 입력해주세요."
             />
@@ -20,7 +20,7 @@
 
         <div class="flex btnLeftRightWrap w-5/6">
           <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">목록</button>
-          <div class="flex">
+          <div class="flex justify-end">
             <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">등록</button>
             <button class="btn-cancel border ml-2 pl-3 pr-3 pt-1 pb-1 mt-4">
               취소
@@ -39,6 +39,10 @@ export default {};
 <style scoped>
 #create-board {
   width: 75%;
+}
+input {
+  border-radius: 10px;
+  background: #e2e2e2;
 }
 .mainWrap {
   height: 100vh;

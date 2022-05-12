@@ -1,0 +1,20 @@
+# S3 server
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAQ6Z7ET3L4EQCJ3TR
+      secretKey: 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
+    s3:
+      bucket: modongmun
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+# EC2 warning
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error

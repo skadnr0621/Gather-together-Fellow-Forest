@@ -7,7 +7,7 @@
         <div class="board-contants w-5/6">
           <div class="flex contants-topWrap mb-2">
             <div class="text-xl font-bold">나는야 김남욱!</div>
-            <div class="flex text-xs contants-tool">
+            <div class="flex justify-end text-xs contants-tool">
               <div class="mr-2">수정</div>
               <div>삭제</div>
             </div>
@@ -32,7 +32,7 @@
                   <div>이호열</div>
                   <div class="text-xs ml-2">22.05.04</div>
                 </div>
-                <div class="flex text-xs contants-tool">
+                <div class="flex justify-end text-xs contants-tool">
                   <div class="mr-2">수정</div>
                   <div>삭제</div>
                 </div>
@@ -45,7 +45,7 @@
                   <div>이호열</div>
                   <div class="text-xs ml-2">22.05.04</div>
                 </div>
-                <div class="flex text-xs contants-tool">
+                <div class="flex justify-end text-xs contants-tool">
                   <div class="mr-2">수정</div>
                   <div>삭제</div>
                 </div>

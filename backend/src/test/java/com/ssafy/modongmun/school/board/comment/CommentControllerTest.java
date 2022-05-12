@@ -1,9 +1,12 @@
-package com.ssafy.modongmun.school.schedule;
+package com.ssafy.modongmun.school.board.comment;
 
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
+import com.ssafy.modongmun.school.board.Board;
+import com.ssafy.modongmun.school.board.BoardRepository;
+import com.ssafy.modongmun.school.board.comment.dto.CommentRegisterDto;
+import com.ssafy.modongmun.school.board.dto.BoardRegisterDto;
 import com.ssafy.modongmun.school.dto.SchoolDto;
-import com.ssafy.modongmun.school.schedule.dto.ScheduleDto;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
 import org.junit.After;
@@ -19,16 +22,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ScheduleControllerTest {
-
+public class CommentControllerTest {
     @LocalServerPort
     private int port;
 
@@ -36,12 +38,13 @@ public class ScheduleControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private CommentRepository commentRepository;
     @Autowired
-    private SchoolRepository schoolRepository;
+    private BoardRepository boardRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private SchoolRepository schoolRepository;
 
     @Before
     public void School_등록() throws Exception {
@@ -65,16 +68,17 @@ public class ScheduleControllerTest {
         schoolRepository.save(School.toEntity(school1));
         schoolRepository.save(School.toEntity(school2));
         schoolRepository.save(School.toEntity(school3));
+
+        User_등록();
     }
 
-    @Before
     public void User_등록() throws Exception {
         // User 등록
-        School elementarySchool = schoolRepository.findById(1L).orElse(null);
+        School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
         assert elementarySchool != null;
-        School middleSchool = schoolRepository.findById(2L).orElse(null);
+        School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
         assert middleSchool != null;
-        School highSchool = schoolRepository.findById(3L).orElse(null);
+        School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
         assert highSchool != null;
 
         Long userNumber = 123456789L;
@@ -91,55 +95,72 @@ public class ScheduleControllerTest {
                 .hgYear(2003)
                 .registerDate(LocalDateTime.now())
                 .build());
+
+        Board_등록();
+    }
+
+    public void Board_등록() throws Exception{
+        // given
+        User user = userRepository.findByUserNumber(123456789L).orElse(null);
+        assert user != null;
+        School enteredSchool = schoolRepository.findById(user.getElementarySchool().getSchoolId()).orElse(null);
+        assert enteredSchool != null;
+
+        String title = "title";
+        String content = "content";
+
+        boardRepository.save(Board.builder()
+                .school(enteredSchool)
+                .user(user)
+                .title(title)
+                .content(content)
+                .build());
     }
 
     @After
     public void after() throws Exception {
-        scheduleRepository.deleteAll();
+        commentRepository.deleteAll();
+        boardRepository.deleteAll();
         userRepository.deleteAll();
         schoolRepository.deleteAll();
     }
 
     @Test
-    public void Schedule_등록() throws Exception {
+    public void Comment_등록() throws Exception{
         // given
-        School school = schoolRepository.findById(1L).orElse(null);
-        User user = userRepository.findById(1L).orElse(null);
+        User user = userRepository.findByUserNumber(123456789L).orElse(null);
+        assert user != null;
+        School enteredSchool = schoolRepository.findById(user.getElementarySchool().getSchoolId()).orElse(null);
+        assert enteredSchool != null;
 
-        String title = "title";
-        String location = "location";
+        List<Board> postList = boardRepository.findByUser(user);
+        assert postList.size() > 0;
+        Board post = postList.get(0);
+
         String content = "content";
 
-        LocalDate startDate = LocalDate.now().plusDays(1);
-        LocalDate endDate = startDate.plusDays(7);
-
-        ScheduleDto scheduleRegisterDto = ScheduleDto.builder()
-                .schoolId(school.getSchoolId())
+        CommentRegisterDto commentRegisterDto = CommentRegisterDto.builder()
+                .postId(post.getPostId())
                 .userId(user.getUserId())
-                .title(title)
-                .location(location)
                 .content(content)
-                .startDate(startDate)
-                .endDate(endDate)
                 .build();
 
-        String url = "http://localhost:"+ port + "/api/schedule/schedules";
+//        String url = "http://localhost:"+ port + "/api/board/posts/" + post.getPostId() + "/comments";
+        String url = String.format("http://localhost:%d/api/board/posts/%d/comments", port, post.getPostId());
 
         // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, scheduleRegisterDto, Void.class);
+        ResponseEntity<Void> response = restTemplate.postForEntity(url, commentRegisterDto, Void.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Comment savedComment = commentRepository.findById(1L).orElse(null);
+        assert savedComment != null;
 
-        Schedule savedSchedule = scheduleRepository.findById(1L).orElse(null);
-        assert savedSchedule != null;
-
-        assertThat(savedSchedule.getTitle()).isEqualTo(title);
-        assertThat(savedSchedule.getLocation()).isEqualTo(location);
-        assertThat(savedSchedule.getContent()).isEqualTo(content);
-
-        assertThat(savedSchedule.getStartDate()).isEqualTo(startDate);
-        assertThat(savedSchedule.getEndDate()).isEqualTo(endDate);
+        assertThat(savedComment.getContent()).isEqualTo(content);
     }
+
+
+
+
 
 }

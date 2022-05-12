@@ -4,6 +4,7 @@ import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import com.ssafy.modongmun.user.dto.SignupDto;
+import com.ssafy.modongmun.user.dto.UserDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +41,7 @@ public class UserControllerTest {
 
     @Before
     public void School_등록() throws Exception {
+        // School 등록
         SchoolDto school1 = SchoolDto.builder()
                 .code(9296064L)
                 .name("월랑초등학교")
@@ -70,14 +72,14 @@ public class UserControllerTest {
     @Test
     public void User_회원가입() throws Exception {
         // given
-        School elementarySchool = schoolRepository.findById(1L).orElse(null);
-        System.out.println("elementarySchool = " + elementarySchool);
+        School elementarySchool = schoolRepository.findByCode(9296064L).orElse(null);
+//        School elementarySchool = schoolRepository.findById(1L).orElse(null);
         assert elementarySchool != null;
-        School middleSchool = schoolRepository.findById(2L).orElse(null);
-        System.out.println("middleSchool = " + middleSchool);
+        School middleSchool = schoolRepository.findByCode(9296024L).orElse(null);
+//        School middleSchool = schoolRepository.findById(2L).orElse(null);
         assert middleSchool != null;
-        School highSchool = schoolRepository.findById(3L).orElse(null);
-        System.out.println("highSchool = " + highSchool);
+        School highSchool = schoolRepository.findByCode(9290066L).orElse(null);
+//        School highSchool = schoolRepository.findById(3L).orElse(null);
         assert highSchool != null;
 
         Long userNumber = 123456789L;
@@ -97,24 +99,17 @@ public class UserControllerTest {
         String url = "http://localhost:"+port + "/api/signup";
 
         // when
-        ResponseEntity<Void> response = restTemplate.postForEntity(url, signupDto, Void.class);
+        ResponseEntity<UserDto> response = restTemplate.postForEntity(url, signupDto, UserDto.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        User savedUser = userRepository.findById(1L).orElse(null);
+        UserDto savedUserDto = response.getBody();
+        User savedUser = userRepository.findById(savedUserDto.getUserId()).orElse(null);
         assert savedUser != null;
 
         assertThat(savedUser.getUserNumber()).isEqualTo(userNumber);
         assertThat(savedUser.getUsername()).isEqualTo(username);
-
-//        System.out.println("초등학교 : " + savedUser.getElementarySchool());
-//        System.out.println("중학교 : " + savedUser.getMiddleSchool());
-//        System.out.println("고등학교 : " + savedUser.getHighSchool());
-
-        assertThat(savedUser.getEgYear()).isEqualTo(2001);
-        assertThat(savedUser.getMgYear()).isEqualTo(2002);
-        assertThat(savedUser.getHgYear()).isEqualTo(2003);
     }
 
 }

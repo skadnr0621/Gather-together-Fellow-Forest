@@ -1,6 +1,8 @@
-package com.ssafy.modongmun.school.gallery;
+package com.ssafy.modongmun.school.board;
 
 import com.ssafy.modongmun.school.School;
+import com.ssafy.modongmun.school.board.comment.Comment;
+import com.ssafy.modongmun.school.schedule.Schedule;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,17 +11,17 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class Gallery {
+public class Board {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "photo_id")
-    private Long photoId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
+    private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
@@ -29,13 +31,15 @@ public class Gallery {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "image_path")
-    private String imgPath;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name="title")
+    private String title;
+    @Column(name="content")
+    private String content;
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
+
+    @OneToMany(mappedBy = "postId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Comment> boardList;
 
 }

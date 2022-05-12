@@ -10,10 +10,9 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class ScheduleRegisterDto {
+public class ScheduleDto {
 
     private Long schoolId;
-
     private Long userId;
 
     private String title;

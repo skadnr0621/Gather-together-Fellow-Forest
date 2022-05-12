@@ -1,6 +1,7 @@
 package com.ssafy.modongmun.school.schedule;
 
 import com.ssafy.modongmun.school.School;
+import com.ssafy.modongmun.school.schedule.dto.ScheduleDto;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,5 +44,14 @@ public class Schedule {
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
+
+    public void update(ScheduleDto scheduleDto) {
+        this.title = scheduleDto.getTitle();
+        this.content = scheduleDto.getContent();
+        this.location = scheduleDto.getLocation();
+        this.startDate = scheduleDto.getStartDate();
+        this.endDate = scheduleDto.getEndDate();
+        this.createDate = LocalDateTime.now();
+    }
 
 }

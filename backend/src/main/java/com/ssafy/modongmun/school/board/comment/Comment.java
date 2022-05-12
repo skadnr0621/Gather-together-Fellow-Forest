@@ -1,6 +1,6 @@
-package com.ssafy.modongmun.school.gallery;
+package com.ssafy.modongmun.school.board.comment;
 
-import com.ssafy.modongmun.school.School;
+import com.ssafy.modongmun.school.board.Board;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,26 +14,22 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class Gallery {
+public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "photo_id")
-    private Long photoId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    private Long commentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id")
-    private School school;
+    @JoinColumn(name = "post_id")
+    private Board postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "image_path")
-    private String imgPath;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name="content")
+    private String content;
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
