@@ -45,17 +45,8 @@ public class ScheduleService {
     public ScheduleDto getSchedule(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("Illegal schedules id!"));
-        ScheduleDto scheduleDto = ScheduleDto.builder()
-                .schoolId(schedule.getSchool().getSchoolId())
-                .userId(schedule.getUser().getUserId())
-                .title(schedule.getTitle())
-                .content(schedule.getContent())
-                .location(schedule.getLocation())
-                .startDate(schedule.getStartDate())
-                .endDate(schedule.getEndDate())
-                .build();
 
-        return scheduleDto;
+        return ScheduleDto.toDto(schedule);
     }
 
     public List<ScheduleDto> getScheduleList() {
@@ -63,15 +54,7 @@ public class ScheduleService {
         List<ScheduleDto> scheduleDtoList = new ArrayList<>();
 
         for(Schedule schedule : scheduleList){
-            ScheduleDto scheduleDto = ScheduleDto.builder()
-                    .schoolId(schedule.getSchool().getSchoolId())
-                    .userId(schedule.getUser().getUserId())
-                    .title(schedule.getTitle())
-                    .content(schedule.getContent())
-                    .location(schedule.getLocation())
-                    .startDate(schedule.getStartDate())
-                    .endDate(schedule.getEndDate())
-                    .build();
+            ScheduleDto scheduleDto = ScheduleDto.toDto(schedule);
             scheduleDtoList.add(scheduleDto);
         }
 

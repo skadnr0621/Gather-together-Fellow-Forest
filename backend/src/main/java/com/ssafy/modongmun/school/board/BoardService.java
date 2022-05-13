@@ -34,9 +34,9 @@ public class BoardService {
                 .content(postDto.getContent())
                 .createDate(LocalDateTime.now())
                 .build();
-        Board savedBoard = boardRepository.save(board);
+        boardRepository.save(board);
 
-        return PostDto.toDto(savedBoard);
+        return PostDto.toDto(board);
     }
 
     public List<PostDto> getBoardList() throws IOException {
@@ -59,17 +59,8 @@ public class BoardService {
 
     public PostDto getBoard(Long postId) {
         Board post = boardRepository.findById(postId).orElse(null);
-        PostDto postDto = PostDto.builder()
-                .postId(post.getPostId())
-                .schoolId(post.getSchool().getSchoolId())
-                .userId(post.getUser().getUserId())
-                .username(post.getUser().getUsername())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .createDate(post.getCreateDate())
-                .build();
 
-        return postDto;
+        return PostDto.toDto(post);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -84,7 +75,7 @@ public class BoardService {
     @Transactional(rollbackFor = Exception.class)
     public PostDto deleteBoard(Long postId) throws IOException{
         Board board = boardRepository.findById(postId)
-                        .orElseThrow(()->new IllegalArgumentException("Illegal board id!"));
+                .orElseThrow(()->new IllegalArgumentException("Illegal board id!"));
         boardRepository.delete(board);
 
         return PostDto.toDto(board);

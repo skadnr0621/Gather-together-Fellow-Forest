@@ -17,7 +17,7 @@ public class CommentController {
     @PostMapping("/board/posts/{post_id}/comments")
     public ResponseEntity<CommentDto> registerComment(@PathVariable (name="post_id")Long postId, @RequestBody CommentDto commentDto){
         CommentDto savedComment = commentService.registerComment(commentDto);
-        return new ResponseEntity<CommentDto>(commentDto, HttpStatus.OK);
+        return new ResponseEntity<CommentDto>(savedComment, HttpStatus.OK);
     }
 
     @GetMapping("/board/posts/{post_id}/comments")

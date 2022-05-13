@@ -18,6 +18,7 @@ public class CommentDto {
 
     public static CommentDto toDto(Comment comment) {
         return CommentDto.builder()
+                .commentId(comment.getCommentId())
                 .postId(comment.getBoard().getPostId())
                 .commentId(comment.getCommentId())
                 .userId(comment.getUser().getUserId())
