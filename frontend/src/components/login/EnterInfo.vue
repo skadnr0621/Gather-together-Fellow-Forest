@@ -90,6 +90,7 @@ export default {
   data() {
     return {
       DatePickerFormat: "yyyy",
+      defaultDate: "20220513",
     };
   },
 };

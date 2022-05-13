@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <Unity :unity="unityContext" width="800px" height="600px" />
+    <Unity :unity="unityContext" width="1920px" height="1080px" />
   </div>
 </template>
 <script>

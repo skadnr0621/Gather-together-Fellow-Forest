@@ -24,31 +24,8 @@ export default {
   methods: {
     // back url 요청
     loginWithKakao() {
-      window.open(KAKAO_AUTH_URL);
-      //login();
+      window.open(KAKAO_AUTH_URL, "_SELF");
     },
-    /* loginWithKakao() {
-      window.Kakao.Auth.login({
-        scope: "profile_nickname, account_email,  gender",
-        success: this.getProfile,
-      });
-    },
-    getProfile(authObj) {
-      console.log(authObj);
-      window.Kakao.API.request({
-        url: "/v2/user/me",
-        success: (res) => {
-          const kakao_account = res.kakao_account;
-          console.log(kakao_account);
-          this.login(kakao_account);
-          alert("로그인 성공!");
-        },
-      });
-    },
-    //https://www.youtube.com/watch?v=S0WYao-e3Ok
-    async login(kakao_account) {
-      // Restpai post
-   },  */
   },
 };
 </script>

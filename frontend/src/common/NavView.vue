@@ -7,7 +7,7 @@
       <div class="login">
         <router-link to="/login"
           ><button class="rounded-full pl-8 pr-8 p-4 text-3xl">
-            시작하기
+            로그인
           </button></router-link
         >
       </div>

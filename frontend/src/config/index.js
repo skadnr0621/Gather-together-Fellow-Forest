@@ -3,6 +3,6 @@
  */
 
 const API_BASE_URL = "http://localhost:8080";
-const REDIRECT_URL = "http://localhost:8081";
+const REDIRECT_URL = "http://localhost:8081/login/kakaoRedirect";
 
 export { API_BASE_URL, REDIRECT_URL };
