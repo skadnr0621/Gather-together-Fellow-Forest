@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class JwtService {
+public class JwtProvider {
 
-    public String generate(String email) {
+    public String create(String email) {
         return JWT.create()
                 .withSubject("Modongmun's JWT")
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))

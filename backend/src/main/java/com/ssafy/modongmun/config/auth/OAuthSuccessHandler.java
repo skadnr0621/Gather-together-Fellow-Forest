@@ -1,14 +1,14 @@
 package com.ssafy.modongmun.config.auth;
 
 import com.ssafy.modongmun.config.auth.jwt.JwtProperties;
-import com.ssafy.modongmun.config.auth.jwt.JwtService;
+import com.ssafy.modongmun.config.auth.jwt.JwtProvider;
+import com.ssafy.modongmun.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.impl.execchain.RedirectExec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -19,42 +19,48 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
+public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtService jwtService;
+    private final JwtProvider jwtProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // JWT creation
-        final String JWT = jwtService.generate(authentication.getName());
+        final String JWT = jwtProvider.create(authentication.getName());
 
         log.info("Checking - - - - - - - - - - - - ");
-        System.out.println(authentication.getPrincipal());
-        System.out.println(authentication.getAuthorities());
-        System.out.println(authentication.getName());
-        System.out.println(authentication.getCredentials());
-        System.out.println(authentication.getDetails());
+        System.out.println("getPrincipal |\t" + authentication.getPrincipal());
+        System.out.println("getAuthorities |\t" + authentication.getAuthorities());
+        System.out.println("getName |\t" + authentication.getName());
+        System.out.println("getCredentials |\t" + authentication.getCredentials());
+        System.out.println("getDetails |\t" + authentication.getDetails());
         System.out.println("-----------------------------------------------");
 
 
-        // set JWT header
-        response.setHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT);
+//        // set JWT header
+//        response.setHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT);
+//
+//        // send redirect
+//        final String REDIRECT_URL = CookieUtils.getCookie(request, "redirect_url")
+//                .map(Cookie::getValue)
+//                .orElse(null);
+//        log.info("Redirect to " + REDIRECT_URL);
+//
+//        response.sendRedirect(REDIRECT_URL);
 
         // send redirect
-        String REDIRECT_URL = null;
+        final String REDIRECT_URL = CookieUtils.getCookie(request, "redirect_url")
+                .map(Cookie::getValue)
+                .orElse(null);
+        System.out.println("REDIRECT_URL = " + REDIRECT_URL);
 
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println(cookie.getName());
-            if (cookie.getName().equals("redirect_url")) {
-                REDIRECT_URL = cookie.getValue();
-                break;
-            }
-        }
-        log.info("Redirect to " + REDIRECT_URL);
+        final String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URL)
+                .queryParam(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT)
+                .build()
+                .toUriString();
+        System.out.println("targetUrl = " + targetUrl);
 
-//        response.sendRedirect(REDIRECT_URL);
-        response.sendRedirect("http://localhost:8081");
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
 }

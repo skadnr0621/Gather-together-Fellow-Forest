@@ -11,6 +11,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final OAuthSuccessHandler oAuthSuccessHandler;
 
 
@@ -30,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 /* OAuth 2 로그인 기능 설정 */
                 .oauth2Login()
+                .authorizationEndpoint()
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
+                .and()
                 // OAuth 2 로그인 성공 이후, 사용자 정보 획득 설정
                 .userInfoEndpoint()
                 // 소셜 로그인 성공 후 후속 조치 구현체 등록
