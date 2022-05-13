@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor @AllArgsConstructor
 public class ScheduleDto {
 
+    private Long scheduleId;
     private Long schoolId;
     private Long userId;
 
@@ -25,6 +26,7 @@ public class ScheduleDto {
 
     public static ScheduleDto toDto(Schedule schedule) {
         return ScheduleDto.builder()
+                .scheduleId(schedule.getScheduleId())
                 .schoolId(schedule.getSchool().getSchoolId())
                 .userId(schedule.getUser().getUserId())
                 .title(schedule.getTitle())

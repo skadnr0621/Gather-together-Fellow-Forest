@@ -50,13 +50,13 @@ public class GalleryService {
                 .orElseThrow(() -> new IllegalArgumentException("Illegal user ID !"));
 
         Gallery savedGallery = galleryRepository.save(
-                                Gallery.builder()
-                                        .school(school)
-                                        .user(user)
-                                        .imgPath(url)
-                                        .description(galleryPostDto.getDescription())
-                                        .createDate(LocalDateTime.now())
-                                        .build()
+                Gallery.builder()
+                        .school(school)
+                        .user(user)
+                        .imgPath(url)
+                        .description(galleryPostDto.getDescription())
+                        .createDate(LocalDateTime.now())
+                        .build()
         );
 
         return GalleryPostDto.toDto(savedGallery);
@@ -67,14 +67,7 @@ public class GalleryService {
         Gallery gallery = galleryRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("Illegal gallery id !"));
 
-        GalleryDto galleryDto = GalleryDto.builder()
-                                        .schoolId(gallery.getSchool().getSchoolId())
-                                        .userId(gallery.getUser().getUserId())
-                                        .imgPath(gallery.getImgPath())
-                                        .description(gallery.getDescription())
-                                        .build();
-
-        return galleryDto;
+        return GalleryDto.toDto(gallery);
     }
 
     public List<GalleryDto> getPhotoList() throws IOException {
@@ -83,12 +76,7 @@ public class GalleryService {
         List<GalleryDto> galleryDtoList = new ArrayList<>();
 
         for(Gallery gallery : galleryList){
-            GalleryDto galleryDto = GalleryDto.builder()
-                    .schoolId(gallery.getSchool().getSchoolId())
-                    .userId(gallery.getUser().getUserId())
-                    .imgPath(gallery.getImgPath())
-                    .description(gallery.getDescription())
-                    .build();
+            GalleryDto galleryDto = GalleryDto.toDto(gallery);
             galleryDtoList.add(galleryDto);
         }
 

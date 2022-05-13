@@ -14,35 +14,30 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    //게시글 작성
     @PostMapping("/board/posts")
     public ResponseEntity<PostDto> registerBoard(@RequestBody PostDto postDto){
         PostDto savedPostDto = boardService.registerBoard(postDto);
         return new ResponseEntity<PostDto>(savedPostDto, HttpStatus.OK);
     }
 
-    //게시글 전체 조회
     @GetMapping("/board/posts")
     public ResponseEntity<List<PostDto>> getBoardList() throws Exception {
         List<PostDto> postDtoList = boardService.getBoardList();
         return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
     }
 
-    //게시글 상세 조회
     @GetMapping("board/posts/{post_id}")
     public ResponseEntity<PostDto> getBoard(@PathVariable("post_id") Long postId) throws Exception {
         PostDto postDto = boardService.getBoard(postId);
         return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
     }
 
-    //게시글 수정-?
     @PatchMapping("board/posts/{post_id}")
     public ResponseEntity<PostDto> modifyPost(@PathVariable("post_id") Long postId, @RequestBody PostDto postDto){
         PostDto modifiedPost = boardService.modifyBoard(postId, postDto);
         return new ResponseEntity<PostDto>(modifiedPost, HttpStatus.OK);
     }
 
-    //게시글 삭제
     @DeleteMapping("/board/posts/{post_id}")
     public ResponseEntity<PostDto> deleteBoard(@PathVariable("post_id") Long postId) throws Exception {
         PostDto deletedPost = boardService.deleteBoard(postId);
