@@ -6,6 +6,7 @@ import HomeView from "../views/HomeView.vue";
 import Login from "../views/Login.vue";
 import LoginView from "../components/login/LoginView.vue";
 import EnterInfo from "../components/login/EnterInfo.vue";
+import KakaoRedirect from "../components/login/KakaoRedirect.vue";
 
 import BoardView from "../views/BoardView.vue";
 import CreateBoard from "../components/board/CreateBoard.vue";
@@ -14,6 +15,8 @@ import DetailBoard from "../components/board/DetailBoard.vue";
 
 import ScheduleView from "../views/ScheduleView.vue";
 import ScheduleBoard from "../components/schedule/ScheduleBoard.vue";
+
+import ModongmunView from "../views/PlayView.vue";
 
 Vue.use(VueRouter);
 
@@ -37,6 +40,11 @@ const routes = [
         path: "enterInfo",
         name: "enterInfo",
         component: EnterInfo,
+      },
+      {
+        path: "kakaoRedirect",
+        name: "KakaoRedirect",
+        component: KakaoRedirect,
       },
     ],
   },
@@ -73,6 +81,11 @@ const routes = [
         component: ScheduleBoard,
       },
     ],
+  },
+  {
+    path: "/modongmun",
+    name: "modongmun",
+    component: ModongmunView,
   },
 ];
 

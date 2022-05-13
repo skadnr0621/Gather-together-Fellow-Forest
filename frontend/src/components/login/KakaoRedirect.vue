@@ -1,0 +1,36 @@
+<template>
+  <div>kakao</div>
+</template>
+
+<script>
+import { setUserInfo } from "../../api/user.js";
+export default {
+  data() {
+    return {};
+  },
+
+  mounted() {
+    this.login();
+  },
+
+  methods: {
+    async login() {
+      const jwtToken = await this.$route.query.Authorization;
+      localStorage.setItem("accessToken", jwtToken.replace("Bearer", ""));
+      this.$store.dispatch("setToken", jwtToken.replace("Bearer", ""));
+      console.log(this.$store.getters.getToken);
+      console.log(this.checkSchoolInfo);
+      if (!this.checkSchoolInfo) {
+        this.$router.push({ name: "enterInfo" });
+      }
+    },
+  },
+  computed: {
+    checkSchoolInfo() {
+      return this.$store.getters.isSchool;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>
