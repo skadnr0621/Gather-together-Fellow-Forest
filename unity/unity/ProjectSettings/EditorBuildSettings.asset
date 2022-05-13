@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/low_poly_interior_16_educational/Scenes/Sample.unity
+    guid: 51d2d53037a19c745a95d4c5114e9b15
+  - enabled: 1
+    path: Assets/01.Scenes/EntranceScene.unity
+    guid: 64b10f73fcda64b4580ec942b2ef460a
+  m_configObjects: {}
