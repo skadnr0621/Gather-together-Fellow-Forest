@@ -6,6 +6,7 @@ import com.ssafy.modongmun.school.gallery.Gallery;
 import com.ssafy.modongmun.school.schedule.Schedule;
 import com.ssafy.modongmun.user.dto.SignupDto;
 import com.ssafy.modongmun.school.School;
+import com.ssafy.modongmun.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -90,5 +91,14 @@ public class User {
 //                .registerDate(LocalDateTime.now())
 //                .build();
 //    }
+
+    public void update(UserDto userDto) {
+        this.elementarySchool = userDto.getElementarySchool();
+        this.egYear = userDto.getEgYear();
+        this.middleSchool = userDto.getMiddleSchool();
+        this.mgYear = userDto.getMgYear();
+        this.highSchool = userDto.getHighSchool();
+        this.hgYear = userDto.getHgYear();
+    }
 
 }

@@ -7,6 +7,7 @@ import com.ssafy.modongmun.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -35,5 +36,37 @@ public class UserService {
                 .build());
 
         return UserDto.toDto(savedUser);
+    }
+
+    public UserDto getUser(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException("Illegal userid !"));
+        UserDto userDto = UserDto.toDto(user);
+        return userDto;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public UserDto modifyUser(Long userId, UserDto userDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException("Illegal user id!"));
+
+        School elementarySchool = schoolRepository.findById(userDto.getElementarySchoolId())
+                .orElseThrow(() -> new IllegalArgumentException("Illegal elementary school!"));
+        School middleSchool = schoolRepository.findById(userDto.getMiddleSchoolId())
+                .orElseThrow(() -> new IllegalArgumentException("Illegal middle school !"));
+        School highSchool = schoolRepository.findById(userDto.getHighSchoolId())
+                .orElseThrow(() -> new IllegalArgumentException("Illegal high school !"));
+
+        userDto = UserDto.builder()
+                .elementarySchool(elementarySchool)
+                .egYear(userDto.getEgYear())
+                .middleSchool(middleSchool)
+                .mgYear(userDto.getMgYear())
+                .highSchool(highSchool)
+                .hgYear(userDto.getHgYear())
+                .build();
+        user.update(userDto);
+
+        return UserDto.toDto(user);
     }
 }

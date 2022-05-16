@@ -1,5 +1,6 @@
 package com.ssafy.modongmun.user.dto;
 
+import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.dto.SchoolDto;
 import com.ssafy.modongmun.user.User;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,16 @@ public class UserDto {
 
     private String username;
 
-    private SchoolDto elementarySchool;
+    private School elementarySchool;
+    private Long elementarySchoolId;
     private int egYear;
 
-    private SchoolDto middleSchool;
+    private School middleSchool;
+    private Long middleSchoolId;
     private int mgYear;
 
-    private SchoolDto highSchool;
+    private School highSchool;
+    private Long highSchoolId;
     private int hgYear;
 
 
@@ -30,11 +34,11 @@ public class UserDto {
         return UserDto.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
-                .elementarySchool(SchoolDto.toDto(user.getElementarySchool()))
+                .elementarySchoolId(user.getElementarySchool().getSchoolId())
                 .egYear(user.getEgYear())
-                .middleSchool(SchoolDto.toDto(user.getMiddleSchool()))
+                .middleSchoolId(user.getMiddleSchool().getSchoolId())
                 .mgYear(user.getMgYear())
-                .highSchool(SchoolDto.toDto(user.getHighSchool()))
+                .highSchoolId(user.getHighSchool().getSchoolId())
                 .hgYear(user.getHgYear())
                 .build();
     }
