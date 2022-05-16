@@ -1,9 +1,11 @@
 package com.ssafy.modongmun.config.auth;
 
+import com.ssafy.modongmun.config.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -13,6 +15,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final OAuthSuccessHandler oAuthSuccessHandler;
+
+    private final CorsFilter corsFilter;
 
 
     @Override
@@ -39,7 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 소셜 로그인 성공 후 후속 조치 구현체 등록
                 .userService(customOAuth2UserService)
                 .and()
-                .successHandler(oAuthSuccessHandler);
+                .successHandler(oAuthSuccessHandler)
+                .and()
+
+                // Custom Filters
+                .addFilter(corsFilter);
 
     }
 }
