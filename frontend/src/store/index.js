@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VueJwtDecode from "vue-jwt-decode";
+import createPersistedState from "vuex-persistedstate";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -30,6 +32,7 @@ export default new Vuex.Store({
   mutations: {
     SET_TOKEN(state, token) {
       const tokenInfo = VueJwtDecode.decode(token);
+      console.log(tokenInfo);
       state.accessToken = token;
       state.user.id = tokenInfo.email;
       //닉네임 추가 예정
@@ -41,4 +44,5 @@ export default new Vuex.Store({
     },
   },
   modules: {},
+  plugins: [createPersistedState()],
 });
