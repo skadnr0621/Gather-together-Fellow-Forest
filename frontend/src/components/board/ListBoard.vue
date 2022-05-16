@@ -5,10 +5,10 @@
 
       <div class="searchWrap text-right w-5/6 mb-5 mt-8">
         <input
-          class="border w-1/3 mr-3 pt-1 pb-1"
+          class="w-1/3 mr-3 pt-1 pb-1 pl-1 border"
           placeholder="검색어를 입력해주세요"
           type="text"
-        /><button class="border pl-3 pr-3 pt-1 pb-1 btn">검색</button>
+        /><button class="pl-3 pr-3 pt-1 pb-1 btn">검색</button>
       </div>
       <div class="w-full">
         <table class="board-table w-5/6">
@@ -25,6 +25,12 @@
             <th>작성일</th>
           </tr>
           <tbody>
+            <tr v-for="(item, idx) in boardList" :key="idx">
+              <td>{{ item.postId }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.username }}</td>
+              <td>{{ item.createDate }}</td>
+            </tr>
             <tr>
               <td>10</td>
               <td class="list-title">나는야 김남욱!</td>
@@ -63,12 +69,32 @@
 </template>
 
 <script>
-export default {};
+import { getRequest } from "../../api/index.js";
+export default {
+  data() {
+    return {
+      boardList: [],
+    };
+  },
+  methods: {
+    async getList() {
+      const response = await getRequest("api/board/posts");
+      this.boardList = response.data;
+      console.log(this.boardList);
+    },
+  },
+  created() {
+    this.getList();
+  },
+};
 </script>
 
 <style scoped>
 #list-Board {
   width: 75%;
+}
+.searchWrap > input {
+  border-style: solid;
 }
 .mainWrap {
   height: 100vh;

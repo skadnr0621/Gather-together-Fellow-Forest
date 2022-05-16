@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { setUserInfo } from "../../api/user.js";
 export default {
   data() {
     return {};
