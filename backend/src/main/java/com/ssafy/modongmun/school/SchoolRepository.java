@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface SchoolRepository extends JpaRepository<School, Long> {
 
     Optional<School> findByCode(Long code);
-    List<School> findByNameContains(String keyword);
+    List<School> findByNameContaining(@Param("keyword") String keyword);
 }

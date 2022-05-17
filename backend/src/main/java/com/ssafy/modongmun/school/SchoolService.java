@@ -19,11 +19,12 @@ public class SchoolService {
     }
 
     public List<SchoolDto> searchSchool(String keyword) {
-        List<School> schoolList = schoolRepository.findByNameContains(keyword);
+        List<School> schoolList = schoolRepository.findByNameContaining(keyword);
         List<SchoolDto> schoolDtoList = new ArrayList<>();
 
         for(School school : schoolList){
             SchoolDto schoolDto = SchoolDto.toDto(school);
+            schoolDtoList.add(schoolDto);
             System.out.println(schoolDto.getName());
         }
         return schoolDtoList;
