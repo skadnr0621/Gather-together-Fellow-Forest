@@ -38,9 +38,8 @@ public class UserService {
         return UserDto.toDto(savedUser);
     }
 
-    public UserDto getUser(Long userId){
-        User user = userRepository.findById(userId)
-                .orElseThrow(()->new IllegalArgumentException("Illegal userid !"));
+    public UserDto getUser(String userEmail){
+        User user = userRepository.findByEmail(userEmail);
         UserDto userDto = UserDto.toDto(user);
         return userDto;
     }
