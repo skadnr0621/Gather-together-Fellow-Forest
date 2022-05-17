@@ -31,7 +31,7 @@ export default new Vuex.Store({
       return state.accessToken;
     },
     isSchool(state) {
-      return state.user.schoolInfo.elementarySchoolId == "" ? false : true;
+      return state.user.schoolInfo.elementarySchoolId == null ? false : true;
     },
   },
   mutations: {

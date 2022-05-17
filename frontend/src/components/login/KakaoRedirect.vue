@@ -27,8 +27,10 @@ export default {
       this.$store.dispatch("setUserInfo", response.data);
       console.log(response);
       console.log(this.checkSchoolInfo);
-      if (this.checkSchoolInfo) {
+      if (!this.checkSchoolInfo) {
         this.$router.push({ name: "enterInfo" });
+      } else {
+        this.$router.push({ name: "modongmun" });
       }
     },
   },
