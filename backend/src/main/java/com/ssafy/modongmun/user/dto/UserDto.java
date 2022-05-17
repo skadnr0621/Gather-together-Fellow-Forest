@@ -29,6 +29,8 @@ public class UserDto {
     private Long highSchoolId;
     private int hgYear;
 
+    private int birthYear;
+
 
     public static UserDto toDto(User user) {
         return UserDto.builder()
@@ -40,6 +42,7 @@ public class UserDto {
                 .mgYear(user.getMgYear())
                 .highSchoolId(user.getHighSchool().getSchoolId())
                 .hgYear(user.getHgYear())
+                .birthYear(user.getBirthYear())
                 .build();
     }
 

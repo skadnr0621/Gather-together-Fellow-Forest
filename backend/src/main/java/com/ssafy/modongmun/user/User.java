@@ -51,6 +51,9 @@ public class User {
     @Column(name = "hg_year")
     private int hgYear;
 
+    @Column(name = "birth_year")
+    private int birthYear;
+
     @Column(name = "register_date")
     private LocalDateTime registerDate;
 
@@ -99,6 +102,7 @@ public class User {
         this.mgYear = userDto.getMgYear();
         this.highSchool = userDto.getHighSchool();
         this.hgYear = userDto.getHgYear();
+        this.birthYear = userDto.getBirthYear();
     }
 
 }

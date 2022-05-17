@@ -56,7 +56,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("Illegal middle school !"));
         School highSchool = schoolRepository.findById(userDto.getHighSchoolId())
                 .orElseThrow(() -> new IllegalArgumentException("Illegal high school !"));
-
+        System.out.println(userDto.getBirthYear());
         userDto = UserDto.builder()
                 .elementarySchool(elementarySchool)
                 .egYear(userDto.getEgYear())
@@ -64,6 +64,7 @@ public class UserService {
                 .mgYear(userDto.getMgYear())
                 .highSchool(highSchool)
                 .hgYear(userDto.getHgYear())
+                .birthYear(userDto.getBirthYear())
                 .build();
         user.update(userDto);
 
