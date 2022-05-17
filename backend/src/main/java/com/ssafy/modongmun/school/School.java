@@ -14,7 +14,7 @@ public class School {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "school_id")
-    private Long schoolId;
+    private Long schoolId = 0L;
 
     @Column(name = "SD_SCHUL_CODE")
     private Long code;

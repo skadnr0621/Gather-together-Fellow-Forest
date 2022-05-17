@@ -16,6 +16,7 @@ public class UserDto {
     private Long userId;
 
     private String username;
+    private String email;
 
     private School elementarySchool;
     private Long elementarySchoolId;
@@ -33,17 +34,17 @@ public class UserDto {
 
 
     public static UserDto toDto(User user) {
-        return UserDto.builder()
-                .userId(user.getUserId())
-                .username(user.getUsername())
-                .elementarySchoolId(user.getElementarySchool().getSchoolId())
-                .egYear(user.getEgYear())
-                .middleSchoolId(user.getMiddleSchool().getSchoolId())
-                .mgYear(user.getMgYear())
-                .highSchoolId(user.getHighSchool().getSchoolId())
-                .hgYear(user.getHgYear())
-                .birthYear(user.getBirthYear())
-                .build();
+            return UserDto.builder()
+                    .userId(user.getUserId())
+                    .username(user.getUsername())
+                    .elementarySchoolId(user.getElementarySchool().getSchoolId())
+                    .egYear(user.getEgYear())
+                    .middleSchoolId(user.getMiddleSchool().getSchoolId())
+                    .mgYear(user.getMgYear())
+                    .highSchoolId(user.getHighSchool().getSchoolId())
+                    .hgYear(user.getHgYear())
+                    .birthYear(user.getBirthYear())
+                    .build();
     }
 
 }

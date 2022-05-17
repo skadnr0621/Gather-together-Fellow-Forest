@@ -37,22 +37,22 @@ public class User {
     @JoinColumn(name = "elementary_school_id")
     private School elementarySchool;
     @Column(name = "eg_year")
-    private int egYear;
+    private int egYear = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_school_id")
     private School middleSchool;
     @Column(name = "mg_year")
-    private int mgYear;
+    private int mgYear = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "high_school_id")
     private School highSchool;
     @Column(name = "hg_year")
-    private int hgYear;
+    private int hgYear = 0;
 
     @Column(name = "birth_year")
-    private int birthYear;
+    private int birthYear = 0;
 
     @Column(name = "register_date")
     private LocalDateTime registerDate;
