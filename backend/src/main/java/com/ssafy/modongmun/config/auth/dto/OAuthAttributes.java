@@ -5,10 +5,12 @@ import com.ssafy.modongmun.user.Role;
 import com.ssafy.modongmun.user.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
 @Getter
+@Slf4j
 public class OAuthAttributes {
 
     private Map<String, Object> attributes;
@@ -40,10 +42,17 @@ public class OAuthAttributes {
             String userNameAttributeName,
             Map<String, Object> attributes) {
 
+        log.info("OAuthAttributes of ---------------");
+        log.info("registration ID / userNameAttributeName : {} / {}", registrationId, userNameAttributeName);
+        for (String key : attributes.keySet())
+            System.out.printf(">> [ %s ] : %s%n", key, attributes.get(key));
+        System.out.println("----------------------------------------");
+
         if ("naver".equals(registrationId))
             return ofNaver("id", attributes);
         else if ("kakao".equals(registrationId))
-            return ofKakao("email", attributes);
+//            return ofKakao("email", attributes);
+            return ofKakao(userNameAttributeName, attributes);
 
         return ofGoogle(userNameAttributeName, attributes);
     }
@@ -65,12 +74,12 @@ public class OAuthAttributes {
         Map<String, String> profile = (Map<String, String>)response.get("profile");
 
         return OAuthAttributes.builder()
-//                .userNumber(Long.valueOf((String)response.get("id")))
-                .email((String)response.get("email"))
-                .username(profile.get("nickname"))
-                .provider(OAuthProvider.KAKAO)
-                .attributes(response)
-                .nameAttributeKey(userNameAttributeName)
+                .userNumber((Long)attributes.get(userNameAttributeName))
+                .email((String)response.get("email"))   // User 회원가입 및 정보 갱신에 사용될 정보입니다.
+                .username(profile.get("nickname"))      // User 회원가입 및 정보 갱신에 사용될 정보입니다.
+                .provider(OAuthProvider.KAKAO)          // User 회원가입 및 정보 갱신에 사용될 정보입니다.
+                .attributes(attributes)                     // OAuth2User가 실제로 갖게 되는 정보입니다.
+                .nameAttributeKey(userNameAttributeName)    // OAuth2User가 실제로 갖게 되는 정보입니다.
                 .build();
     }
 

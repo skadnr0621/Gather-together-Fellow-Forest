@@ -11,7 +11,7 @@ public enum OAuthProvider {
     NAVER("NAVER", "네이버"),
     KAKAO("KAKAO", "카카오");
 
-    private final String provider;
+    private final String provider_en;
     private final String provider_kr;
 
 }

@@ -61,6 +61,8 @@ public class User {
     public String getRoleKey() { return this.role.getKey(); }
 
     // OAuth2 provider identifier(distinguisher)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OAuthProvider provider;
 
     // Mapped Entities

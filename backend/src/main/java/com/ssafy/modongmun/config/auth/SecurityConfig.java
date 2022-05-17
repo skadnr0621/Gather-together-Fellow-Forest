@@ -1,13 +1,15 @@
 package com.ssafy.modongmun.config.auth;
 
-import com.ssafy.modongmun.config.CorsConfig;
+import com.ssafy.modongmun.config.auth.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
-@EnableWebSecurity
+@EnableWebSecurity(debug = false)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -15,8 +17,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final OAuthSuccessHandler oAuthSuccessHandler;
+    private final OAuthFailureHandler oAuthFailureHandler;
 
     private final CorsFilter corsFilter;
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Override
@@ -27,10 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
 
+                /* Session */
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+
                 /* URL 별 권한 관리 */
                 .authorizeRequests()
 //                .antMatchers("/", "/h2-console/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
 
                 /* OAuth 2 로그인 기능 설정 */
@@ -44,10 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuthSuccessHandler)
-                .and()
+                .failureHandler(oAuthFailureHandler);
 
-                // Custom Filters
+        // Custom Filters -------------
+        http
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilter(corsFilter);
-
     }
 }

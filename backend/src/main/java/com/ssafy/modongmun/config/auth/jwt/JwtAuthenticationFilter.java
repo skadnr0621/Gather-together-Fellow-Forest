@@ -1,95 +1,76 @@
-//package com.ssafy.modongmun.config.auth.jwt;
-//
-//import com.auth0.jwt.JWT;
-//import com.auth0.jwt.algorithms.Algorithm;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.ssafy.modongmun.user.User;
-//import com.ssafy.togetherhomt.config.auth.PrincipalDetails;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.AuthenticationServiceException;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.AuthenticationException;
-//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-//
-//import javax.servlet.FilterChain;
-//import javax.servlet.ServletException;
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//import java.io.IOException;
-//import java.util.Date;
-//
-//@Slf4j
-//public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-//
-//    private final AuthenticationManager authenticationManager;
-//
-//    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-//        this.authenticationManager = authenticationManager;
-//        setFilterProcessesUrl("/user/**/login");
-//    }
-//
-//
-//    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-//        if (!"POST".equals(request.getMethod()))
-//            throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
-//
-//        log.info("Attempting Login . . .");
-//        try {
-////            Map<String, String[]> reqParams = request.getParameterMap();
-////
-////            User user = new User();
-////            user.setEmail(reqParams.containsKey("email")
-////                    ? reqParams.get("email")[0]
-////                    : reqParams.get("username")[0]);
-////            user.setPassword(reqParams.get("password")[0]);
-//            ObjectMapper om = new ObjectMapper();
-//            User user = om.readValue(request.getInputStream(), User.class);
-//
-//            log.info("Got login attempting user :: " + user.getEmail());
-//
-//            // 로그인 시도 - 토큰 생성
-//            UsernamePasswordAuthenticationToken authenticationToken =
-//                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-//
-//            return authenticationManager.authenticate(authenticationToken);
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        catch (AuthenticationException e) {
-//            try {
-//                this.unsuccessfulAuthentication(request, response, e);
-//            }
-//            catch (Exception ee) {
-//                ee.printStackTrace();
-//            }
-//        }
-//
-//        return null;
-//    }
-//
-//    @Override
-//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
-//        PrincipalDetails principalDetails = (PrincipalDetails)authResult.getPrincipal();
-//
-//        String jwtToken = JWT.create()
-//                .withSubject("THT's JWT")
-//                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-//                .withClaim("email", principalDetails.getUser().getEmail())
-//                .withClaim("username", principalDetails.getUser().getUsername())
-//                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
-//
-//        log.info(String.format("----- JWT published ----- [ %s (%s) ]", principalDetails.getUser().getEmail(), principalDetails.getUser().getUsername()));
-//        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
-//        response.getWriter().write(JwtProperties.TOKEN_PREFIX + jwtToken);
-//    }
-//
-//    @Override
-//    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-//        log.info("Login Failed          " + failed.getMessage());
-//        super.unsuccessfulAuthentication(request, response, failed);
-//    }
-//}
+package com.ssafy.modongmun.config.auth.jwt;
+
+import com.ssafy.modongmun.config.auth.UserPrincipalService;
+import com.ssafy.modongmun.user.User;
+import com.ssafy.modongmun.user.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtProvider jwtProvider;
+    private final UserPrincipalService userPrincipalService;
+
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("Authentication filter --- " + request.getRequestURI());
+
+        // Pull out Authorization token from the request header
+        final String authToken = request.getHeader("Authorization");
+        log.info("Got Authorization header : " + authToken);
+
+        if (authToken != null && authToken.startsWith(JwtProperties.TOKEN_PREFIX)) {
+            // remove prefix
+            final String JWT = authToken.replace(JwtProperties.TOKEN_PREFIX, "");
+
+            // Set authentication in Spring Security Session
+            try {
+                // 0. verify JWT first
+                jwtProvider.verify(JWT);
+                // 1. get user ID (it's email for now)
+                final String claim = "email";
+                final String email = jwtProvider.getClaim(JWT, claim);
+                log.info("parsed claim [{}] : {}", claim, email);
+
+                // 2. create UserDetails
+                UserDetails userDetails = userPrincipalService.loadUserByUsername(email);
+                // 3. create authentication
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                log.info("Authentication created :: " + authentication);
+
+                // set authentication
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            catch (Exception e) {
+                log.error("Authentication failed !!!");
+            }
+        }
+        else { // empty Authentication Header or invalid prefix (not our token))
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+        }
+
+        // next
+        filterChain.doFilter(request, response);
+    }
+}
