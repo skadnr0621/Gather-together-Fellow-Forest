@@ -13,15 +13,11 @@
         <div class="grid grid-cols-3 gap-4 text-left mb-4">
           <div class="col-auto font-bold">출생년도</div>
           <div class="col-start-2-end-3 col-span-2">
-            <datepicker
-              id="input-id"
-              :value="defaultDate"
-              :format="DatePickerFormat"
-              minimum-view="year"
-              name="datepicker"
-              input-class="input-class"
-              placeholder="출생년도를 선택하세요"
-            ></datepicker>
+            <input
+              v-model="birthYear"
+              class="w-full pl-2 pt-1 pb-1"
+              placeholder="출생년도를 입력하세요"
+            />
           </div>
         </div>
 
@@ -31,12 +27,15 @@
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="초등학교를 입력하세요"
+              v-model="dataEl"
+              @click="openModal('el')"
             />
           </div>
           <div class="col-start-2 col-span-2">
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="졸업년도를 입력하세요"
+              v-model="egYear"
             />
           </div>
         </div>
@@ -46,12 +45,15 @@
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="중학교를 입력하세요"
+              v-model="dataMd"
+              @click="openModal('md')"
             />
           </div>
           <div class="col-start-2 col-span-2">
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="졸업년도를 입력하세요"
+              v-model="mgYear"
             />
           </div>
         </div>
@@ -61,20 +63,65 @@
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="고등학교를 입력하세요"
+              v-model="dataHi"
+              @click="openModal('hi')"
             />
           </div>
           <div class="col-start-2 col-span-2">
             <input
               class="w-full pl-2 pt-1 pb-1"
               placeholder="졸업년도를 입력하세요"
+              v-model="hgYear"
             />
           </div>
         </div>
 
         <div>
-          <button class="btn-regist rounded-md p-1 text-xl mt-8 font-bold">
+          <button
+            @click="registInfo"
+            class="btn-regist rounded-md p-1 text-xl mt-8 font-bold"
+          >
             내 정보 등록하기
           </button>
+          <div class="example-modal-window">
+            <!-- 컴포넌트 MyModal -->
+            <Modal @close="closeModal" v-if="modal">
+              <!-- default 슬롯 콘텐츠 -->
+              <p>Vue.js Modal Window!</p>
+              <div class="flex">
+                <input v-on:keyup.enter="doSearch" v-model="search" /><button
+                  @click="doSearch"
+                >
+                  제출
+                </button>
+              </div>
+              <table>
+                <colgroup>
+                  <col width="50%" />
+                  <col width="50%" />
+                </colgroup>
+                <tr>
+                  <th>학교명</th>
+                  <th>소재지</th>
+                </tr>
+                <tr v-for="item in schoolList" :key="item.schoolId">
+                  <td>
+                    <a
+                      href="javascript:;"
+                      @click="selectSchool(item.name, item.schoolId)"
+                      >{{ item.name }}</a
+                    >
+                  </td>
+
+                  <td>{{ item.location }}</td>
+                </tr>
+              </table>
+              <!-- /default -->
+              <!-- footer 슬롯 콘텐츠 -->
+              <template slot="footer"> </template>
+              <!-- /footer -->
+            </Modal>
+          </div>
         </div>
       </div>
     </div>
@@ -82,16 +129,112 @@
 </template>
 
 <script>
-import Datepicker from "vuejs-datepicker";
+import { getRequest, patchRequest } from "../../api/index.js";
+import Modal from "./ModalView.vue";
 export default {
-  components: {
-    Datepicker,
-  },
+  components: { Modal },
   data() {
     return {
-      DatePickerFormat: "yyyy",
-      defaultDate: "20220513",
+      birthYear: "",
+      modal: false,
+      search: "",
+      dataEl: "",
+      dataMd: "",
+      dataHi: "",
+      schoolList: "",
+      gubun: "",
+      elName: "",
+      mdName: "",
+      hiName: "",
+      egYear: "",
+      mgYear: "",
+      hgYear: "",
+      elementarySchoolId: "",
+      middleSchoolId: "",
+      highSchoolId: "",
     };
+  },
+  methods: {
+    openModal(gubun) {
+      this.modal = true;
+      if (gubun == "el") {
+        console.log("초등학교 선택");
+        this.gubun = "el";
+      } else if (gubun == "md") {
+        this.gubun = "md";
+      } else if (gubun == "hi") {
+        this.gubun = "hi";
+      }
+    },
+    closeModal() {
+      this.modal = false;
+    },
+    doSearch() {
+      if (this.search.length > 0) {
+        this.findschool();
+        this.search = "";
+        //this.dataEl = this.message;
+      } else {
+        alert("메시지를 입력해주세요.");
+      }
+    },
+    selectSchool(name, id) {
+      if (this.gubun == "el") {
+        this.elName = name;
+        this.elementarySchoolId = id;
+        this.dataEl = name;
+        this.schoolList = "";
+        this.gubun = "";
+        this.closeModal();
+      } else if (this.gubun == "md") {
+        this.mdName = name;
+        this.middleSchoolId = id;
+        this.dataMd = name;
+        this.gubun = "";
+        this.schoolList = "";
+        this.closeModal();
+      } else if (this.gubun == "hi") {
+        this.hiName = name;
+        this.highSchoolId = id;
+        this.dataHi = name;
+        this.gubun = "";
+        this.schoolList = "";
+        this.closeModal();
+      }
+    },
+    async findschool() {
+      const paramas = { keyword: this.search };
+      const response = await getRequest("api/school/schools", paramas);
+      console.log(response.data);
+      this.schoolList = response.data;
+    },
+    async registInfo() {
+      const schoolData = {
+        egYear: this.egYear,
+        mgYear: this.mgYear,
+        hgYear: this.hgYear,
+        elementarySchoolId: this.elementarySchoolId,
+        middleSchoolId: this.middleSchoolId,
+        highSchoolId: this.highSchoolId,
+        birthYear: parseInt(this.birthYear),
+      };
+      console.log(schoolData);
+      //const response = aait patchRequest("api/user/users/"+this.$store.user.id)
+      const response = await patchRequest(
+        "api/user/users/" + this.$store.state.user.userId,
+        schoolData
+      );
+      console.log(response);
+    },
+  },
+  watch: {
+    birthYear(newDate) {
+      if (newDate.length == 4) {
+        this.egYear = parseInt(newDate) + 13;
+        this.mgYear = this.egYear + 3;
+        this.hgYear = this.mgYear + 3;
+      }
+    },
   },
 };
 </script>
