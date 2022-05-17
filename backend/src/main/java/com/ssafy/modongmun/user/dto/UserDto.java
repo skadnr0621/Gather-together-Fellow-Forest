@@ -34,17 +34,19 @@ public class UserDto {
 
 
     public static UserDto toDto(User user) {
+
             return UserDto.builder()
                     .userId(user.getUserId())
                     .username(user.getUsername())
-                    .elementarySchoolId(user.getElementarySchool().getSchoolId())
+                    .elementarySchoolId(user.getElementarySchool() != null ? user.getElementarySchool().getSchoolId() : null)
                     .egYear(user.getEgYear())
-                    .middleSchoolId(user.getMiddleSchool().getSchoolId())
+                    .middleSchoolId(user.getMiddleSchool() != null ? user.getMiddleSchool().getSchoolId() : null)
                     .mgYear(user.getMgYear())
-                    .highSchoolId(user.getHighSchool().getSchoolId())
+                    .highSchoolId(user.getHighSchool() != null ? user.getHighSchool().getSchoolId() : null)
                     .hgYear(user.getHgYear())
                     .birthYear(user.getBirthYear())
                     .build();
+
     }
 
 }
