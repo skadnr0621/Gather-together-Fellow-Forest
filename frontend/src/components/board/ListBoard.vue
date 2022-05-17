@@ -25,11 +25,15 @@
             <th>작성일</th>
           </tr>
           <tbody>
-            <tr v-for="(item, idx) in boardList" :key="idx">
+            <tr v-for="item in boardList" :key="item.postId">
               <td>{{ item.postId }}</td>
-              <td>{{ item.title }}</td>
+              <td>
+                <a href="javascript:;" @click="fnView(item.postId)">{{
+                  item.title
+                }}</a>
+              </td>
               <td>{{ item.username }}</td>
-              <td>{{ item.createDate }}</td>
+              <td>{{ item.createDate.substring(0, 10) }}</td>
             </tr>
             <tr>
               <td>10</td>
@@ -73,14 +77,19 @@ import { getRequest } from "../../api/index.js";
 export default {
   data() {
     return {
-      boardList: [],
+      requestBody: {}, //리스트 페이지 데이터전송
+      boardList: {},
     };
   },
   methods: {
     async getList() {
       const response = await getRequest("api/board/posts");
       this.boardList = response.data;
-      console.log(this.boardList);
+      console.log(this.boardList[0]);
+    },
+    fnView(num) {
+      this.requestBody.num = num;
+      this.$router.push({ path: "./board/detail", query: this.requestBody }); //추가한 상세페이지 라우터
     },
   },
   created() {

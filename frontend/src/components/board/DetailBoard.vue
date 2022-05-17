@@ -6,25 +6,41 @@
       <div class="w-full">
         <div class="board-contants w-5/6">
           <div class="flex contants-topWrap mb-2">
-            <div class="text-xl font-bold">나는야 김남욱!</div>
+            <div class="text-xl font-bold">{{ boardData.title }}</div>
             <div class="flex justify-end text-xs contants-tool">
               <div class="mr-2">수정</div>
               <div>삭제</div>
             </div>
           </div>
           <div class="flex text-xs">
-            <div class="mr-2">김남욱</div>
-            <div class="mr-2">2022-05-04</div>
+            <div class="mr-2">{{ boardData.username }}</div>
+            <div class="mr-2">{{ boardData.createDate }}</div>
             <div class="mr-2">조회 0</div>
           </div>
           <div class="main-contants text-left mt-4 mb-2 pt-4 pb-4">
-            <img class="w-1/3" src="@/assets/logo.png" />
             <div>
-              오늘 내 생일파티 즐거웠어<br />
-              다들 축하해줘서 고마워
+              {{ boardData.content }}
             </div>
           </div>
           <div class="comment">
+            <div class="comment-write w-full flex mt-6 mb-2 p-2">
+              <div class="flex">
+                <div class="comment-write-name">
+                  {{ this.$store.state.user.nickname }}이제훈
+                </div>
+                <input
+                  class="comment-write-input w-5/6 ml-4 mr-2"
+                  type="text"
+                  placeholder="댓글을 입력해주세요."
+                  v-model="comment"
+                />
+              </div>
+              <div>
+                <button class="btn_comment text-sm p-2" @click="writeComment">
+                  댓글 작성
+                </button>
+              </div>
+            </div>
             <!-- comment-contants v-for -->
             <div class="comment-contants mb-2 pb-2">
               <div class="flex comment-topWrap">
@@ -65,7 +81,41 @@
 </template>
 
 <script>
-export default {};
+import { getRequest, postRequest } from "../../api/index.js";
+export default {
+  data() {
+    return {
+      requestBody: this.$route.query,
+      boardData: [],
+    };
+  },
+  methods: {
+    async getList() {
+      const response = await getRequest(
+        "api/board/posts/" + this.requestBody.num
+      );
+      console.log(response);
+      this.boardData = response.data;
+      console.log(this.boardData);
+    },
+    writeComment() {
+      const commentData = {
+        postId: this.boardData.postId,
+        userId: this.$store.state.user.id,
+        content: this.comment,
+      };
+      console.log(commentData);
+      const response = postRequest(
+        "api/board/posts/" + this.boardData.postId + "/comments",
+        commentData
+      );
+      console.log(response);
+    },
+  },
+  created() {
+    this.getList();
+  },
+};
 </script>
 
 <style scoped>
@@ -107,6 +157,18 @@ export default {};
 .main-contants {
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
+}
+.comment-write {
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+.comment-write-input {
+  border-bottom: 1px solid #e2e2e2;
+}
+.btn_comment {
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
 }
 .comment-contants {
   line-height: normal;

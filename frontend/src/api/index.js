@@ -30,4 +30,12 @@ function getRequest(url, params = "", token = undefined) {
       headers: { Authorization: `Bearer ${token}` },
     });
 }
-export { getRequest, postRequest };
+
+function patchRequest(url, data, token = undefined) {
+  if (token === undefined) return axiosService.patch(url, data);
+  else
+    return axiosService.patch(url, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+}
+export { getRequest, postRequest, patchRequest };

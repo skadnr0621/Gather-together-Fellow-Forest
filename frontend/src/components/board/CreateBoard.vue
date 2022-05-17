@@ -24,41 +24,6 @@
               placeholder="내용을 입력해주세요."
             ></textarea>
           </div>
-          <div class="contants-image border mt-2">
-            <div v-if="images" class="w-full h-full flex items-center">
-              <img :src="images" alt="image" />
-            </div>
-            <div
-              v-else
-              class="w-full h-full flex items-center justify-center cursor-pointer hover:bg-pink-100"
-              @click="clickInputTag()"
-            >
-              <input
-                ref="image"
-                id="input"
-                type="file"
-                name="image"
-                accept="image/*"
-                multiple="multiple"
-                class="hidden"
-                @change="uploadImage()"
-              />
-              <svg
-                class="w-8 h-8"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-          </div>
         </div>
 
         <div class="flex btnLeftRightWrap w-5/6">
