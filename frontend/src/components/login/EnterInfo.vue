@@ -225,6 +225,7 @@ export default {
         schoolData
       );
       console.log(response);
+      this.$router.push({ name: "modongmun" });
     },
   },
   watch: {
