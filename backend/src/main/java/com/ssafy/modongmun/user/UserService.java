@@ -39,7 +39,8 @@ public class UserService {
     }
 
     public UserDto getUser(String userEmail){
-        User user = userRepository.findByEmail(userEmail);
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(()->new IllegalArgumentException("Illegal uesr email!"));
         UserDto userDto = UserDto.toDto(user);
         return userDto;
     }
