@@ -2,10 +2,13 @@ package com.ssafy.modongmun.config.auth;
 
 import com.ssafy.modongmun.config.auth.jwt.JwtProperties;
 import com.ssafy.modongmun.config.auth.jwt.JwtProvider;
+import com.ssafy.modongmun.user.User;
+import com.ssafy.modongmun.user.UserRepository;
 import com.ssafy.modongmun.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.HttpCookie;
 
 @Component
 @RequiredArgsConstructor
@@ -22,45 +26,51 @@ import java.io.IOException;
 public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        // JWT creation
-        final String JWT = jwtProvider.create(authentication.getName());
-
-        log.info("Checking - - - - - - - - - - - - ");
-        System.out.println("getPrincipal |\t" + authentication.getPrincipal());
-        System.out.println("getAuthorities |\t" + authentication.getAuthorities());
-        System.out.println("getName |\t" + authentication.getName());
-        System.out.println("getCredentials |\t" + authentication.getCredentials());
-        System.out.println("getDetails |\t" + authentication.getDetails());
+        log.info("Check authentication information");
+        System.out.println("Checking - - - - - - - - - - - - ");
+        System.out.println("getPrincipal >>>\t" + authentication.getPrincipal());
+        System.out.println("getAuthorities >>>\t" + authentication.getAuthorities());
+        System.out.println("getName >>>\t" + authentication.getName());
+        System.out.println("getCredentials >>>\t" + authentication.getCredentials());
+        System.out.println("getDetails >>>\t" + authentication.getDetails());
         System.out.println("-----------------------------------------------");
 
+        // JWT creation
+        final String JWT = jwtProvider.create((OAuth2User)authentication.getPrincipal());
 
-//        // set JWT header
-//        response.setHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT);
-//
-//        // send redirect
-//        final String REDIRECT_URL = CookieUtils.getCookie(request, "redirect_url")
-//                .map(Cookie::getValue)
-//                .orElse(null);
-//        log.info("Redirect to " + REDIRECT_URL);
-//
-//        response.sendRedirect(REDIRECT_URL);
-
-        // send redirect
+        // back to service with JWT
         final String REDIRECT_URL = CookieUtils.getCookie(request, "redirect_url")
                 .map(Cookie::getValue)
-                .orElse(null);
+                .orElse("/");
         System.out.println("REDIRECT_URL = " + REDIRECT_URL);
+//        if (REDIRECT_URL == null)
+//            return;
 
-        final String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URL)
-                .queryParam(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT)
-                .build()
-                .toUriString();
-        System.out.println("targetUrl = " + targetUrl);
+//        final String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URL)
+//                .queryParam(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT)
+//                .build()
+//                .toUriString();
+//        System.out.println("targetUrl = " + targetUrl);
 
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        // put JWT in response cookie
+        Cookie cookie = new Cookie(JwtProperties.HEADER_STRING, JWT);
+        cookie.setPath("/");
+        cookie.setMaxAge(60);
+        response.addCookie(cookie);
+
+        clearAuthenticationAttributes(request, response);
+//        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        getRedirectStrategy().sendRedirect(request, response, REDIRECT_URL);
+    }
+
+    private void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
+        super.clearAuthenticationAttributes(request);
+        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
 
 }
