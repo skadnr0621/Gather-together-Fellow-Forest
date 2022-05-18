@@ -41,11 +41,16 @@
                 </button>
               </div>
             </div>
+
             <!-- comment-contants v-for -->
-            <div class="comment-contants mb-2 pb-2">
+            <div
+              v-for="item in commentList"
+              :key="item.commentId"
+              class="comment-contants mb-2 pb-2"
+            >
               <div class="flex comment-topWrap">
                 <div class="flex text-md font-bold comment-left mb-2">
-                  <div>이호열</div>
+                  <div>{{ item.userId }}</div>
                   <div class="text-xs ml-2">22.05.04</div>
                 </div>
                 <div class="flex justify-end text-xs contants-tool">
@@ -53,27 +58,16 @@
                   <div>삭제</div>
                 </div>
               </div>
-              <div class="text-left ml-1">asdasd</div>
-            </div>
-            <div class="comment-contants mb-2 pb-2">
-              <div class="flex comment-topWrap">
-                <div class="flex text-md font-bold comment-left mb-2">
-                  <div>이호열</div>
-                  <div class="text-xs ml-2">22.05.04</div>
-                </div>
-                <div class="flex justify-end text-xs contants-tool">
-                  <div class="mr-2">수정</div>
-                  <div>삭제</div>
-                </div>
-              </div>
-              <div class="text-left ml-1">asdasd</div>
+              <div class="text-left ml-1">{{ item.content }}</div>
             </div>
           </div>
         </div>
 
         <div class="flex btnLeftRightWrap w-5/6">
           <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">글쓰기</button>
-          <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">목록</button>
+          <button @click="goList()" class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">
+            목록
+          </button>
         </div>
       </div>
     </div>
@@ -87,6 +81,8 @@ export default {
     return {
       requestBody: this.$route.query,
       boardData: [],
+      comment: "",
+      commentList: [],
     };
   },
   methods: {
@@ -94,27 +90,38 @@ export default {
       const response = await getRequest(
         "api/board/posts/" + this.requestBody.num
       );
-      console.log(response);
       this.boardData = response.data;
       console.log(this.boardData);
+      const res = await getRequest(
+        "api/board/posts/" + this.boardData.postId + "/comments"
+      );
+      console.log(res);
+      this.commentList = res.data;
+      console.log(this.commentList);
     },
-    writeComment() {
+
+    async writeComment() {
       const commentData = {
         postId: this.boardData.postId,
-        userId: this.$store.state.user.id,
+        userId: this.$store.state.user.userId,
         content: this.comment,
       };
       console.log(commentData);
-      const response = postRequest(
+      const response = await postRequest(
         "api/board/posts/" + this.boardData.postId + "/comments",
         commentData
       );
       console.log(response);
+      this.$router.go();
+    },
+    goList() {
+      this.$router.push({ path: "/board" });
     },
   },
   created() {
     this.getList();
   },
+  mounted() {},
 };
 </script>
 
