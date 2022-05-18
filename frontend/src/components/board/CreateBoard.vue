@@ -59,12 +59,11 @@ export default {
   },
   methods: {
     async registForm() {
-      console.log(this.$store.state.user.id);
+      console.log(this.$store.state.user.userId);
       const boardData = {
         title: this.title,
         content: this.content,
-        userId: "3",
-        // userId: this.$store.state.user.id,
+        userId: this.$store.state.user.userId,
         schoolId: "1",
       };
       const response = await postRequest("api/board/posts", boardData);

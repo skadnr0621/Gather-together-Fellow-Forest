@@ -63,7 +63,10 @@
         </table>
 
         <div class="btnRightWrap w-5/6">
-          <button class="btn border pl-3 pr-3 pt-1 pb-1 float-right mt-4">
+          <button
+            class="btn border pl-3 pr-3 pt-1 pb-1 float-right mt-4"
+            @click="writeBoard()"
+          >
             등록
           </button>
         </div>
@@ -89,7 +92,10 @@ export default {
     },
     fnView(num) {
       this.requestBody.num = num;
-      this.$router.push({ path: "./board/detail", query: this.requestBody }); //추가한 상세페이지 라우터
+      this.$router.push({ path: "/board/detail", query: this.requestBody }); //추가한 상세페이지 라우터
+    },
+    writeBoard() {
+      this.$router.push({ path: "/board/create" });
     },
   },
   created() {
