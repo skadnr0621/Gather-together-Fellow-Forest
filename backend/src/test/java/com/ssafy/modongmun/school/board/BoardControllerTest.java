@@ -1,9 +1,12 @@
 package com.ssafy.modongmun.school.board;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.modongmun.school.School;
 import com.ssafy.modongmun.school.SchoolRepository;
 import com.ssafy.modongmun.school.board.dto.PostDto;
 import com.ssafy.modongmun.school.dto.SchoolDto;
+import com.ssafy.modongmun.user.OAuthProvider;
 import com.ssafy.modongmun.user.Role;
 import com.ssafy.modongmun.user.User;
 import com.ssafy.modongmun.user.UserRepository;
@@ -16,24 +19,43 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
 public class BoardControllerTest {
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+//    private TestRestTemplate restTemplate;
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
+
+    @Before
+    public void setup() {
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Autowired
     private BoardRepository boardRepository;
@@ -90,6 +112,7 @@ public class BoardControllerTest {
                 .hgYear(2003)
                 .registerDate(LocalDateTime.now())
                 .role(Role.USER)
+                .provider(OAuthProvider.KAKAO)
                 .build());
     }
 
@@ -101,6 +124,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void Board_등록() throws Exception {
         // given
         User user = userRepository.findByUserNumber(123456789L).orElse(null);
@@ -121,17 +145,30 @@ public class BoardControllerTest {
         String url = "http://localhost:"+ port + "/api/board/posts";
 
         // when
-        ResponseEntity<PostDto> response = restTemplate.postForEntity(url, postDto, PostDto.class);
+//        ResponseEntity<PostDto> response = restTemplate.postForEntity(url, postDto, PostDto.class);
+        MockHttpServletResponse response = mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+        response.setCharacterEncoding("UTF-8");
 
         // then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        PostDto savedPostDto = response.getBody();
+        PostDto savedPostDto = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(response.getContentAsByteArray(), PostDto.class);
         Board savedBoard = boardRepository.findById(savedPostDto.getPostId()).orElse(null);
         assert savedBoard != null;
 
         assertThat(savedBoard.getTitle()).isEqualTo(title);
         assertThat(savedBoard.getContent()).isEqualTo(content);
+
+//        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+//
+//        PostDto savedPostDto = response.getBody();
+//        Board savedBoard = boardRepository.findById(savedPostDto.getPostId()).orElse(null);
+//        assert savedBoard != null;
+//
+//        assertThat(savedBoard.getTitle()).isEqualTo(title);
+//        assertThat(savedBoard.getContent()).isEqualTo(content);
     }
 
 }
