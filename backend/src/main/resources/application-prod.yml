@@ -6,7 +6,7 @@ spring:
   ### Datasource
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3606/modongmun?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://54.180.128.195:3606/dongmun-forest?serverTimezone=Asia/Seoul
     username: modongmun
     password: modongmun1234!
 
