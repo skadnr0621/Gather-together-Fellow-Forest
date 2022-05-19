@@ -25,6 +25,29 @@
 ### 🩺 Backend
 
 - JPA
+
+- S3
+
+  - 버킷 생성
+
+  - 정책 생성
+
+  - IAM 관리용 사용자 만들기
+
+  - 정책 연결
+
+  - Spring Boot 연결
+
+    - build.gradle 추가
+
+      ```java
+      implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+      ```
+
+    - AmazonS3config 등록
+
+    - application-aws.yml 등록
+
 - jwt, security, oauth
 
 
@@ -51,7 +74,9 @@
 
   ``` java
   cd backend;
-  ./gradlew bulid
+  ./gradlew bulid;
+  
+  ...chmod?
   ```
 
 
