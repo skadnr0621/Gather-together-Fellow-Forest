@@ -35,10 +35,10 @@ export default {
   height: 100vh;
   overflow: hidden;
   margin: 0;
-  background-image: url("@/assets/sample3.png");
+  background-image: url("@/assets/loginBg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  /* background-position: center; */
   display: grid;
   align-items: center;
 }

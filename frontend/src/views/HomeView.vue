@@ -15,49 +15,60 @@
     <section class="fullpage">
       <div class="items-center grid grid-cols-2">
         <div class="col-span-1 p-20">
-          <img src="../assets/sample1.png" />
+          <img class="img" src="../assets/sample1.png" />
         </div>
         <div class="logo col-span-1 p-20">
           <img src="../assets/logo.png" />
           <div class="font-bold text-3xl mb-3">
             메타버스에서 옛 친구들을 만나보세요
           </div>
-          <div>
-            메타버스는 어쩌구 저쩌구~~ 모여봐요 동문의숲은 어쩌구저쩌구~~~
-          </div>
+          <div></div>
         </div>
       </div>
     </section>
     <section class="fullpage">
       <div class="items-center grid grid-cols-2">
         <div class="logo col-span-1 p-20">
-          <img src="../assets/logo.png" />
           <div class="font-bold text-3xl mb-3">
-            메타버스에서 옛 친구들을 만나보세요
+            그 시절을 회상하며 그때 나의 친구들을 만나보세요.
           </div>
-          <div>
-            메타버스는 어쩌구 저쩌구~~ 모여봐요 동문의숲은 어쩌구저쩌구~~~
-          </div>
+          <div></div>
         </div>
         <div class="col-span-1 p-20">
-          <img src="../assets/sample2.png" />
+          <img class="img" src="../assets/sample2.png" />
         </div>
       </div>
     </section>
     <section class="fullpage">
-      <h1>Section 3</h1>
-      <p>works on <b>desktop & mobile</b></p>
+      <div class="items-center grid grid-cols-4">
+        <div class="col-span-1 p-5">
+          <img class="img" src="../assets/metaverse.png" />
+        </div>
+        <div class="font-bold text-xl">
+          메타버스 동문의숲 서비스에 <br />
+          오신것을 환영합니다.
+        </div>
+        <div class="col-span-1 p-5">
+          <img class="img" src="../assets/school.png" />
+        </div>
+        <div class="font-bold text-xl">그리운 동문들을 만날 수 있습니다!</div>
+        <div class="col-span-1 p-5">
+          <img class="img" src="../assets/board.png" />
+        </div>
+        <div class="font-bold text-xl">동문들과 자유롭게 소통을 해보세요.</div>
+        <div class="col-span-1 p-5">
+          <img class="img" src="../assets/entertainment.png" />
+        </div>
+        <div class="font-bold text-xl">재미요소도 함께 즐겨보세요.</div>
+      </div>
     </section>
     <section class="fullpage">
-      <h1>Section 4</h1>
-      <p>
-        Tutorial
-        <a
-          href="https://webdeasy.de/en/programming-vue-js-fullpage-scroll/?referer=cp-NVOEBL"
-          target="_blank"
-          >here</a
-        >
-      </p>
+      <div class="items-center font-bold text-3xl">
+        <div>모여봐요 동문의숲 가족들을 소개합니다.</div>
+        <div class="">
+          <img class="img" src="../assets/family.png" />
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -179,6 +190,8 @@ export default {
 </script>
 
 <style scoped>
+* {
+}
 body {
   margin: 0;
   color: #fff;
@@ -222,5 +235,8 @@ body {
 }
 .logo img {
   width: 100%;
+}
+.img {
+  border-radius: 80px;
 }
 </style>
