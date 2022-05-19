@@ -18,6 +18,10 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     private Map<String, Object> attributes;
 
 
+    /**
+     * User ID가 반환됩니다.
+     * @return UserPrincipal 생성 시의 user.getUserId() 값
+     */
     @Override
     public String getName() {
         return String.valueOf(userId);
@@ -41,6 +45,10 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         return password;
     }
 
+    /**
+     * User email이 반환됩니다.
+     * @return UserPrincipal 생성 시의 user.getEmail() 값
+     */
     @Override
     public String getUsername() {
         return email;
