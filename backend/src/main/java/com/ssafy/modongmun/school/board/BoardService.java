@@ -39,8 +39,9 @@ public class BoardService {
         return PostDto.toDto(board);
     }
 
-    public List<PostDto> getBoardList() throws IOException {
-        List<Board> postList = boardRepository.findAll();
+    public List<PostDto> getBoardList(Long schoolId) throws IOException {
+        School school = schoolRepository.findById(schoolId).orElse(null);
+        List<Board> postList = boardRepository.findBySchool(school);
         List<PostDto> postDtoList = new ArrayList<>();
         for(Board post : postList){
             PostDto postDto = PostDto.builder()
