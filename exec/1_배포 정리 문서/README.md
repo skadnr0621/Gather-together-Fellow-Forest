@@ -52,19 +52,19 @@
 
 <img src="../img/frontend tree.PNG" align="left">
 
-
+<br/>
 
 #### Backend
 
 <img src="../img/backend tree.PNG" align="left">
 
-
+<br/>
 
 #### Unity
 
 <img src="../img/Unity.PNG" align="left">
 
-
+<br/>
 
 
 
@@ -75,7 +75,7 @@
 
 
 
-
+<br/>
 
 ---
 
