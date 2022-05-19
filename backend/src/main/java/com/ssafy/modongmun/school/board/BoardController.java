@@ -21,8 +21,8 @@ public class BoardController {
     }
 
     @GetMapping("/board/posts")
-    public ResponseEntity<List<PostDto>> getBoardList() throws Exception {
-        List<PostDto> postDtoList = boardService.getBoardList();
+    public ResponseEntity<List<PostDto>> getBoardList(@RequestParam("selectSchool") Long schoolId) throws Exception {
+        List<PostDto> postDtoList = boardService.getBoardList(schoolId);
         return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
     }
 
