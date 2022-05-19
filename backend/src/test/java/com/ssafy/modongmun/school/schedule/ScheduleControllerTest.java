@@ -38,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("local")
 public class ScheduleControllerTest {
 
     @LocalServerPort
@@ -91,6 +92,8 @@ public class ScheduleControllerTest {
 
     @Before
     public void User_등록() throws Exception {
+        for (School school : schoolRepository.findAll())
+            System.out.println(school);
         // User 등록
         School elementarySchool = schoolRepository.findById(1L).orElse(null);
         assert elementarySchool != null;
