@@ -1,4 +1,6 @@
 spring:
+  config:
+    use-legacy-processing: true
   ### profiles
   profiles:
     include: oauth,aws
