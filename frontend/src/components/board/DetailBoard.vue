@@ -7,14 +7,20 @@
         <div class="board-contants w-5/6">
           <div class="flex contants-topWrap mb-2">
             <div class="text-xl font-bold">{{ boardData.title }}</div>
-            <div class="flex justify-end text-xs contants-tool">
+            <div
+              v-if="boardData.userId == $store.state.user.userId"
+              class="flex justify-end text-xs contants-tool"
+            >
               <div class="mr-2">수정</div>
-              <div>삭제</div>
+              <div @click="deleteBoard(boardData.postId)">삭제</div>
             </div>
           </div>
           <div class="flex text-xs">
             <div class="mr-2">{{ boardData.username }}</div>
-            <div class="mr-2">{{ boardData.createDate }}</div>
+            <div class="mr-2">
+              {{ (boardData.createDate || "").split("T")[0] }}
+              {{ (boardData.createDate || "").split("T")[1].substring(0, 8) }}
+            </div>
             <div class="mr-2">조회 0</div>
           </div>
           <div class="main-contants text-left mt-4 mb-2 pt-4 pb-4">
@@ -50,12 +56,19 @@
             >
               <div class="flex comment-topWrap">
                 <div class="flex text-md font-bold comment-left mb-2">
-                  <div>{{ item.userId }}</div>
-                  <div class="text-xs ml-2">22.05.04</div>
+                  <div>{{ item.username }}</div>
+                  <div class="text-xs ml-2">
+                    {{ item.createDate.split("T")[0] }}
+                    {{ item.createDate.split("T")[1].substring(0, 8) }}
+                  </div>
                 </div>
-                <div class="flex justify-end text-xs contants-tool">
+
+                <div
+                  v-if="item.userId == $store.state.user.userId"
+                  class="flex justify-end text-xs contants-tool"
+                >
                   <div class="mr-2">수정</div>
-                  <div>삭제</div>
+                  <div @click="deleteComment(item.commentId)">삭제</div>
                 </div>
               </div>
               <div class="text-left ml-1">{{ item.content }}</div>
@@ -63,8 +76,8 @@
           </div>
         </div>
 
-        <div class="flex btnLeftRightWrap w-5/6">
-          <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">글쓰기</button>
+        <div class="text-right w-5/6">
+          <!--<button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">글쓰기</button>-->
           <button @click="goList()" class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">
             목록
           </button>
@@ -75,7 +88,7 @@
 </template>
 
 <script>
-import { getRequest, postRequest } from "../../api/index.js";
+import { getRequest, postRequest, deleteRequest } from "../../api/index.js";
 export default {
   data() {
     return {
@@ -88,12 +101,16 @@ export default {
   methods: {
     async getList() {
       const response = await getRequest(
-        "api/board/posts/" + this.requestBody.num
+        "api/board/posts/" + this.requestBody.num,
+        "",
+        this.$store.getters.getToken
       );
       this.boardData = response.data;
       console.log(this.boardData);
       const res = await getRequest(
-        "api/board/posts/" + this.boardData.postId + "/comments"
+        "api/board/posts/" + this.boardData.postId + "/comments",
+        "",
+        this.$store.getters.getToken
       );
       console.log(res);
       this.commentList = res.data;
@@ -109,12 +126,32 @@ export default {
       console.log(commentData);
       const response = await postRequest(
         "api/board/posts/" + this.boardData.postId + "/comments",
-        commentData
+        commentData,
+        this.$store.getters.getToken
       );
       console.log(response);
       this.$router.go();
     },
     goList() {
+      this.$router.push({ path: "/board" });
+    },
+    deleteComment(commentId) {
+      const response = deleteRequest(
+        "api/board/posts/" + this.boardData.postId + "/comments/" + commentId,
+        "",
+        this.$store.getters.getToken
+      );
+      alert("댓글이 삭제되었습니다.");
+      //this.$router.go();
+    },
+    deleteBoard(boardId) {
+      const response = deleteRequest(
+        "api/board/posts/" + boardId,
+        "",
+        this.$store.getters.getToken
+      );
+      console.log(response);
+      alert("게시글이 삭제되었습니다.");
       this.$router.push({ path: "/board" });
     },
   },
@@ -193,5 +230,8 @@ export default {
 }
 .btnLeftRightWrap {
   justify-content: space-between;
+}
+.contants-tool > div {
+  cursor: pointer;
 }
 </style>

@@ -87,33 +87,40 @@
             <!-- 컴포넌트 MyModal -->
             <Modal @close="closeModal" v-if="modal">
               <!-- default 슬롯 콘텐츠 -->
-              <p>Vue.js Modal Window!</p>
-              <div class="flex">
-                <input v-on:keyup.enter="doSearch" v-model="search" /><button
+              <p>학교 검색</p>
+              <div class="div-search flex">
+                <input
+                  class="input-search p-1"
+                  v-on:keyup.enter="doSearch"
+                  v-model="search"
+                /><button
                   @click="doSearch"
+                  class="btn-search rounded-md p-1 text-l font-bold"
                 >
-                  제출
+                  검색
                 </button>
               </div>
-              <table>
+              <table class="school-table">
                 <colgroup>
                   <col width="50%" />
                   <col width="50%" />
                 </colgroup>
                 <tr>
-                  <th>학교명</th>
-                  <th>소재지</th>
+                  <th class="m1-4 mr-4">소재지</th>
+                  <th class="m1-4 mr-4">학교명</th>
                 </tr>
-                <tr v-for="item in schoolList" :key="item.schoolId">
-                  <td>
-                    <a
-                      href="javascript:;"
-                      @click="selectSchool(item.name, item.schoolId)"
-                      >{{ item.name }}</a
-                    >
-                  </td>
-
+                <tr
+                  class="table-list"
+                  v-for="item in schoolList"
+                  :key="item.schoolId"
+                  href="javascript:;"
+                  @click="selectSchool(item.name, item.schoolId)"
+                >
                   <td>{{ item.location }}</td>
+                  <td>
+                    <a></a>
+                    {{ item.name }}
+                  </td>
                 </tr>
               </table>
               <!-- /default -->
@@ -167,6 +174,7 @@ export default {
       }
     },
     closeModal() {
+      this.schoolList = "";
       this.modal = false;
     },
     doSearch() {
@@ -204,8 +212,12 @@ export default {
     },
     async findschool() {
       const paramas = { keyword: this.search };
-      const response = await getRequest("api/school/schools", paramas);
-      console.log(response.data);
+      const response = await getRequest(
+        "api/school/schools",
+        paramas,
+        this.$store.getters.getToken
+      );
+      console.log(response);
       this.schoolList = response.data;
     },
     async registInfo() {
@@ -218,11 +230,20 @@ export default {
         highSchoolId: this.highSchoolId,
         birthYear: parseInt(this.birthYear),
       };
+      const schoolName = {
+        elName: this.elName,
+        mdName: this.mdName,
+        hiName: this.hiName,
+      };
+      this.$store.dispatch("setSchoolName", schoolName);
       console.log(schoolData);
+      console.log(schoolName);
+      console.log(this.$store.state);
       //const response = aait patchRequest("api/user/users/"+this.$store.user.id)
       const response = await patchRequest(
         "api/user/users/" + this.$store.state.user.userId,
-        schoolData
+        schoolData,
+        this.$store.getters.getToken
       );
       console.log(response);
       this.$router.push({ name: "modongmun" });
@@ -285,9 +306,27 @@ input {
 .grid {
   align-items: center;
 }
+.input-search {
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  margin-right: 1%;
+}
+.btn-search {
+  background-color: #48bae4;
+  color: #fff;
+}
 .btn-regist {
   width: 100%;
   background-color: #48bae4;
   color: #fff;
+}
+.school-table {
+  margin: auto;
+  margin-top: 3%;
+  width: 100%;
+}
+.table-list:hover {
+  text-decoration-line: underline;
+  cursor: pointer;
 }
 </style>

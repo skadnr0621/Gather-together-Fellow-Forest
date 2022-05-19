@@ -38,4 +38,10 @@ function patchRequest(url, data, token = undefined) {
       headers: { Authorization: `Bearer ${token}` },
     });
 }
-export { getRequest, postRequest, patchRequest };
+
+function deleteRequest(url, data, token = undefined) {
+  return axiosService.delete(url, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+export { getRequest, postRequest, patchRequest, deleteRequest };

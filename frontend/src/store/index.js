@@ -20,6 +20,9 @@ export default new Vuex.Store({
         egYear: "",
         mgYear: "",
         hgYear: "",
+        elName: "",
+        mdName: "",
+        hiName: "",
       },
     },
   },
@@ -39,8 +42,8 @@ export default new Vuex.Store({
       const tokenInfo = VueJwtDecode.decode(token);
       console.log(tokenInfo);
       state.accessToken = token;
+      state.user.userId = tokenInfo.id;
       state.user.id = tokenInfo.email;
-      console.log(state.user.nickname);
       //닉네임 추가 예정
     },
     SET_USERINFO(state, data) {
@@ -53,7 +56,12 @@ export default new Vuex.Store({
       state.user.schoolInfo.egYear = data.egYear;
       state.user.schoolInfo.mgYear = data.mgYear;
       state.user.schoolInfo.hgYear = data.hgYear;
-      console.log("store유저정보");
+    },
+    SET_SCHOOLNAME(state, data) {
+      state.user.schoolInfo.elName = data.elName;
+      state.user.schoolInfo.mdName = data.mdName;
+      state.user.schoolInfo.hiName = data.hiName;
+      console.log("스쿨이름 들어갔?");
       console.log(state.user);
     },
   },
@@ -63,6 +71,9 @@ export default new Vuex.Store({
     },
     setUserInfo: ({ commit }, data) => {
       commit("SET_USERINFO", data);
+    },
+    setSchoolName: ({ commit }, data) => {
+      commit("SET_SCHOOLNAME", data);
     },
   },
   modules: {},

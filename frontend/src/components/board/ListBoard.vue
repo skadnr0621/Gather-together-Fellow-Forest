@@ -16,7 +16,7 @@
             <col width="6%" />
             <col width="*" />
             <col width="10%" />
-            <col width="15%" />
+            <col width="20%" />
           </colgroup>
           <tr>
             <th>No</th>
@@ -35,30 +35,6 @@
               <td>{{ item.username }}</td>
               <td>{{ item.createDate.substring(0, 10) }}</td>
             </tr>
-            <tr>
-              <td>10</td>
-              <td class="list-title">나는야 김남욱!</td>
-              <td>김남욱</td>
-              <td>2022-05-04</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td class="list-title">나는야 김남욱!</td>
-              <td>김남욱</td>
-              <td>2022-05-04</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td class="list-title">나는야 김남욱!</td>
-              <td>김남욱</td>
-              <td>2022-05-04</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td class="list-title">나는야 김남욱!</td>
-              <td>김남욱</td>
-              <td>2022-05-04</td>
-            </tr>
           </tbody>
         </table>
 
@@ -67,7 +43,7 @@
             class="btn border pl-3 pr-3 pt-1 pb-1 float-right mt-4"
             @click="writeBoard()"
           >
-            등록
+            글쓰기
           </button>
         </div>
       </div>
@@ -86,7 +62,13 @@ export default {
   },
   methods: {
     async getList() {
-      const response = await getRequest("api/board/posts");
+      //localStorage.setItem("selectSchool", "1");
+      const paramas = { selectSchool: localStorage.getItem("selectSchool") };
+      const response = await getRequest(
+        "api/board/posts",
+        paramas,
+        this.$store.getters.getToken
+      ); //파라미터 schoolID
       this.boardList = response.data;
       console.log(this.boardList[0]);
     },
