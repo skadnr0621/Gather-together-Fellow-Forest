@@ -58,7 +58,7 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 //        System.out.println("targetUrl = " + targetUrl);
 
         // put JWT in response cookie
-        Cookie cookie = new Cookie(JwtProperties.HEADER_STRING, JWT);
+        Cookie cookie = new Cookie(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT);
         cookie.setPath("/");
         cookie.setMaxAge(60);
         response.addCookie(cookie);
