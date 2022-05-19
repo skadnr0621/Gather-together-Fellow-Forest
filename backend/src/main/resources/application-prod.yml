@@ -1,9 +1,7 @@
 spring:
   ### profiles
   profiles:
-    include:
-      - oauth
-      - aws
+    include: oauth,aws
 
   ### Datasource
   datasource:
