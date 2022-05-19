@@ -33,8 +33,8 @@ public class GalleryController {
     }
 
     @GetMapping("/gallery/photos")
-    public ResponseEntity<List<GalleryDto>> getPhotoList() throws Exception{
-        List<GalleryDto> galleryDtoList = galleryService.getPhotoList();
+    public ResponseEntity<List<GalleryDto>> getPhotoList(@RequestParam("schoolId") Long schoolId) throws Exception{
+        List<GalleryDto> galleryDtoList = galleryService.getPhotoList(schoolId);
         return new ResponseEntity<List<GalleryDto>>(galleryDtoList, HttpStatus.OK);
     }
 
