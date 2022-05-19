@@ -1,3 +1,15 @@
+### Server Configuration
+server:
+  port: 8092
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+
+### Spring Configuration
 spring:
   config:
     use-legacy-processing: true
