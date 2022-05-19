@@ -8,16 +8,16 @@ spring:
   ### Datasource
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.36.49.189:3606/modongmun?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3606/modongmun?serverTimezone=Asia/Seoul
     username: modongmun
     password: modongmun1234!
 
   ### JPA
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        #        dialect: org.hibernate.dialect.MySQL8Dialect
+#        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     hibernate:
       ddl_auto: update
