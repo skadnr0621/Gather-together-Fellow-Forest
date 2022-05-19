@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByUser(User user);
-    List<Board> findBySchool(School school);
+    List<Board> findBySchool_schoolId(Long schoolId);
 }

@@ -68,9 +68,9 @@ public class GalleryService {
         return GalleryDto.toDto(gallery);
     }
 
-    public List<GalleryDto> getPhotoList() throws IOException {
+    public List<GalleryDto> getPhotoList(Long schoolId) throws IOException {
 
-        List<Gallery> galleryList = galleryRepository.findAll();
+        List<Gallery> galleryList = galleryRepository.findBySchool_schoolId(schoolId);
         List<GalleryDto> galleryDtoList = new ArrayList<>();
 
         for(Gallery gallery : galleryList){
