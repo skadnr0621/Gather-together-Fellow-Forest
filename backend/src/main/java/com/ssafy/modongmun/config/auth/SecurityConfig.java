@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 /* URL 별 권한 관리 */
                 .authorizeRequests()
-                .antMatchers("/oauth/authorization/**", "/h2-console/**").permitAll()
+                .antMatchers("/oauth/authentication/**", "/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 
