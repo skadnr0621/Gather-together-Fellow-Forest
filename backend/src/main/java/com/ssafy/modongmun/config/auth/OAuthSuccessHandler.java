@@ -2,8 +2,6 @@ package com.ssafy.modongmun.config.auth;
 
 import com.ssafy.modongmun.config.auth.jwt.JwtProperties;
 import com.ssafy.modongmun.config.auth.jwt.JwtProvider;
-import com.ssafy.modongmun.user.User;
-import com.ssafy.modongmun.user.UserRepository;
 import com.ssafy.modongmun.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.HttpCookie;
 
 @Component
 @RequiredArgsConstructor
@@ -58,7 +54,7 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 //        System.out.println("targetUrl = " + targetUrl);
 
         // put JWT in response cookie
-        Cookie cookie = new Cookie(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JWT);
+        Cookie cookie = new Cookie(JwtProperties.HEADER_STRING, JWT);
         cookie.setPath("/");
         cookie.setMaxAge(60);
         response.addCookie(cookie);
