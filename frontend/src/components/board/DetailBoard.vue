@@ -142,7 +142,7 @@ export default {
         this.$store.getters.getToken
       );
       alert("댓글이 삭제되었습니다.");
-      //this.$router.go();
+      this.$router.go();
     },
     deleteBoard(boardId) {
       const response = deleteRequest(

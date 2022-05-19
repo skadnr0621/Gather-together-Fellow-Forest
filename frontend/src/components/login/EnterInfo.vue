@@ -234,6 +234,7 @@ export default {
         elName: this.elName,
         mdName: this.mdName,
         hiName: this.hiName,
+        birthYear: this.birthYear,
       };
       this.$store.dispatch("setSchoolName", schoolName);
       console.log(schoolData);
