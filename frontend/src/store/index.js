@@ -61,7 +61,7 @@ export default new Vuex.Store({
       state.user.schoolInfo.elName = data.elName;
       state.user.schoolInfo.mdName = data.mdName;
       state.user.schoolInfo.hiName = data.hiName;
-      console.log("스쿨이름 들어갔?");
+      state.user.birthYear = data.birthYear;
       console.log(state.user);
     },
   },
