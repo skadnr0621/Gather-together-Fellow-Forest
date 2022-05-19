@@ -1,4 +1,6 @@
 spring:
+  config:
+    use-legacy-processing: true   # for spring.profiles.include ... (ref. https://stackoverflow.com/questions/64907675/including-profiles-in-spring-boot-2-4-0-version)
   ### profiles
   profiles:
     include: oauth,aws
