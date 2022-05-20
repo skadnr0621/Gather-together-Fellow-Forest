@@ -48,19 +48,19 @@
 
 ## 💾 프로젝트 파일 구조
 
-#### Frontend
+#### 🎨 Frontend
 
 <img src="../img/frontend tree.PNG" align="left">
 
 <br/>
 
-#### Backend
+#### 🧶 Backend
 
 <img src="../img/backend tree.PNG" align="left">
 
 <br/>
 
-#### Unity
+#### 🧵 Unity
 
 <img src="../img/Unity.PNG" align="left">
 
@@ -73,7 +73,12 @@
 
 정말 0에서부터 시작하면 어떻게 하는지 정리하는게 좋을듯
 
-
+- Build
+  - Frontend
+  - Backend
+- Deploy
+  - Frontend
+  - Backend
 
 <br/>
 
@@ -83,8 +88,8 @@
 
 ​	📁 resources
 
-​		└ application.yml
-​		└ application-aws.yml
-​		└ application-oauth.yml
-​		└ application-prod.yml
-​		└ application-test.yml1
+​		└ application.yml <br/>
+​		└ application-aws.yml <br/>
+​		└ application-oauth.yml <br/>
+​		└ application-prod.yml <br/>
+​		└ application-test.yml1 <br/>

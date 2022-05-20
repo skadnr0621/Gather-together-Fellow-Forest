@@ -62,6 +62,11 @@
 
 - 순서대로 진행해주세요.
 
+- git clone
+
+  ``` git
+  //빈폴더에 깃 클론하는 방법 작성할 것
+
 - Frontend
 
   ``` vue
@@ -69,7 +74,7 @@
   npm run build
   ```
 
-- backend
+- Backend
 
   ``` java
   //보안으로 application.yml 생략 - ??
