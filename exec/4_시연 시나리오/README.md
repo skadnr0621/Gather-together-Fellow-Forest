@@ -22,9 +22,12 @@
    ![자유게시판2](../img/댓글달기.gif)
 
 7. (학교) 일정 게시판 <br/>
-   ![일정](../img/일정게시판1.png)
-   ![일정](../img/일정게시판2.png)
+   ![일정](../img/일정게시판1.PNG)
+   <br/>
 
+   ![일정2](../img/일정게시판2.PNG)
+   <br/>
+   
 8. (학교) 추억의 교과서 <br/>
    ![추억의교과서](../img/추억의교과서.gif)
 
@@ -34,14 +37,15 @@
    ![주기율표3](../img/주기율표3.gif)
 
 10. (학교) 음악실  <br/>
-    ![music](../img/music.PNG)
+    ![music1](../img/music1.PNG)
 
 11. (학교)미술실 <br/>
     ![picture](../img/picture.PNG)
 
 12. (학교)식당  <br/>
-    ![food1](../img/food.PNG)![food2](../img/food2.PNG)
-
+    ![food1](../img/food.PNG)
+    ![food2](../img/food2.PNG)
+    
 13. 체육관 <br/>
     ![gym](../img/gym.gif)
 
