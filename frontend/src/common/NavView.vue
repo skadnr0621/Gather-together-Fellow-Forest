@@ -7,7 +7,7 @@
       <div class="login">
         <router-link to="/login"
           ><button class="rounded-full pl-8 pr-8 p-4 text-3xl">
-            로그인
+            LOGIN
           </button></router-link
         >
       </div>
@@ -25,7 +25,7 @@ export default {};
   height: 100px;
   position: fixed;
   justify-content: space-between;
-  background-color: #7fd09a;
+  background-color: #a6e0ba;
 }
 .logo img {
   height: 100px;

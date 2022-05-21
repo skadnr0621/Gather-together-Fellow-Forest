@@ -27,7 +27,9 @@
         </div>
 
         <div class="flex btnLeftRightWrap w-5/6">
-          <button class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">목록</button>
+          <button @click="goList()" class="btn border pl-3 pr-3 pt-1 pb-1 mt-4">
+            목록
+          </button>
           <div class="flex justify-end">
             <button
               @click="registForm()"
@@ -35,7 +37,10 @@
             >
               등록
             </button>
-            <button class="btn-cancel border ml-2 pl-3 pr-3 pt-1 pb-1 mt-4">
+            <button
+              @click="goList()"
+              class="btn-cancel border ml-2 pl-3 pr-3 pt-1 pb-1 mt-4"
+            >
               취소
             </button>
           </div>
@@ -64,9 +69,13 @@ export default {
         title: this.title,
         content: this.content,
         userId: this.$store.state.user.userId,
-        schoolId: "1",
+        schoolId: localStorage.getItem("selectSchool"),
       };
-      const response = await postRequest("api/board/posts", boardData);
+      const response = await postRequest(
+        "api/board/posts",
+        boardData,
+        this.$store.getters.getToken
+      );
       console.log(response);
 
       if (response.status == 200) {
@@ -75,6 +84,9 @@ export default {
       } else {
         alert(response.data);
       }
+    },
+    goList() {
+      this.$router.push({ path: "/board" });
     },
 
     // uploadImage: function () {
