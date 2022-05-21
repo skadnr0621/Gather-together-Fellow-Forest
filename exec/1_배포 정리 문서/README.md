@@ -49,26 +49,20 @@
 ## 💾 프로젝트 파일 구조
 
 #### 🎨 Frontend
+![front_tree](../img/frontend tree.PNG)
 
-<img src="../img/frontend tree.PNG" align="left">
 
-<br/>
 
 #### 🧶 Backend
+![front_tree](../img/backend tree.PNG)
 
-<img src="../img/backend tree.PNG" align="left">
 
-<br/>
 
 #### 🧵 Unity
-
-<img src="../img/Unity.PNG" align="left">
-
-<br/>
+![front_tree](../img/Unity.PNG)
 
 
 
----
 ## 🖼 빌드 및 배포
 
 정말 0에서부터 시작하면 어떻게 하는지 정리하는게 좋을듯
