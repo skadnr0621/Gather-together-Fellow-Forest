@@ -37,13 +37,16 @@
    ![주기율표3](../img/주기율표3.gif)
 
 10. (학교) 음악실  <br/>
-    ![music1](../img/music1.PNG)
-
+    ![music room](../img/music room.PNG)
+    <br/>
+    
 11. (학교)미술실 <br/>
     ![picture](../img/picture.PNG)
 
 12. (학교)식당  <br/>
     ![food1](../img/food.PNG)
+    <br/>
+    
     ![food2](../img/food2.PNG)
     
 13. 체육관 <br/>
@@ -51,8 +54,13 @@
 
 14. 광장 <br/>
     ![광장](../img/광장.PNG)
+    
+    <br/>
+    
     ![광장2](../img/광장2.PNG)
-
+    
+    <br/>
+    
 15. 놀이터  <br/>
     ![jehun](../img/jehun.PNG) 
 
