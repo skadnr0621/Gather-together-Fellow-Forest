@@ -88,6 +88,12 @@
 - Deploy
   - Frontend
   - Backend
+    - Docker install
+    - Docker - MySQL install
+    - Docker - Jenkins install
+    - Jenkins - Gitlab connect
+    - Publish over SSH 설정 - 원격배포
+    - //출처
 
 <br/>
 
