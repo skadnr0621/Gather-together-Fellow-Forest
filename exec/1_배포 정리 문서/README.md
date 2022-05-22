@@ -69,7 +69,22 @@
 
 - Build
   - Frontend
+  
+    ``` javascript
+    cd ../frontend
+    npm install
+    npm run build
+    npm run serve
+    ```
+  
   - Backend
+  
+    ``` java
+    cd ../backend;
+    ./gradlew build;
+    chmod?
+    ```
+  
 - Deploy
   - Frontend
   - Backend
