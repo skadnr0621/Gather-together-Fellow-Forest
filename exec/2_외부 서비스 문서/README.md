@@ -74,15 +74,12 @@
 - Unity
 
 - Asset
-
   - 캐릭터
     - https://assetstore.unity.com/packages/3d/characters/humanoids/characters-6-07-218241
-
   - 교실
     - https://assetstore.unity.com/packages/3d/environments/simplepoly-school-interiors-low-poly-assets-97751
     - https://assetstore.unity.com/packages/3d/props/interior/low-poly-interior-16-educational-208677
     - https://assetstore.unity.com/packages/3d/environments/playground-low-poly-191533#publisher
-
   - 그 외
     - https://assetstore.unity.com/packages/3d/cola-can-96659
     - https://assetstore.unity.com/packages/3d/props/coffeeshop-starter-pack-160914
@@ -94,7 +91,6 @@
     - https://assetstore.unity.com/packages/3d/props/weapons/fireworks-101035
 
 - bgm
-
   - [공유 마당](https://gongu.copyright.or.kr/gongu/main/main.do)
     - https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13048800&menuNo=200020
     - https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13048724&menuNo=200020
@@ -113,7 +109,47 @@
   - connect
     - 포톤 PUN2 사용
       - https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
-    - 
+    - Photon Server Settings  
+      ![image](/uploads/68bd5968726ed0f4c2bd8c5408e9563b/image.png)  
+    - 연결 방법
+      ```c#
+      void Start()
+      {
+          Debug.Log("서버 연결중...");
+          PhotonNetwork.ConnectUsingSettings();  // 네트워크 설정하기
+      }
+
+      public override void OnConnectedToMaster()  // 서버 연결 후 동작
+      {
+          Debug.Log("서버 연결 완료");
+          PhotonNetwork.JoinLobby();  // 로비 입장하기
+      }
+      ```
+
+  - Webgl 빌드
+    - File > Build Settings  
+      ![image](/uploads/6bbfd9c7ff1ac38da093fb9269389917/image.png)  
+    - Edit > Project Settings > Player > Publising Settings  
+      ![image](/uploads/87d1a4492e81fe574098b0720f3f263f/image.png)  
+    - 빌드된 파일 포맷 형식  
+      ![image](/uploads/e99d744e465e75fd512d02b15840c734/image.png)  
+    - Vue 연결
+      ```javascript
+      import UnityWebgl from "unity-webgl";
+
+      const Unity = new UnityWebgl({
+        loaderUrl: "/Build/Build.loader.js",
+        dataUrl: "/Build/Build.data",
+        frameworkUrl: "/Build/Build.framework.js",
+        codeUrl: "/Build/Build.wasm",
+      });
+
+      export default {
+        components: {
+          Unity: UnityWebgl.vueComponent,
+        },
+      };
+      ```
 
 
 
