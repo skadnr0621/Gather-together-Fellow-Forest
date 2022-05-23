@@ -134,23 +134,29 @@
         ![image](/uploads/87d1a4492e81fe574098b0720f3f263f/image.png)  
       - 빌드된 파일 포맷 형식  
         ![image](/uploads/e99d744e465e75fd512d02b15840c734/image.png)  
+
     - Vue 연결
-      ```javascript
-      import UnityWebgl from "unity-webgl";
+      - [패키지](https://www.npmjs.com/package/unity-webgl) 설치
+        ```
+        npm i unity-webgl
+        ```
+      - Vue 에서 Webgl 띄우기
+        ```javascript
+        import UnityWebgl from "unity-webgl";
 
-      const Unity = new UnityWebgl({
-        loaderUrl: "/Build/Build.loader.js",
-        dataUrl: "/Build/Build.data",
-        frameworkUrl: "/Build/Build.framework.js",
-        codeUrl: "/Build/Build.wasm",
-      });
+        const Unity = new UnityWebgl({
+          loaderUrl: "/Build/Build.loader.js",
+          dataUrl: "/Build/Build.data",
+          frameworkUrl: "/Build/Build.framework.js",
+          codeUrl: "/Build/Build.wasm",
+        });
 
-      export default {
-        components: {
-          Unity: UnityWebgl.vueComponent,
-        },
-      };
-      ```
+        export default {
+          components: {
+            Unity: UnityWebgl.vueComponent,
+          },
+        };
+        ```
 
 
 
