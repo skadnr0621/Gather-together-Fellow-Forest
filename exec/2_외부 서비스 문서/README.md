@@ -72,6 +72,35 @@
 ### 🧨Unity
 
 - Unity
+
+- Asset
+
+  - 캐릭터
+    - https://assetstore.unity.com/packages/3d/characters/humanoids/characters-6-07-218241
+
+  - 교실
+    - https://assetstore.unity.com/packages/3d/environments/simplepoly-school-interiors-low-poly-assets-97751
+    - https://assetstore.unity.com/packages/3d/props/interior/low-poly-interior-16-educational-208677
+    - https://assetstore.unity.com/packages/3d/environments/playground-low-poly-191533#publisher
+
+  - 그 외
+    - https://assetstore.unity.com/packages/3d/cola-can-96659
+    - https://assetstore.unity.com/packages/3d/props/coffeeshop-starter-pack-160914
+    - https://assetstore.unity.com/packages/3d/props/furniture/summer-open-air-table-and-chair-94677
+    - https://assetstore.unity.com/packages/3d/vehicles/land/school-bus-simple-isometric-106250
+    - https://assetstore.unity.com/packages/2d/gui/icons/cherry-blossom-gui-pack-147391
+    - https://assetstore.unity.com/packages/2d/textures-materials/sky/free-stylized-skybox-212257
+    - https://assetstore.unity.com/packages/2d/textures-materials/sky/fantasy-skybox-free-18353
+    - https://assetstore.unity.com/packages/3d/props/weapons/fireworks-101035
+
+- bgm
+
+  - [공유 마당](https://gongu.copyright.or.kr/gongu/main/main.do)
+    - https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13048800&menuNo=200020
+    - https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13048724&menuNo=200020
+    - https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13048782&menuNo=200020
+    - https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13073805&menuNo=200020
+    
 - Photon Cloud
   - 포톤 클라우드 회원가입 진행
     https://id.photonengine.com/
@@ -82,7 +111,9 @@
       - Ncloud24 추천 - 문의 및 응대가 빠름.
   
   - connect
-
+    - 포톤 PUN2 사용
+      - https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
+    - 
 
 
 
