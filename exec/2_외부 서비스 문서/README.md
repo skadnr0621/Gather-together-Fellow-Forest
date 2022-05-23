@@ -108,8 +108,9 @@
     https://id.photonengine.com/
   - 서비스에 맞는 제품 선정
   - 관리화면 - 새 어플리케이션으로 무료 ccu 생성
-    - 유료 ccu 업데이트 원할 시 한국 대리점에 문의 후 진행
-      https://www.photonengine.com/ko-KR/contact![한국대리점](../img/pht_kr.PNG)
+    - 유료 ccu 업데이트 원할 시 한국 대리점에 문의 후 진행 <br/>
+      https://www.photonengine.com/ko-KR/contact<br/>
+      ![한국대리점](../img/pht_kr.PNG)
       - Ncloud24 추천 - 문의 및 응대가 빠름.
   
   - connect

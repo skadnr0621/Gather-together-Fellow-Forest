@@ -107,4 +107,4 @@
 ​		└ application-aws.yml <br/>
 ​		└ application-oauth.yml <br/>
 ​		└ application-prod.yml <br/>
-​		└ application-test.yml1 <br/>
+​		└ application-test.yml <br/>
