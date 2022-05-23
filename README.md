@@ -23,7 +23,7 @@
 
 #### 🎞 UCC
 
-(링크)
+[모여봐요 동문의 숲 UCC](https://www.youtube.com/watch?v=XYEWwd-bj9k)
 
 
 
