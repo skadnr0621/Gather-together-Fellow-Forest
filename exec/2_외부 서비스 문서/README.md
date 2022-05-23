@@ -126,13 +126,14 @@
       }
       ```
 
-  - Webgl 빌드
-    - File > Build Settings  
-      ![image](/uploads/6bbfd9c7ff1ac38da093fb9269389917/image.png)  
-    - Edit > Project Settings > Player > Publising Settings  
-      ![image](/uploads/87d1a4492e81fe574098b0720f3f263f/image.png)  
-    - 빌드된 파일 포맷 형식  
-      ![image](/uploads/e99d744e465e75fd512d02b15840c734/image.png)  
+  - Webgl
+    - 빌드
+      - File > Build Settings  
+        ![image](/uploads/6bbfd9c7ff1ac38da093fb9269389917/image.png)  
+      - Edit > Project Settings > Player > Publising Settings  
+        ![image](/uploads/87d1a4492e81fe574098b0720f3f263f/image.png)  
+      - 빌드된 파일 포맷 형식  
+        ![image](/uploads/e99d744e465e75fd512d02b15840c734/image.png)  
     - Vue 연결
       ```javascript
       import UnityWebgl from "unity-webgl";
