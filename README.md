@@ -2,7 +2,9 @@
 
 #### 📑 목차
 
-[TOC]
+[[_TOC_]]
+
+
 
 #### 🎉 프로젝트 소개
 
@@ -23,7 +25,8 @@
 
 #### 🎞 UCC
 
-[모여봐요 동문의 숲 UCC](https://www.youtube.com/watch?v=XYEWwd-bj9k)
+[![모여봐요 동문의 숲 UCC](https://lab.ssafy.com/s06-final/S06P31B103/uploads/ca6556c752cfd5ff3b2cb9d00741c332/image.png)](https://www.youtube.com/watch?v=XYEWwd-bj9k)
+> 이미지를 클릭하시면 UCC 시청이 가능합니다.
 
 
 
