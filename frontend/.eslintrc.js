@@ -12,7 +12,7 @@ module.exports = {
     "nenerator-start-spacing": "off",
     "no-unsafe-finally": 0,
     "no-return-assign": 0,
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": "off",
     "prettier/prettier": ["error", { endOfLine: "auto" }],
     quotes: "off",
     "no-extra-semi": "off",

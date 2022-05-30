@@ -1,0 +1,37 @@
+### Server Configuration
+server:
+  port: 8092
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+
+### Spring Configuration
+spring:
+  config:
+    use-legacy-processing: true   # for spring.profiles.include ... (ref. https://stackoverflow.com/questions/64907675/including-profiles-in-spring-boot-2-4-0-version)
+  ### profiles
+  profiles:
+    include: oauth,aws
+
+  ### Datasource
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://3.36.49.189:3606/dongmun-forest?serverTimezone=Asia/Seoul
+    username: modongmun
+    password: modongmun1234!
+
+  ### JPA
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        #        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    hibernate:
+      ddl_auto: update
+
+

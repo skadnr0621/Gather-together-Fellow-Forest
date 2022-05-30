@@ -10,14 +10,24 @@
         <img src="@/assets/logo.png" />
       </div>
       <div class="kakao-login">
-        <button><img src="@/assets/kakaoLogin.png" /></button>
+        <button @click="loginWithKakao">
+          <img src="@/assets/kakaoLogin.png" />
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { KAKAO_AUTH_URL } from "@/api/user.js";
+export default {
+  methods: {
+    // back url 요청
+    loginWithKakao() {
+      window.open(KAKAO_AUTH_URL, "_SELF");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -25,10 +35,10 @@ export default {};
   height: 100vh;
   overflow: hidden;
   margin: 0;
-  background-image: url("@/assets/sample3.png");
+  background-image: url("@/assets/loginBg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  /* background-position: center; */
   display: grid;
   align-items: center;
 }
