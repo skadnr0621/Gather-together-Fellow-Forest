@@ -7,7 +7,7 @@ cloud:
     s3:
       bucket: bucket setting name
     region:
-      static: ap-northeast-2
+      static: static
     stack:
       auto: false
 
